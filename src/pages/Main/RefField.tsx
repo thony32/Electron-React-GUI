@@ -32,8 +32,8 @@ const RefField: React.FC = () => {
       <EditorFilter />
       <EditorProps />
       <Toolbar />
-      <div className="h-screen w-full overflow-auto">
-        <div className="w-[2000px] h-[2000px]" onScroll={handleScroll}>
+      <div className="w-[9999999px] h-[9999999px] overflow-auto">
+        <div className="" onScroll={handleScroll}>
           <table>
             <tbody>
               {rows.map((row) => (
