@@ -2,7 +2,7 @@ import Konva from "konva";
 import { KonvaEventObject } from "konva/lib/Node";
 import React, { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { Image as KonvaImage } from "react-konva";
-import useItem, { OverrideItemProps } from "../../../hook/useItem";
+import useItem, { OverrideItemProps } from "../../../hooks/useItem";
 import { StageData } from "../../../redux/currentStageData";
 
 export type IconItemKind = {
