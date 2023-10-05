@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
 import Login from "./pages/Authentication/Login";
 import Registration from "./pages/Authentication/Registration";
-import RefField from "./pages/Main/RefField";
+import Canvas from "./pages/Main/Canvas";
 
 const App: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const App: React.FC = () => {
         <Routes>
           {/* <Route path="/" element={<Login/>}/> */}
           {/* <Route path="/register" element={<Registration/>}/> */}
-          <Route path="/" element={<RefField/>}/>
+          <Route path="/" element={<Canvas/>}/>
         </Routes>
       </BrowserRouter>
     </>
