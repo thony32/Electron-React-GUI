@@ -2,7 +2,9 @@ import React from 'react'
 
 const RefCanvas: React.FC = () => {
   return (
-    <div>RefCanvas</div>
+    <div>
+        
+    </div>
   )
 }
 
