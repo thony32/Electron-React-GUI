@@ -1,8 +1,8 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
-import Login from "./pages/Authentication/Login";
-import Registration from "./pages/Authentication/Registration";
+// import Login from "./pages/Authentication/Login";
+// import Registration from "./pages/Authentication/Registration";
 import Canvas from "./pages/Main/Canvas";
 
 const App: React.FC = () => {

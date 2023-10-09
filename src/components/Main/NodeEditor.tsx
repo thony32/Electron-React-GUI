@@ -1,13 +1,14 @@
 import React from "react";
-import ReactFlow, { Controls, Background } from "reactflow";
+import ReactFlow, { Controls, Background, MiniMap } from "reactflow";
 import "reactflow/dist/style.css";
 
 const NodeEditor: React.FC = () => {
   return (
-    <div className="bg-red-200 h-full">
+    <div className="h-full col-span-10">
       <ReactFlow>
         <Background />
-        <Controls className="absolute bottom-0 left-[20%]"/>
+        <Controls className="bg-gray-600 rounded-md z-20"/>
+        <MiniMap className=""/>
       </ReactFlow>
     </div>
   );
