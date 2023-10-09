@@ -1,11 +1,15 @@
 import React from "react";
+import ReactFlow, { Controls, Background } from "reactflow";
+import "reactflow/dist/style.css";
 
 const NodeEditor: React.FC = () => {
   return (
-    <ReactFlow>
-      <Background />
-      <Controls />
-    </ReactFlow>
+    <div className="bg-red-200 h-full">
+      <ReactFlow>
+        <Background />
+        <Controls className="absolute bottom-0 left-[20%]"/>
+      </ReactFlow>
+    </div>
   );
 };
 
