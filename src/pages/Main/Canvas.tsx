@@ -1,13 +1,14 @@
 import React from "react";
-import { EditorFilter, Toolbar, EditorProps } from "../../components";
+import { EditorFilter, Toolbar, EditorProps, NodeEditor } from "../../components";
 
 const Canvas: React.FC = () => {
   
   return (
-    <div className="relative">
+    <div className=" bg-red-200">
       <EditorFilter />
       <EditorProps />
       <Toolbar />
+      <NodeEditor/>
     </div>
   );
 };
