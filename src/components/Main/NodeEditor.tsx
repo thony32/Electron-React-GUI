@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useState } from "react";
-import { Resizable } from "react-resizable";
-import ReactFlow, { Controls, Background, applyNodeChanges, applyEdgeChanges } from "reactflow";
+
+import React, { useState } from "react";
+import ReactFlow, { Controls, Background, MiniMap } from "reactflow";
 import "reactflow/dist/style.css";
 
 interface MediaItem {
@@ -29,11 +29,11 @@ const initialEdges = [{ id: "1-2", source: "1", target: "2", label: "to the", ty
 
 const NodeEditor: React.FC = () => {
   const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
   const [media, setMedia] = useState<MediaItem[]>([]);
 
-  const onNodesChange = useCallback((changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
-  const onEdgesChange = useCallback((changes: any) => setEdges((eds) => applyEdgeChanges(changes, eds)), []);
+  const onElementsRemove = (elementsToRemove: any) => {
+    setNodes((prevNodes) => prevNodes.filter((node) => !elementsToRemove.find((el: any) => el.id === node.id)));
+  };
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -44,46 +44,61 @@ const NodeEditor: React.FC = () => {
       const file = files[i];
 
       if (file.type.startsWith("image/")) {
-        // Handle image file
+        // Handle image file as a new node
         const imageUrl = URL.createObjectURL(file);
-        setMedia((prevMedia) => [...prevMedia, { type: "image", url: imageUrl }]);
+        const newNode = {
+          id: `image-node-${Date.now()}`,
+          data: { label: <img src={imageUrl} alt={`Image`} className="w-48 h-48" /> },
+          position: { x: event.clientX - 100, y: event.clientY - 100 },
+        };
+
+        setNodes((prevNodes: any) => [...prevNodes, newNode]);
       } else if (file.type.startsWith("video/")) {
-        // Handle video file
+        // Handle video file as a new node
         const videoUrl = URL.createObjectURL(file);
-        setMedia((prevMedia) => [...prevMedia, { type: "video", url: videoUrl }]);
+        const newNode = {
+          id: `video-node-${Date.now()}`,
+          data: {
+            label: (
+              <div className="w-48 h-48">
+                <video controls className="w-full h-full">
+                  <source src={videoUrl} type={file.type} />
+                </video>
+              </div>
+            ),
+          },
+          position: { x: event.clientX - 100, y: event.clientY - 100 },
+        };
+
+        setNodes((prevNodes: any) => [...prevNodes, newNode]);
       }
     }
   };
+
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
   };
 
-  const handleResize = (index: number, width: number, height: number) => {
-    const updatedMedia = [...media];
-    updatedMedia[index].width = width;
-    updatedMedia[index].height = height;
-    setMedia(updatedMedia);
-  };
+  // Removed the handleResize function as it is not used
 
   return (
     <div className="h-full col-span-12">
-      <ReactFlow onDrop={handleDrop} onDragOver={handleDragOver}>
+      <ReactFlow
+        elements={nodes}
+        onElementsRemove={onElementsRemove}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onConnect={() => {}}
+        onSelectionChange={() => {}}
+        deleteKeyCode={46}
+        onLoad={(reactFlowInstance) => reactFlowInstance.fitView()}
+        snapToGrid={true}
+        snapGrid={[15, 15]}
+        defaultZoom={1.5}
+      >
         <Background />
         <Controls className="bg-gray-600 rounded-md z-20" />
-        <div>
-          {media.map((item, index) => (
-            <Resizable key={index} width={item.width || 200} height={item.height || 200} onResize={(e, { size }) => handleResize(index, size.width, size.height)}>
-              <div>
-                {item.type === "image" && <img src={item.url} alt={`Image ${index}`} className="w-[50%] h-[50%] z-50" />}
-                {item.type === "video" && (
-                  <video controls className="w-48 h-48">
-                    <source src={item.url} type={item.type} />
-                  </video>
-                )}
-              </div>
-            </Resizable>
-          ))}
-        </div>
+        <MiniMap />
       </ReactFlow>
     </div>
   );
