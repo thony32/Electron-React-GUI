@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useState } from "react";
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node } from "reactflow";
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes, NodeResizer, Handle, Position } from "reactflow";
 import "../../App.css";
 import handleDragOver from "../../utils";
 
@@ -14,12 +14,26 @@ const initialNodes: Node[] = [
   },
 ];
 
+const ResizableNodeSelected = ({ data, selected }: any) => {
+  return (
+    <>
+      <NodeResizer color="#ff0071" isVisible={selected} minWidth={100} minHeight={30} />
+      <Handle type="target" position={Position.Left} />
+      <div style={{ padding: 10 }}>{data.label}</div>
+      <Handle type="source" position={Position.Right} />
+    </>
+  );
+};
+
+const nodeTypes: NodeTypes = {
+  ResizableNodeSelected,
+};
 // Define the NodeEditor component
 const NodeEditor: React.FC = () => {
   // State to store nodes and media items
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
 
-  // //* Function to handle drop of media files into React Flow
+  //* Function to handle drop of media files into React Flow
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
@@ -33,7 +47,8 @@ const NodeEditor: React.FC = () => {
         const imageUrl = URL.createObjectURL(file);
         const newNode = {
           id: `image-node-${Date.now()}`,
-          data: { label: <img src={imageUrl} alt={`Image`} className="" /> },
+          type: "ResizableNodeSelected",
+          data: { label: <img src={imageUrl} alt={`Image`} width={item.width} /> },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         };
 
@@ -68,7 +83,7 @@ const NodeEditor: React.FC = () => {
     <div className="h-full col-span-12">
       <div className="h-full border-dashed flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver}>
         {/* React Flow component */}
-        <ReactFlow nodes={nodes} onNodesChange={onNodesChange} onConnect={() => {}} fitView snapToGrid={true} snapGrid={[15, 15]} >
+        <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView snapToGrid={true} snapGrid={[15, 15]}>
           {/* Flow background */}
           <Background />
 
