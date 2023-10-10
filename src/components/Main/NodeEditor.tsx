@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import ReactFlow, { Controls, Background, MiniMap } from "reactflow";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useCallback, useState } from "react";
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges } from "reactflow";
 import "../../App.css";
 
 interface FlowProps {
@@ -18,14 +19,9 @@ interface FlowProps {
 const initialNodes = [
   {
     id: "1",
-    data: { label: "Hello" },
+    data: { label: "You can drag and drop your images and Videos here." },
     position: { x: 0, y: 0 },
     type: "input",
-  },
-  {
-    id: "2",
-    data: { label: "World" },
-    position: { x: 100, y: 100 },
   },
 ];
 
@@ -56,6 +52,9 @@ const NodeEditor: React.FC<FlowProps> = () => {
           id: `image-node-${Date.now()}`,
           data: { label: <img src={imageUrl} alt={`Image`} className="w-48 h-48" /> },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
+          draggable: true, // Make the node draggable
+          selectable: true, // Make the node selectable
+          deletable: true,
         };
 
         // Add the new image node to the nodes state
@@ -88,20 +87,25 @@ const NodeEditor: React.FC<FlowProps> = () => {
     event.preventDefault();
   };
 
+  const onNodesChange = useCallback(
+    (changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    []
+  ) ;
+
   return (
     <div className="h-full col-span-12">
       <div
-        className="h-full border-dashed flex flex-col justify-center items-center bg-red-200"
+        className="h-full border-dashed flex flex-col justify-center items-center"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
       >
       {/* React Flow component */}
-      <ReactFlow nodes={nodes} onElementsRemove={onElementsRemove} onConnect={() => {}} onSelectionChange={() => {}} deleteKeyCode={46 as any} onLoad={(reactFlowInstance) => reactFlowInstance.fitView()} snapToGrid={true} snapGrid={[15, 15]} defaultZoom={1.5}>
+      <ReactFlow nodes={nodes} onNodesChange={onNodesChange} onElementsRemove={onElementsRemove} onConnect={() => {}} onSelectionChange={() => {}} deleteKeyCode={46 as any} fitView snapToGrid={true} snapGrid={[15, 15]} defaultZoom={1.5}>
         {/* Flow background */}
         <Background />
 
         {/* Controls for the Flow */}
-        <Controls className="bg-gray-600 rounded-md z-20" />
+        <Controls className="bg-gray-300 "/>
 
         {/* MiniMap for navigation */}
         <MiniMap />
