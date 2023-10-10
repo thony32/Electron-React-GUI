@@ -9,7 +9,7 @@ const Canvas: React.FC = () => {
         <NodeEditor />
         {/* <EditorProps /> */}
       </div>
-      <Toolbar />
+      {/* <Toolbar /> */}
     </>
   );
 };
