@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useState } from "react";
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges } from "reactflow";
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node } from "reactflow";
 import "../../App.css";
 import handleDragOver from "../../utils";
 
 // Define the initial nodes for the React Flow component
-const initialNodes = [
+const initialNodes: Node[] = [
   {
     id: "1",
     data: { label: "You can drag and drop your images and Videos here." },
@@ -17,15 +17,9 @@ const initialNodes = [
 // Define the NodeEditor component
 const NodeEditor: React.FC = () => {
   // State to store nodes and media items
-  const [nodes, setNodes] = useState(initialNodes);
+  const [nodes, setNodes] = useState<Node[]>(initialNodes);
 
-  //* Function to handle removal of elements in React Flow
-  const onElementsRemove = (elementsToRemove: any) => {
-    // Remove nodes that match the elements to remove
-    setNodes((prevNodes) => prevNodes.filter((node) => !elementsToRemove.find((el: any) => el.id === node.id)));
-  };
-
-  //* Function to handle drop of media files into React Flow
+  // //* Function to handle drop of media files into React Flow
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
@@ -68,31 +62,22 @@ const NodeEditor: React.FC = () => {
     }
   };
 
-  
-
-  const onNodesChange = useCallback(
-    (changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    []
-  ) ;
+  const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
 
   return (
     <div className="h-full col-span-12">
-      <div
-        className="h-full border-dashed flex flex-col justify-center items-center"
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-      >
-      {/* React Flow component */}
-      <ReactFlow nodes={nodes} onNodesChange={onNodesChange} onElementsRemove={onElementsRemove} onConnect={() => {}} onSelectionChange={() => {}} deleteKeyCode={46 as any} fitView snapToGrid={true} snapGrid={[15, 15]} defaultZoom={1.5}>
-        {/* Flow background */}
-        <Background />
+      <div className="h-full border-dashed flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver}>
+        {/* React Flow component */}
+        <ReactFlow nodes={nodes} onNodesChange={onNodesChange} onConnect={() => {}} fitView snapToGrid={true} snapGrid={[15, 15]} >
+          {/* Flow background */}
+          <Background />
 
-        {/* Controls for the Flow */}
-        <Controls className="bg-gray-300 "/>
+          {/* Controls for the Flow */}
+          <Controls className="bg-gray-300 " />
 
-        {/* MiniMap for navigation */}
-        <MiniMap />
-      </ReactFlow>
+          {/* MiniMap for navigation */}
+          <MiniMap />
+        </ReactFlow>
       </div>
     </div>
   );

@@ -1,3 +1,3 @@
-import handleDragOver from './handleDragOver';
+import handleDragOver from "./handleDragOver";
 
-export default handleDragOver
+export default handleDragOver;
