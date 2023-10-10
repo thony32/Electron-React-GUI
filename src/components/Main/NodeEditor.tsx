@@ -2,18 +2,7 @@
 import React, { useCallback, useState } from "react";
 import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges } from "reactflow";
 import "../../App.css";
-
-interface FlowProps {
-  nodes: any;
-  onElementsRemove: any;
-  onConnect: any;
-  onSelectionChange: any;
-  deleteKeyCode: any;
-  onLoad: any;
-  snapToGrid: any;
-  snapGrid: any;
-  defaultZoom: any;
-};
+import handleDragOver from "../../utils";
 
 // Define the initial nodes for the React Flow component
 const initialNodes = [
@@ -26,7 +15,7 @@ const initialNodes = [
 ];
 
 // Define the NodeEditor component
-const NodeEditor: React.FC<FlowProps> = () => {
+const NodeEditor: React.FC = () => {
   // State to store nodes and media items
   const [nodes, setNodes] = useState(initialNodes);
 
@@ -50,11 +39,8 @@ const NodeEditor: React.FC<FlowProps> = () => {
         const imageUrl = URL.createObjectURL(file);
         const newNode = {
           id: `image-node-${Date.now()}`,
-          data: { label: <img src={imageUrl} alt={`Image`} className="w-48 h-48" /> },
+          data: { label: <img src={imageUrl} alt={`Image`} className="" /> },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
-          draggable: true, // Make the node draggable
-          selectable: true, // Make the node selectable
-          deletable: true,
         };
 
         // Add the new image node to the nodes state
@@ -82,10 +68,7 @@ const NodeEditor: React.FC<FlowProps> = () => {
     }
   };
 
-  // Function to handle drag-over event
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-  };
+  
 
   const onNodesChange = useCallback(
     (changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)),
