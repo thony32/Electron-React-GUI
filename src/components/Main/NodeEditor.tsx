@@ -91,7 +91,7 @@ const NodeEditor: React.FC = () => {
           <Controls className="bg-gray-300 " />
 
           {/* MiniMap for navigation */}
-          <MiniMap />
+          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100" />
         </ReactFlow>
       </div>
     </div>
