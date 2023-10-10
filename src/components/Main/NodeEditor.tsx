@@ -48,7 +48,7 @@ const NodeEditor: React.FC = () => {
         const newNode = {
           id: `image-node-${Date.now()}`,
           type: "ResizableNodeSelected",
-          data: { label: <img src={imageUrl} alt={`Image`} width={item.width} /> },
+          data: { label: <img src={imageUrl} alt={`Image`} /> },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         };
 
@@ -61,7 +61,7 @@ const NodeEditor: React.FC = () => {
           id: `video-node-${Date.now()}`,
           data: {
             label: (
-              <div className="w-48 h-48">
+              <div>
                 <video controls className="w-full h-full">
                   <source src={videoUrl} type={file.type} />
                 </video>
