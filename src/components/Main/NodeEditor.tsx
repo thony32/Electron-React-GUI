@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes, NodeResizer, Handle, Position } from "reactflow";
 import "../../App.css";
 import handleDragOver from "../../utils";
@@ -59,6 +59,7 @@ const NodeEditor: React.FC = () => {
         const videoUrl = URL.createObjectURL(file);
         const newNode = {
           id: `video-node-${Date.now()}`,
+          type: "ResizableNodeSelected",
           data: {
             label: (
               <div>
@@ -77,7 +78,7 @@ const NodeEditor: React.FC = () => {
     }
   };
 
-  const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
+  const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
 
   return (
     <div className="h-full col-span-12">
