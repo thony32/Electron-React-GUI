@@ -62,7 +62,7 @@ const NodeEditor: React.FC = () => {
           data: {
             label: (
               <div>
-                <video controls className="w-full h-full">
+                <video controls playsInline className="w-full h-full">
                   <source src={videoUrl} type={file.type} />
                 </video>
               </div>
