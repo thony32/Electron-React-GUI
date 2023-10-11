@@ -1,6 +1,5 @@
 import React from "react"
-import { EditorFilter, Toolbar, EditorProps, NodeEditor } from "../../components"
-import ThemeChanger from "../../components/ThemeChanger/ThemeChanger"
+import { EditorFilter, Toolbar, EditorProps, NodeEditor, ThemeChanger } from "../../components"
 
 const Canvas: React.FC = () => {
   return (

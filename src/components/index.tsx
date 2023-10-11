@@ -7,5 +7,6 @@ import Toolbar from "./Layouts/Toolbar"
 import NodeEditor from "./Main/NodeEditor"
 import ZoomInBtn from "./Toolbar/ZoomInBtn"
 import ZoomOutBtn from "./Toolbar/ZoomOutBtn"
+import ThemeChanger from "./ThemeChanger/ThemeChanger"
 
-export { EditorFilter, EditorProps, Toolbar, NodeEditor, ZoomInBtn, ZoomOutBtn, InputText }
+export { EditorFilter, EditorProps, Toolbar, NodeEditor, ZoomInBtn, ZoomOutBtn, InputText, ThemeChanger }

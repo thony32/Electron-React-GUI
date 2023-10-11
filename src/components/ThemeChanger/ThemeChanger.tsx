@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react"
 
 import { Winter, Night, ThemeIcon } from "../../assets"
 
+//! FIXME: Theme Changer
+
 const ThemeChanger: React.FC = () => {
   useEffect(() => {
     if (localStorage.getItem("theme") != null) {
@@ -18,7 +20,7 @@ const ThemeChanger: React.FC = () => {
   //* handle theme change
   const [theme_value, setThemeCurrent] = useState(localStorage.getItem("theme"))
 
-  function HandleTheme(theme: any) {
+  const HandleTheme = (theme: any) => {
     document.getElementById("app")!.setAttribute("data-theme", theme)
     localStorage.setItem("theme", theme)
     setThemeCurrent(theme)
@@ -33,7 +35,6 @@ const ThemeChanger: React.FC = () => {
     return () => window.removeEventListener("themeChanged", onThemeChanged)
   }, [])
 
-  //! FIXME: Theme Changer
 
   return (
     // <div tabIndex={0} className="collapse collapse-arrow bg-base-300">
@@ -51,7 +52,7 @@ const ThemeChanger: React.FC = () => {
     //   </div>
 
     // </div>
-    <div className="dropdown dropdown-right dropdown-bottom">
+    <div className="dropdown dropdown-right dropdown-bottom bg-red-600">
       <label tabIndex={0} className="flex items-center cursor-pointer hover:scale-125 duration-100">
         <ThemeIcon />
       </label>
