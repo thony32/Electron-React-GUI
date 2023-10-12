@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useState } from "react"
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes, NodeResizer, Handle, Position } from "reactflow"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
 import "../../App.css"
-import handleDragOver from "../../utils"
+import { handleDragOver, ResizableNodeSelected } from "../../utils"
 // import Plyr from "plyr";
 
 // Define the initial nodes for the React Flow component
@@ -14,17 +14,6 @@ const initialNodes: Node[] = [
     type: "input",
   },
 ]
-
-const ResizableNodeSelected = ({ data, selected }: any) => {
-  return (
-    <>
-      <NodeResizer color="#ff0071" isVisible={selected} minWidth={100} minHeight={30} />
-      <Handle type="target" position={Position.Left} />
-      <div style={{ padding: 10 }}>{data.label}</div>
-      <Handle type="source" position={Position.Right} />
-    </>
-  )
-}
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
@@ -54,8 +43,6 @@ const NodeEditor: React.FC = () => {
           data: { label: <img src={imageUrl} alt={`Image`} /> },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
-
-        // Add the new image node to the nodes state
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
         // Handle video file as a new node
@@ -77,8 +64,6 @@ const NodeEditor: React.FC = () => {
           },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
-
-        // Add the new video node to the nodes state
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       }
     }
@@ -92,8 +77,8 @@ const NodeEditor: React.FC = () => {
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView snapToGrid={true} snapGrid={[15, 15]}>
           <Background />
-          <Controls className="bg-gray-300 " />
-          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100" />
+          <Controls className="bg-gray-300" />
+          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" />
         </ReactFlow>
       </div>
     </div>

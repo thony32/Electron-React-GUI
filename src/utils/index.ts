@@ -1,3 +1,4 @@
+import ResizableNodeSelected from "./ResizableNodeSelected"
 import handleDragOver from "./handleDragOver"
 
-export default handleDragOver
+export { handleDragOver, ResizableNodeSelected }
