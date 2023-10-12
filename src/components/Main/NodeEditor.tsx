@@ -19,13 +19,12 @@ const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
 }
 
-// TODO: Handle VIDEO UPLOAD AND PLAY
 //* Define the NodeEditor component
 const NodeEditor: React.FC = () => {
   // State to store nodes and media items
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
 
-  //? Function to handle drop of media files into React Flow
+  //* Function to handle drop of media files into React Flow
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
 
@@ -35,7 +34,7 @@ const NodeEditor: React.FC = () => {
       const file = files[i]
 
       if (file.type.startsWith("image/")) {
-        // Handle image file as a new node
+        //? Handle image file as a new node
         const imageUrl = URL.createObjectURL(file)
         const newNode = {
           id: `image-node-${Date.now()}`,
@@ -45,7 +44,7 @@ const NodeEditor: React.FC = () => {
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
-        // Handle video file as a new node
+        //? FIXME: Handle video file as a new node
         // const videoUrl = URL.createObjectURL(file);
         const newNode = {
           id: `video-node-${Date.now()}`,

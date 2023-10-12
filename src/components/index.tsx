@@ -1,6 +1,6 @@
 //* All Components Exports
 
-import InputText from "./InputText"
+import InputText from "./Inputs/InputText"
 import EditorFilter from "./Layouts/EditorFilter"
 import EditorProps from "./Layouts/EditorProps"
 import Toolbar from "./Layouts/Toolbar"
