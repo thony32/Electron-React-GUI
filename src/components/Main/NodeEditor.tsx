@@ -1,17 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useState } from "react"
-import ReactFlow, {
-  Controls,
-  Background,
-  MiniMap,
-  applyNodeChanges,
-  OnNodesChange,
-  Node,
-  NodeTypes,
-  NodeResizer,
-  Handle,
-  Position,
-} from "reactflow"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes, NodeResizer, Handle, Position } from "reactflow"
 import "../../App.css"
 import handleDragOver from "../../utils"
 // import Plyr from "plyr";
@@ -29,12 +18,7 @@ const initialNodes: Node[] = [
 const ResizableNodeSelected = ({ data, selected }: any) => {
   return (
     <>
-      <NodeResizer
-        color="#ff0071"
-        isVisible={selected}
-        minWidth={100}
-        minHeight={30}
-      />
+      <NodeResizer color="#ff0071" isVisible={selected} minWidth={100} minHeight={30} />
       <Handle type="target" position={Position.Left} />
       <div style={{ padding: 10 }}>{data.label}</div>
       <Handle type="source" position={Position.Right} />
@@ -83,10 +67,7 @@ const NodeEditor: React.FC = () => {
             label: (
               <div>
                 <video controls playsInline className="w-full h-full">
-                  <source
-                    src="https://www.youtube.com/watch?v=nLQ-9vfEjUI"
-                    type={file.type}
-                  />
+                  <source src="https://www.youtube.com/watch?v=nLQ-9vfEjUI" type={file.type} />
                 </video>
               </div>
 
@@ -103,28 +84,13 @@ const NodeEditor: React.FC = () => {
     }
   }
 
-  const onNodesChange: OnNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [],
-  )
+  const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
 
   return (
     <div className="h-full col-span-12">
-      <div
-        className="h-full flex flex-col justify-center items-center"
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-      >
+      <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver}>
         {/* React Flow component */}
-        <ReactFlow
-          nodes={nodes}
-          nodeTypes={nodeTypes}
-          onNodesChange={onNodesChange}
-          onConnect={() => {}}
-          fitView
-          snapToGrid={true}
-          snapGrid={[15, 15]}
-        >
+        <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView snapToGrid={true} snapGrid={[15, 15]}>
           <Background />
           <Controls className="bg-gray-300 " />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100" />
