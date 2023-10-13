@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useState } from "react"
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes} from "reactflow"
 import "../../App.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
+import copy from 'copy-to-clipboard';
 import { RightClick } from ".."
-import RightClickMenuData from "../../data/RightClickMenuData";
+import RightClickMenuData from "../../data/RightClickMenuData"
 // import Plyr from "plyr";
 
 // Define the initial nodes for the React Flow component
@@ -26,17 +27,15 @@ const NodeEditor: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
   const [rightClickPosition, setRightClickPosition] = useState({ x: 0, y: 0 })
   const [isRightClickMenuVisible, setRightClickMenuVisible] = useState(false)
+  
+  // TODO: Handle Right Click
 
-  //* Handle Right Click
-  const handleRightClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault()
-    setRightClickPosition({ x: event.clientX, y: event.clientY })
-    setRightClickMenuVisible(true)
-  }
 
-  const handleHideRightClickMenu = () => {
-    setRightClickMenuVisible(false)
-  }
+  // TODO: Handle Copy
+  
+
+  // TODO: Handle Paste
+
 
   //* Function to handle drop of media files into React Flow
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -48,7 +47,8 @@ const NodeEditor: React.FC = () => {
       const file = files[i]
 
       if (file.type.startsWith("image/")) {
-        //? Handle image file as a new node
+
+        // NOTE: Handle image file as a new node
         const imageUrl = URL.createObjectURL(file)
         const newNode = {
           id: `image-node-${Date.now()}`,
@@ -58,7 +58,7 @@ const NodeEditor: React.FC = () => {
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
-        //? FIXME: Handle video file as a new node
+        // FIXME: Handle video file as a new node
         // const videoUrl = URL.createObjectURL(file);
         const newNode = {
           id: `video-node-${Date.now()}`,
@@ -86,14 +86,26 @@ const NodeEditor: React.FC = () => {
 
   return (
     <div className="h-full col-span-12">
-      <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver}>
+      <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={handleRightClick}>
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView snapToGrid={true} snapGrid={[15, 15]}>
           <Background />
           <Controls className="bg-gray-300" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" />
+          {/* {isRightClickMenuVisible && (
+            <RightClick
+              style={{ top: rightClickPosition.y, left: rightClickPosition.x }}
+              onClose={handleHideRightClickMenu}
+              menuData={RightClickMenuData}
+            />
+          )} */}
         </ReactFlow>
-        {isRightClickMenuVisible && <RightClick style={{ top: rightClickPosition.y, left: rightClickPosition.x }} onClose={handleHideRightClickMenu} menuData={RightClickMenuData} />}
+        <button onClick={handleCopy} className="btn btn-primary z-30 ">
+          Copy
+        </button>
+        <button onClick={handlePaste} className="btn btn-primary z-30">
+          Paste
+        </button>
       </div>
     </div>
   )
