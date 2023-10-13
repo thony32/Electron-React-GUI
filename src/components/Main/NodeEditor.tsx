@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useState } from "react"
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes, NodeResizer, Handle, Position } from "reactflow"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
 import "../../App.css"
-import handleDragOver from "../../utils"
+import { handleDragOver, ResizableNodeSelected } from "../../utils"
+import { RightClick } from ".."
+import RightClickMenuData from "../../data/RightClickMenuData";
 // import Plyr from "plyr";
 
 // Define the initial nodes for the React Flow component
@@ -15,28 +17,28 @@ const initialNodes: Node[] = [
   },
 ]
 
-const ResizableNodeSelected = ({ data, selected }: any) => {
-  return (
-    <>
-      <NodeResizer color="#ff0071" isVisible={selected} minWidth={100} minHeight={30} />
-      <Handle type="target" position={Position.Left} />
-      <div style={{ padding: 10 }}>{data.label}</div>
-      <Handle type="source" position={Position.Right} />
-    </>
-  )
-}
-
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
 }
 
-// TODO: Handle VIDEO UPLOAD AND PLAY
 //* Define the NodeEditor component
 const NodeEditor: React.FC = () => {
-  // State to store nodes and media items
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
+  const [rightClickPosition, setRightClickPosition] = useState({ x: 0, y: 0 })
+  const [isRightClickMenuVisible, setRightClickMenuVisible] = useState(false)
 
-  //? Function to handle drop of media files into React Flow
+  //* Handle Right Click
+  const handleRightClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    setRightClickPosition({ x: event.clientX, y: event.clientY })
+    setRightClickMenuVisible(true)
+  }
+
+  const handleHideRightClickMenu = () => {
+    setRightClickMenuVisible(false)
+  }
+
+  //* Function to handle drop of media files into React Flow
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
 
@@ -46,7 +48,7 @@ const NodeEditor: React.FC = () => {
       const file = files[i]
 
       if (file.type.startsWith("image/")) {
-        // Handle image file as a new node
+        //? Handle image file as a new node
         const imageUrl = URL.createObjectURL(file)
         const newNode = {
           id: `image-node-${Date.now()}`,
@@ -54,11 +56,9 @@ const NodeEditor: React.FC = () => {
           data: { label: <img src={imageUrl} alt={`Image`} /> },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
-
-        // Add the new image node to the nodes state
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
-        // Handle video file as a new node
+        //? FIXME: Handle video file as a new node
         // const videoUrl = URL.createObjectURL(file);
         const newNode = {
           id: `video-node-${Date.now()}`,
@@ -77,8 +77,6 @@ const NodeEditor: React.FC = () => {
           },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
-
-        // Add the new video node to the nodes state
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       }
     }
@@ -92,9 +90,10 @@ const NodeEditor: React.FC = () => {
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView snapToGrid={true} snapGrid={[15, 15]}>
           <Background />
-          <Controls className="bg-gray-300 " />
-          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100" />
+          <Controls className="bg-gray-300" />
+          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" />
         </ReactFlow>
+        {isRightClickMenuVisible && <RightClick style={{ top: rightClickPosition.y, left: rightClickPosition.x }} onClose={handleHideRightClickMenu} menuData={RightClickMenuData} />}
       </div>
     </div>
   )
