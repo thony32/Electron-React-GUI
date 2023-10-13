@@ -3,6 +3,8 @@ import React, { useCallback, useState } from "react"
 import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
 import "../../App.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
+import { RightClick } from ".."
+import RightClickMenuData from "../../data/RightClickMenuData";
 // import Plyr from "plyr";
 
 // Define the initial nodes for the React Flow component
@@ -21,8 +23,20 @@ const nodeTypes: NodeTypes = {
 
 //* Define the NodeEditor component
 const NodeEditor: React.FC = () => {
-  // State to store nodes and media items
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
+  const [rightClickPosition, setRightClickPosition] = useState({ x: 0, y: 0 })
+  const [isRightClickMenuVisible, setRightClickMenuVisible] = useState(false)
+
+  //* Handle Right Click
+  const handleRightClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    setRightClickPosition({ x: event.clientX, y: event.clientY })
+    setRightClickMenuVisible(true)
+  }
+
+  const handleHideRightClickMenu = () => {
+    setRightClickMenuVisible(false)
+  }
 
   //* Function to handle drop of media files into React Flow
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -79,6 +93,7 @@ const NodeEditor: React.FC = () => {
           <Controls className="bg-gray-300" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" />
         </ReactFlow>
+        {isRightClickMenuVisible && <RightClick style={{ top: rightClickPosition.y, left: rightClickPosition.x }} onClose={handleHideRightClickMenu} menuData={RightClickMenuData} />}
       </div>
     </div>
   )

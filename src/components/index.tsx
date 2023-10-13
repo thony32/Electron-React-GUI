@@ -8,5 +8,7 @@ import NodeEditor from "./Main/NodeEditor"
 import ZoomInBtn from "./Toolbar/ZoomInBtn"
 import ZoomOutBtn from "./Toolbar/ZoomOutBtn"
 import ThemeChanger from "./ThemeChanger/ThemeChanger"
+import RightClick from "./Buttons/RightClick"
 
-export { EditorFilter, EditorProps, Toolbar, NodeEditor, ZoomInBtn, ZoomOutBtn, InputText, ThemeChanger }
+
+export { EditorFilter, EditorProps, Toolbar, NodeEditor, ZoomInBtn, ZoomOutBtn, InputText, ThemeChanger, RightClick }

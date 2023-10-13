@@ -1,5 +1,5 @@
 import React from "react"
-import { EditorFilter, Toolbar, EditorProps, NodeEditor, ThemeChanger } from "../../components"
+import { EditorFilter, Toolbar, EditorProps, NodeEditor, ThemeChanger, RightClick } from "../../components"
 
 const Canvas: React.FC = () => {
   return (
@@ -8,6 +8,7 @@ const Canvas: React.FC = () => {
         {/* <EditorFilter /> */}
         <NodeEditor />
         {/* <EditorProps /> */}
+        {/* <RightClick/> */}
       </div>
       <Toolbar />
     </>
