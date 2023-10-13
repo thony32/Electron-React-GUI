@@ -3,7 +3,6 @@ import React, { useCallback, useState } from "react"
 import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes} from "reactflow"
 import "../../App.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
-import copy from 'copy-to-clipboard';
 import { RightClick } from ".."
 import RightClickMenuData from "../../data/RightClickMenuData"
 // import Plyr from "plyr";
@@ -22,7 +21,7 @@ const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
 }
 
-//* Define the NodeEditor component
+// Define the NodeEditor component
 const NodeEditor: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
   const [rightClickPosition, setRightClickPosition] = useState({ x: 0, y: 0 })
@@ -58,6 +57,7 @@ const NodeEditor: React.FC = () => {
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
+        
         // FIXME: Handle video file as a new node
         // const videoUrl = URL.createObjectURL(file);
         const newNode = {
@@ -70,9 +70,6 @@ const NodeEditor: React.FC = () => {
                   <source src="https://www.youtube.com/watch?v=nLQ-9vfEjUI" type={file.type} />
                 </video>
               </div>
-
-              // <Plyr />
-              // <Plyr/>
             ),
           },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
@@ -86,26 +83,13 @@ const NodeEditor: React.FC = () => {
 
   return (
     <div className="h-full col-span-12">
-      <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={handleRightClick}>
+      <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver}>
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView snapToGrid={true} snapGrid={[15, 15]}>
           <Background />
           <Controls className="bg-gray-300" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" />
-          {/* {isRightClickMenuVisible && (
-            <RightClick
-              style={{ top: rightClickPosition.y, left: rightClickPosition.x }}
-              onClose={handleHideRightClickMenu}
-              menuData={RightClickMenuData}
-            />
-          )} */}
         </ReactFlow>
-        <button onClick={handleCopy} className="btn btn-primary z-30 ">
-          Copy
-        </button>
-        <button onClick={handlePaste} className="btn btn-primary z-30">
-          Paste
-        </button>
       </div>
     </div>
   )
