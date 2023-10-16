@@ -1,3 +1,4 @@
-import RightClickMenuData from "./RightClickMenuData";
+import RightClickMenuData from "./RightClickMenuData"
+import { months } from "./MonthData"
 
-export {RightClickMenuData}
+export { RightClickMenuData, months }

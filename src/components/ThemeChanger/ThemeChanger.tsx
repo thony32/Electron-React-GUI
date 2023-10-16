@@ -18,7 +18,7 @@ const ThemeChanger: React.FC = () => {
     }
   })
 
-  //* handle theme change
+  // NOTE: handle theme change
   const changeTheme = (e: any) => {
     if (e.target.checked) {
       setThemeCurrent("winter")
