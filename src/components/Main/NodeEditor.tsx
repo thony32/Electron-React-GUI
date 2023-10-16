@@ -3,7 +3,6 @@ import React, { useCallback, useState } from "react"
 import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
 import "../../App.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
-import { RightClick } from ".."
 // import RightClickMenuData from "../../data/RightClickMenuData"
 import { useVideoFunctions } from "../../hooks"
 
@@ -26,27 +25,8 @@ const NodeEditor: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
   const { videoRef, fastForward, fastBackward } = useVideoFunctions()
 
-  // TODO: Handle right-click feature that uses RightClick and RightClickMenuData
-  const [rightClickPos, setRightClickPos] = useState({ x: 0, y: 0 })
-  const [showMenu, setShowMenu] = useState(false)
+  // FIXME: Handle right-click feature that uses RightClick and RightClickMenuData
 
-  const handleRightClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault()
-    setRightClickPos({ x: event.clientX, y: event.clientY })
-    setShowMenu(true)
-  }
-
-  const handleRightClickClose = () => {
-    setShowMenu(false)
-  }
-
-  const handleRightClickAction = (action: string) => {
-    if (action === "copy") {
-      console.log("Copy Node")
-    } else if (action === "paste") {
-      console.log("Paste Node")
-    }
-  }
 
   // TODO: Handle Copy Nodes
 
@@ -102,7 +82,7 @@ const NodeEditor: React.FC = () => {
   const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
 
   return (
-    <div className="h-full col-span-12" onContextMenu={handleRightClick}>
+    <div className="h-full col-span-12">
       <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver}>
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView /*snapToGrid={true} snapGrid={[10, 10]}*/>
@@ -111,7 +91,6 @@ const NodeEditor: React.FC = () => {
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" />
         </ReactFlow>
       </div>
-      {showMenu && <RightClick />}
     </div>
   )
 }

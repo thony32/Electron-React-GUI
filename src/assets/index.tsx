@@ -6,4 +6,3 @@ import Undo from "./Icons/Undo"
 import Redo from "./Icons/Redo"
 
 export { Trashbin, Copy, Paste, Undo, Redo, Text }
- 
