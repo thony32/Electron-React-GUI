@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useState } from "react"
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes} from "reactflow"
+import React, { useCallback, useRef, useState } from "react"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
 import "../../App.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { RightClick } from ".."
@@ -24,19 +24,31 @@ const nodeTypes: NodeTypes = {
 // Define the NodeEditor component
 const NodeEditor: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
-  const [rightClickPosition, setRightClickPosition] = useState({ x: 0, y: 0 })
-  const [isRightClickMenuVisible, setRightClickMenuVisible] = useState(false)
-  
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  // const [rightClickPosition, setRightClickPosition] = useState({ x: 0, y: 0 })
+  // const [isRightClickMenuVisible, setRightClickMenuVisible] = useState(false)
+
   // TODO: Handle Right Click
 
-
   // TODO: Handle Copy
-  
 
   // TODO: Handle Paste
 
+  // NOTE: Video +10s
+  const fastForward = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime += 10 // Fast forward by 10 seconds
+    }
+  }
 
-  //* Function to handle drop of media files into React Flow
+  // NOTE: Video -10s
+  const fastBackward = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime -= 10 // Fast backward by 10 seconds
+    }
+  }
+
+  //? Function to handle drop of media files into React Flow
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
 
@@ -46,7 +58,6 @@ const NodeEditor: React.FC = () => {
       const file = files[i]
 
       if (file.type.startsWith("image/")) {
-
         // NOTE: Handle image file as a new node
         const imageUrl = URL.createObjectURL(file)
         const newNode = {
@@ -57,18 +68,23 @@ const NodeEditor: React.FC = () => {
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
-        
         // FIXME: Handle video file as a new node
-        // const videoUrl = URL.createObjectURL(file);
+        const videoUrl = URL.createObjectURL(file)
         const newNode = {
           id: `video-node-${Date.now()}`,
           type: "ResizableNodeSelected",
           data: {
             label: (
-              <div>
-                <video controls playsInline className="w-full h-full">
-                  <source src="https://www.youtube.com/watch?v=nLQ-9vfEjUI" type={file.type} />
+              <div className="flex justify-center items-center">
+                <video ref={videoRef} controls autoPlay loop className="w-full h-full max-w-lg">
+                  <source src={videoUrl} type={file.type} />
                 </video>
+                <button className="btn btn-primary btn-sm" onClick={fastBackward}>
+                  -10
+                </button>
+                <button className="btn btn-primary btn-sm" onClick={fastForward}>
+                  +10
+                </button>
               </div>
             ),
           },
