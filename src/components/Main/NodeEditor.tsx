@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useRef, useState } from "react"
+import React, { useCallback, useState } from "react"
 import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
 import "../../App.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
-import { RightClick } from ".."
-import RightClickMenuData from "../../data/RightClickMenuData"
-// import Plyr from "plyr";
+// import RightClickMenuData from "../../data/RightClickMenuData"
+import { useVideoFunctions } from "../../hooks"
 
 // Define the initial nodes for the React Flow component
 const initialNodes: Node[] = [
@@ -24,31 +23,16 @@ const nodeTypes: NodeTypes = {
 // Define the NodeEditor component
 const NodeEditor: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
-  const videoRef = useRef<HTMLVideoElement | null>(null)
-  // const [rightClickPosition, setRightClickPosition] = useState({ x: 0, y: 0 })
-  // const [isRightClickMenuVisible, setRightClickMenuVisible] = useState(false)
+  const { videoRef, fastForward, fastBackward } = useVideoFunctions()
 
-  // TODO: Handle Right Click
+  // FIXME: Handle right-click feature that uses RightClick and RightClickMenuData
 
-  // TODO: Handle Copy
 
-  // TODO: Handle Paste
+  // TODO: Handle Copy Nodes
 
-  // NOTE: Video +10s
-  const fastForward = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime += 10 // Fast forward by 10 seconds
-    }
-  }
+  // TODO: Handle Paste Nodes
 
-  // NOTE: Video -10s
-  const fastBackward = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime -= 10 // Fast backward by 10 seconds
-    }
-  }
-
-  //? Function to handle drop of media files into React Flow
+  // ? Function to handle drop of media files into React Flow
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
 
@@ -76,7 +60,7 @@ const NodeEditor: React.FC = () => {
           data: {
             label: (
               <div className="flex justify-center items-center">
-                <video ref={videoRef} controls autoPlay loop className="w-full h-full max-w-lg">
+                <video ref={videoRef} controls autoPlay loop className="w-full h-full">
                   <source src={videoUrl} type={file.type} />
                 </video>
                 <button className="btn btn-primary btn-sm" onClick={fastBackward}>
@@ -101,7 +85,7 @@ const NodeEditor: React.FC = () => {
     <div className="h-full col-span-12">
       <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver}>
         {/* React Flow component */}
-        <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView snapToGrid={true} snapGrid={[15, 15]}>
+        <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView /*snapToGrid={true} snapGrid={[10, 10]}*/>
           <Background />
           <Controls className="bg-gray-300" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" />

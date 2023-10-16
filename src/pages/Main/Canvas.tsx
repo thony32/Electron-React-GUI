@@ -1,18 +1,117 @@
-import React from "react"
-import { EditorFilter, Toolbar, EditorProps, NodeEditor, ThemeChanger, RightClick } from "../../components"
+// import React from "react"
+// import { EditorFilter, Toolbar, EditorProps, Canvas,  RightClick } from "../../components"
 
+// const Canvas: React.FC = () => {
+//   return (
+//     <>
+//       <div className="grid grid-cols-12 h-screen z-20">
+//         {/* <EditorFilter /> */}
+//         <Canvas />
+//         {/* <EditorProps /> */}
+//         <RightClick/>
+//       </div>
+//       <Toolbar />
+//     </>
+//   )
+// }
+
+// export default Canvas
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useCallback, useState } from "react"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
+import "../../App.css"
+import { handleDragOver, ResizableNodeSelected } from "../../utils"
+// import RightClickMenuData from "../../data/RightClickMenuData"
+import { useVideoFunctions } from "../../hooks"
+
+// Define the initial nodes for the React Flow component
+const initialNodes: Node[] = [
+  {
+    id: "1",
+    data: { label: "You can drag and drop your images and Videos here." },
+    position: { x: 0, y: 0 },
+    type: "input",
+  },
+]
+
+const nodeTypes: NodeTypes = {
+  ResizableNodeSelected,
+}
+
+// Define the Canvas component
 const Canvas: React.FC = () => {
+  const [nodes, setNodes] = useState<Node[]>(initialNodes)
+  const { videoRef, fastForward, fastBackward } = useVideoFunctions()
+
+  // FIXME: Handle right-click feature that uses RightClick and RightClickMenuData
+
+
+  // TODO: Handle Copy Nodes
+
+  // TODO: Handle Paste Nodes
+
+  // ? Function to handle drop of media files into React Flow
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault()
+
+    const files = event.dataTransfer.files
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+
+      if (file.type.startsWith("image/")) {
+        // NOTE: Handle image file as a new node
+        const imageUrl = URL.createObjectURL(file)
+        const newNode = {
+          id: `image-node-${Date.now()}`,
+          type: "ResizableNodeSelected",
+          data: { label: <img src={imageUrl} alt={`Image`} /> },
+          position: { x: event.clientX - 100, y: event.clientY - 100 },
+        }
+        setNodes((prevNodes: any) => [...prevNodes, newNode])
+      } else if (file.type.startsWith("video/")) {
+        // FIXME: Handle video file as a new node
+        const videoUrl = URL.createObjectURL(file)
+        const newNode = {
+          id: `video-node-${Date.now()}`,
+          type: "ResizableNodeSelected",
+          data: {
+            label: (
+              <div className="flex justify-center items-center">
+                <video ref={videoRef} controls autoPlay loop className="w-full h-full">
+                  <source src={videoUrl} type={file.type} />
+                </video>
+                <button className="btn btn-primary btn-sm" onClick={fastBackward}>
+                  -10
+                </button>
+                <button className="btn btn-primary btn-sm" onClick={fastForward}>
+                  +10
+                </button>
+              </div>
+            ),
+          },
+          position: { x: event.clientX - 100, y: event.clientY - 100 },
+        }
+        setNodes((prevNodes: any) => [...prevNodes, newNode])
+      }
+    }
+  }
+
+  const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
+
   return (
-    <>
-      <div className="grid grid-cols-12 h-screen z-20">
-        {/* <EditorFilter /> */}
-        <NodeEditor />
-        {/* <EditorProps /> */}
-        {/* <RightClick/> */}
+    <div className="h-full col-span-12">
+      <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver}>
+        {/* React Flow component */}
+        <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView /*snapToGrid={true} snapGrid={[10, 10]}*/>
+          <Background />
+          <Controls className="bg-gray-300" />
+          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" />
+        </ReactFlow>
       </div>
-      <Toolbar />
-    </>
+    </div>
   )
 }
 
 export default Canvas
+
