@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const useDrop = (videoRef: any, fastForward: () => void, fastBackward: () => void) => {
+import React from "react"
+
+const useDrop = (videoRef: React.RefObject<HTMLVideoElement>, fastForward: () => void, fastBackward: () => void) => {
   const handleDrop = (event: React.DragEvent<HTMLDivElement>, setNodes: any, initialNodes: Node[]) => {
+
     event.preventDefault()
 
     const files = event.dataTransfer.files

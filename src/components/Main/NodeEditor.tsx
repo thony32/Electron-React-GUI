@@ -25,59 +25,61 @@ const nodeTypes: NodeTypes = {
 const NodeEditor: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
   const { videoRef, fastForward, fastBackward } = useVideoFunctions()
-  const {handleDrop} = useDrop(videoRef, fastForward, fastBackward)
-  // TODO: Handle Right Click
+  // const {handleDrop} = useDrop(videoRef, fastForward, fastBackward)
+
+  // TODO: Handle right-click feature that uses RightClick and RightClickMenuData
+
 
   // TODO: Handle Copy
 
   // TODO: Handle Paste
 
-  // //? Function to handle drop of media files into React Flow
-  // const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-  //   event.preventDefault()
+  //? Function to handle drop of media files into React Flow
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault()
 
-  //   const files = event.dataTransfer.files
+    const files = event.dataTransfer.files
 
-  //   for (let i = 0; i < files.length; i++) {
-  //     const file = files[i]
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
 
-  //     if (file.type.startsWith("image/")) {
-  //       // NOTE: Handle image file as a new node
-  //       const imageUrl = URL.createObjectURL(file)
-  //       const newNode = {
-  //         id: `image-node-${Date.now()}`,
-  //         type: "ResizableNodeSelected",
-  //         data: { label: <img src={imageUrl} alt={`Image`} /> },
-  //         position: { x: event.clientX - 100, y: event.clientY - 100 },
-  //       }
-  //       setNodes((prevNodes: any) => [...prevNodes, newNode])
-  //     } else if (file.type.startsWith("video/")) {
-  //       // FIXME: Handle video file as a new node
-  //       const videoUrl = URL.createObjectURL(file)
-  //       const newNode = {
-  //         id: `video-node-${Date.now()}`,
-  //         type: "ResizableNodeSelected",
-  //         data: {
-  //           label: (
-  //             <div className="flex justify-center items-center">
-  //               <video ref={videoRef} controls autoPlay loop className="w-full h-full">
-  //                 <source src={videoUrl} type={file.type} />
-  //               </video>
-  //               <button className="btn btn-primary btn-sm" onClick={fastBackward}>
-  //                 -10
-  //               </button>
-  //               <button className="btn btn-primary btn-sm" onClick={fastForward}>
-  //                 +10
-  //               </button>
-  //             </div>
-  //           ),
-  //         },
-  //         position: { x: event.clientX - 100, y: event.clientY - 100 },
-  //       }
-  //       setNodes((prevNodes: any) => [...prevNodes, newNode])
-  //     }
-  //   }
-  // }
+      if (file.type.startsWith("image/")) {
+        // NOTE: Handle image file as a new node
+        const imageUrl = URL.createObjectURL(file)
+        const newNode = {
+          id: `image-node-${Date.now()}`,
+          type: "ResizableNodeSelected",
+          data: { label: <img src={imageUrl} alt={`Image`} /> },
+          position: { x: event.clientX - 100, y: event.clientY - 100 },
+        }
+        setNodes((prevNodes: any) => [...prevNodes, newNode])
+      } else if (file.type.startsWith("video/")) {
+        // FIXME: Handle video file as a new node
+        const videoUrl = URL.createObjectURL(file)
+        const newNode = {
+          id: `video-node-${Date.now()}`,
+          type: "ResizableNodeSelected",
+          data: {
+            label: (
+              <div className="flex justify-center items-center">
+                <video ref={videoRef} controls autoPlay loop className="w-full h-full">
+                  <source src={videoUrl} type={file.type} />
+                </video>
+                <button className="btn btn-primary btn-sm" onClick={fastBackward}>
+                  -10
+                </button>
+                <button className="btn btn-primary btn-sm" onClick={fastForward}>
+                  +10
+                </button>
+              </div>
+            ),
+          },
+          position: { x: event.clientX - 100, y: event.clientY - 100 },
+        }
+        setNodes((prevNodes: any) => [...prevNodes, newNode])
+      }
+    }
+  }
 
   const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
 
