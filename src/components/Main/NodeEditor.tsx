@@ -5,7 +5,7 @@ import "../../App.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { RightClick } from ".."
 import RightClickMenuData from "../../data/RightClickMenuData"
-// import Plyr from "plyr";
+import { useDrop, useVideoFunctions } from "../../hooks"
 
 // Define the initial nodes for the React Flow component
 const initialNodes: Node[] = [
@@ -24,76 +24,60 @@ const nodeTypes: NodeTypes = {
 // Define the NodeEditor component
 const NodeEditor: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
-  const videoRef = useRef<HTMLVideoElement | null>(null)
-  // const [rightClickPosition, setRightClickPosition] = useState({ x: 0, y: 0 })
-  // const [isRightClickMenuVisible, setRightClickMenuVisible] = useState(false)
-
+  const { videoRef, fastForward, fastBackward } = useVideoFunctions()
+  const {handleDrop} = useDrop(videoRef, fastForward, fastBackward)
   // TODO: Handle Right Click
 
   // TODO: Handle Copy
 
   // TODO: Handle Paste
 
-  // NOTE: Video +10s
-  const fastForward = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime += 10 // Fast forward by 10 seconds
-    }
-  }
+  // //? Function to handle drop of media files into React Flow
+  // const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  //   event.preventDefault()
 
-  // NOTE: Video -10s
-  const fastBackward = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime -= 10 // Fast backward by 10 seconds
-    }
-  }
+  //   const files = event.dataTransfer.files
 
-  //? Function to handle drop of media files into React Flow
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault()
+  //   for (let i = 0; i < files.length; i++) {
+  //     const file = files[i]
 
-    const files = event.dataTransfer.files
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i]
-
-      if (file.type.startsWith("image/")) {
-        // NOTE: Handle image file as a new node
-        const imageUrl = URL.createObjectURL(file)
-        const newNode = {
-          id: `image-node-${Date.now()}`,
-          type: "ResizableNodeSelected",
-          data: { label: <img src={imageUrl} alt={`Image`} /> },
-          position: { x: event.clientX - 100, y: event.clientY - 100 },
-        }
-        setNodes((prevNodes: any) => [...prevNodes, newNode])
-      } else if (file.type.startsWith("video/")) {
-        // FIXME: Handle video file as a new node
-        const videoUrl = URL.createObjectURL(file)
-        const newNode = {
-          id: `video-node-${Date.now()}`,
-          type: "ResizableNodeSelected",
-          data: {
-            label: (
-              <div className="flex justify-center items-center">
-                <video ref={videoRef} controls autoPlay loop className="w-full h-full max-w-lg">
-                  <source src={videoUrl} type={file.type} />
-                </video>
-                <button className="btn btn-primary btn-sm" onClick={fastBackward}>
-                  -10
-                </button>
-                <button className="btn btn-primary btn-sm" onClick={fastForward}>
-                  +10
-                </button>
-              </div>
-            ),
-          },
-          position: { x: event.clientX - 100, y: event.clientY - 100 },
-        }
-        setNodes((prevNodes: any) => [...prevNodes, newNode])
-      }
-    }
-  }
+  //     if (file.type.startsWith("image/")) {
+  //       // NOTE: Handle image file as a new node
+  //       const imageUrl = URL.createObjectURL(file)
+  //       const newNode = {
+  //         id: `image-node-${Date.now()}`,
+  //         type: "ResizableNodeSelected",
+  //         data: { label: <img src={imageUrl} alt={`Image`} /> },
+  //         position: { x: event.clientX - 100, y: event.clientY - 100 },
+  //       }
+  //       setNodes((prevNodes: any) => [...prevNodes, newNode])
+  //     } else if (file.type.startsWith("video/")) {
+  //       // FIXME: Handle video file as a new node
+  //       const videoUrl = URL.createObjectURL(file)
+  //       const newNode = {
+  //         id: `video-node-${Date.now()}`,
+  //         type: "ResizableNodeSelected",
+  //         data: {
+  //           label: (
+  //             <div className="flex justify-center items-center">
+  //               <video ref={videoRef} controls autoPlay loop className="w-full h-full">
+  //                 <source src={videoUrl} type={file.type} />
+  //               </video>
+  //               <button className="btn btn-primary btn-sm" onClick={fastBackward}>
+  //                 -10
+  //               </button>
+  //               <button className="btn btn-primary btn-sm" onClick={fastForward}>
+  //                 +10
+  //               </button>
+  //             </div>
+  //           ),
+  //         },
+  //         position: { x: event.clientX - 100, y: event.clientY - 100 },
+  //       }
+  //       setNodes((prevNodes: any) => [...prevNodes, newNode])
+  //     }
+  //   }
+  // }
 
   const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
 
