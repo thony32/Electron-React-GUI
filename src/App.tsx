@@ -1,18 +1,19 @@
 import "./App.css"
-import { BrowserRouter, Route, Routes } from "react-router-dom"
 import React from "react"
-import {  Canvas  } from "./pages"
+import { Canvas } from "./pages"
+import { RightClick, Toolbar } from "./components"
 
 const App: React.FC = () => {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Canvas />} />
-          {/* <Route path="/register" element={<Registration />} />
-          <Route path="/login" element={<Login />} /> */}
-        </Routes>
-      </BrowserRouter>
+      
+      <div className="grid grid-cols-12 h-screen z-20">
+        {/* <EditorFilter /> */}
+        <Canvas />
+        {/* <EditorProps /> */}
+        {/* <RightClick /> */}
+      </div>
+      <Toolbar />
     </>
   )
 }
