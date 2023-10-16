@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useRef, useState } from "react"
+import React, { useCallback, useState } from "react"
 import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
 import "../../App.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { RightClick } from ".."
-import RightClickMenuData from "../../data/RightClickMenuData"
-import { useDrop, useVideoFunctions } from "../../hooks"
+// import RightClickMenuData from "../../data/RightClickMenuData"
+import { useVideoFunctions } from "../../hooks"
 
 // Define the initial nodes for the React Flow component
 const initialNodes: Node[] = [
@@ -25,16 +25,34 @@ const nodeTypes: NodeTypes = {
 const NodeEditor: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes)
   const { videoRef, fastForward, fastBackward } = useVideoFunctions()
-  // const {handleDrop} = useDrop(videoRef, fastForward, fastBackward)
 
   // TODO: Handle right-click feature that uses RightClick and RightClickMenuData
+  const [rightClickPos, setRightClickPos] = useState({ x: 0, y: 0 })
+  const [showMenu, setShowMenu] = useState(false)
 
+  const handleRightClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    setRightClickPos({ x: event.clientX, y: event.clientY })
+    setShowMenu(true)
+  }
 
-  // TODO: Handle Copy
+  const handleRightClickClose = () => {
+    setShowMenu(false)
+  }
 
-  // TODO: Handle Paste
+  const handleRightClickAction = (action: string) => {
+    if (action === "copy") {
+      console.log("Copy Node")
+    } else if (action === "paste") {
+      console.log("Paste Node")
+    }
+  }
 
-  //? Function to handle drop of media files into React Flow
+  // TODO: Handle Copy Nodes
+
+  // TODO: Handle Paste Nodes
+
+  // ? Function to handle drop of media files into React Flow
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
 
@@ -84,15 +102,16 @@ const NodeEditor: React.FC = () => {
   const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
 
   return (
-    <div className="h-full col-span-12">
+    <div className="h-full col-span-12" onContextMenu={handleRightClick}>
       <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver}>
         {/* React Flow component */}
-        <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView snapToGrid={true} snapGrid={[15, 15]}>
+        <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView /*snapToGrid={true} snapGrid={[10, 10]}*/>
           <Background />
           <Controls className="bg-gray-300" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" />
         </ReactFlow>
       </div>
+      {showMenu && <RightClick />}
     </div>
   )
 }
