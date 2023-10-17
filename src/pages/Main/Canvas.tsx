@@ -1,21 +1,3 @@
-// import React from "react"
-// import { EditorFilter, Toolbar, EditorProps, Canvas,  RightClick } from "../../components"
-
-// const Canvas: React.FC = () => {
-//   return (
-//     <>
-//       <div className="grid grid-cols-12 h-screen z-20">
-//         {/* <EditorFilter /> */}
-//         <Canvas />
-//         {/* <EditorProps /> */}
-//         <RightClick/>
-//       </div>
-//       <Toolbar />
-//     </>
-//   )
-// }
-
-// export default Canvas
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useState } from "react"
 import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
@@ -24,27 +6,14 @@ import { handleDragOver, ResizableNodeSelected } from "../../utils"
 // import RightClickMenuData from "../../data/RightClickMenuData"
 import { useVideoFunctions } from "../../hooks"
 
-// Define the initial nodes for the React Flow component
-const initialNodes: Node[] = [
-  {
-    id: "1",
-    data: { label: "You can drag and drop your images and Videos here." },
-    position: { x: 0, y: 0 },
-    type: "input",
-  },
-]
-
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
 }
 
 // Define the Canvas component
 const Canvas: React.FC = () => {
-  const [nodes, setNodes] = useState<Node[]>(initialNodes)
+  const [nodes, setNodes] = useState<Node[]>([])
   const { videoRef, fastForward, fastBackward } = useVideoFunctions()
-
-  // FIXME: Handle right-click feature that uses RightClick and RightClickMenuData
-
 
   // TODO: Handle Copy Nodes
 
