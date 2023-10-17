@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react"
+import React, { useState } from "react"
+import { useVideoFunctions } from "."
+import { VideoPlayer } from "../components"
 
-const useDrop = (videoRef: React.RefObject<HTMLVideoElement>, fastForward: () => void, fastBackward: () => void) => {
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>, setNodes: any, initialNodes: Node[]) => {
+const useDrop = () => {
+  const { videoRef, fastForward, fastBackward } = useVideoFunctions()
+  const [nodes, setNodes] = useState<Node[]>([])
 
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>, setNodes: (nodes: Node[]) => void) => {
     event.preventDefault()
 
     const files = event.dataTransfer.files
@@ -11,42 +15,42 @@ const useDrop = (videoRef: React.RefObject<HTMLVideoElement>, fastForward: () =>
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
 
+      // Handle image, video, or GIF files as new nodes based on their MIME types
       if (file.type.startsWith("image/")) {
-        // Handle image file as a new node
         const imageUrl = URL.createObjectURL(file)
         const newNode = {
-          id: `image-node-${Date.now()}`,
+          id: `IMG-${Date.now()}`,
           type: "ResizableNodeSelected",
-          data: { label: <img src={imageUrl} alt={`Image`} /> },
+          data: { label: <img src={imageUrl} /> },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
-        setNodes([...initialNodes, newNode])
+        setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
-        // Handle video file as a new node
         const videoUrl = URL.createObjectURL(file)
         const newNode = {
-          id: `video-node-${Date.now()}`,
+          id: `VIDEO-${Date.now()}`,
           type: "ResizableNodeSelected",
-          data: (
-            <div className="flex justify-center items-center">
-              <video ref={videoRef} controls autoPlay loop className="w-full h-full">
-                <source src={videoUrl} type={file.type} />
-              </video>
-              <button className="btn btn-primary btn-sm" onClick={fastBackward}>
-                -10
-              </button>
-              <button className="btn btn-primary btn-sm" onClick={fastForward}>
-                +10
-              </button>
-            </div>
-          ),
+          data: {
+            label: (
+              <VideoPlayer src={videoUrl} file={file.type} ref={videoRef} fastForward={fastForward} fastBackward={fastBackward} />
+            ),
+          },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
-        setNodes([...initialNodes, newNode])
+        setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
+      } else if (file.type === "image/gif") {
+        const gifUrl = URL.createObjectURL(file)
+        const newNode = {
+          id: `GIF-${Date.now()}`,
+          type: "ResizableNodeSelected",
+          data: { label: <Gifs src={gifUrl} /> },
+          position: { x: event.clientX - 100, y: event.clientY - 100 },
+        }
+        setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
       }
     }
   }
-  return { handleDrop }
+  return handleDrop
 }
 
 export default useDrop

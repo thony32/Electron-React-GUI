@@ -3,8 +3,8 @@ import React, { useCallback, useEffect, useState } from "react"
 import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
 import "../../App.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
-import { useVideoFunctions } from "../../hooks"
-import { ContextMenu, Gifs } from "../../components"
+// import { useVideoFunctions } from "../../hooks"
+import { ContextMenu, Gifs, VideoPlayer } from "../../components"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
@@ -13,7 +13,7 @@ const nodeTypes: NodeTypes = {
 // Define the Canvas component
 const Canvas: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>([])
-  const { videoRef, fastForward, fastBackward } = useVideoFunctions()
+  // const { videoRef, fastForward, fastBackward } = useVideoFunctions()
   const [show, setShow] = useState(false)
   const [points, setPoints] = useState({ x: 0, y: 0 })
 
@@ -66,22 +66,23 @@ const Canvas: React.FC = () => {
           type: "ResizableNodeSelected",
           data: {
             label: (
-              <div className="flex justify-center items-center">
-                <video ref={videoRef} controls autoPlay loop className="w-full h-full">
-                  <source src={videoUrl} type={file.type} />
-                </video>
-                <button className="btn btn-primary btn-sm" onClick={fastBackward}>
-                  -10
-                </button>
-                <button className="btn btn-primary btn-sm" onClick={fastForward}>
-                  +10
-                </button>
-              </div>
+              // <div className="flex justify-center items-center">
+              //   <video ref={videoRef} controls autoPlay loop className="w-full h-full">
+              //     <source src={videoUrl} type={file.type} />
+              //   </video>
+              //   <button className="btn btn-primary btn-sm" onClick={fastBackward}>
+              //     -10
+              //   </button>
+              //   <button className="btn btn-primary btn-sm" onClick={fastForward}>
+              //     +10
+              //   </button>
+              // </div>
+              <VideoPlayer src={videoUrl} file={file.type}/>
             ),
           },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
-        setNodes((prevNodes: any) => [...prevNodes, newNode])
+        setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
       } else if (file.type === "image/gif") {
         // NOTE: Handle gif file as a new node
         const gifUrl = URL.createObjectURL(file)
