@@ -5,7 +5,7 @@ export default {
     extend: {},
   },
   daisyui: {
-    themes: ["winter", "night"],
+    themes: ["winter", "black"],
   },
   // eslint-disable-next-line no-undef
   plugins: [require('flowbite/plugin'), require("daisyui")],
