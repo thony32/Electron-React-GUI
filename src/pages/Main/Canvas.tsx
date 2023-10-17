@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
 import "../../App.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
-// import RightClickMenuData from "../../data/RightClickMenuData"
 import { useVideoFunctions } from "../../hooks"
-import { Gifs } from "../../components"
+import { ContextMenu, Gifs } from "../../components"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
@@ -15,6 +14,26 @@ const nodeTypes: NodeTypes = {
 const Canvas: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>([])
   const { videoRef, fastForward, fastBackward } = useVideoFunctions()
+  const [show, setShow] = useState(false)
+  const [points, setPoints] = useState({ x: 0, y: 0 })
+
+  useEffect(() => {
+    window.addEventListener("click", () => {
+      setShow(false)
+    })
+    return () =>
+      window.removeEventListener("click", () => {
+        setShow(false)
+      })
+  }, [])
+
+  // NOTE: Handle Context Menu event listener
+  const showContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    setShow(true)
+    console.log(event.pageX, event.pageY)
+    setPoints({ x: event.pageX, y: event.pageY })
+  }
 
   // TODO: Handle Copy Nodes
 
@@ -81,13 +100,14 @@ const Canvas: React.FC = () => {
 
   return (
     <div className="h-full col-span-12">
-      <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver}>
+      <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
           <Background color="hsl(var(--b1))" />
           <Controls className="bg-gray-300" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" pannable={true} />
         </ReactFlow>
+        {show && <ContextMenu top={points.y} left={points.x} />}
       </div>
     </div>
   )
