@@ -5,6 +5,7 @@ import "../../App.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 // import RightClickMenuData from "../../data/RightClickMenuData"
 import { useVideoFunctions } from "../../hooks"
+import { Gifs } from "../../components"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
@@ -32,9 +33,9 @@ const Canvas: React.FC = () => {
         // NOTE: Handle image file as a new node
         const imageUrl = URL.createObjectURL(file)
         const newNode = {
-          id: `image-node-${Date.now()}`,
+          id: `IMG-${Date.now()}`,
           type: "ResizableNodeSelected",
-          data: { label: <img src={imageUrl} alt={`Image`} /> },
+          data: { label: <img src={imageUrl} /> },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
@@ -42,7 +43,7 @@ const Canvas: React.FC = () => {
         // FIXME: Handle video file as a new node
         const videoUrl = URL.createObjectURL(file)
         const newNode = {
-          id: `video-node-${Date.now()}`,
+          id: `VIDEO-${Date.now()}`,
           type: "ResizableNodeSelected",
           data: {
             label: (
@@ -62,6 +63,16 @@ const Canvas: React.FC = () => {
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
+      } else if (file.type === "image/gif") {
+        // NOTE: Handle gif file as a new node
+        const gifUrl = URL.createObjectURL(file)
+        const newNode = {
+          id: `GIF-${Date.now()}`,
+          type: "ResizableNodeSelected",
+          data: { label: <Gifs src={gifUrl} /> },
+          position: { x: event.clientX - 100, y: event.clientY - 100 },
+        }
+        setNodes((prevNodes: any) => [...prevNodes, newNode])
       }
     }
   }
@@ -72,10 +83,10 @@ const Canvas: React.FC = () => {
     <div className="h-full col-span-12">
       <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver}>
         {/* React Flow component */}
-        <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView /*snapToGrid={true} snapGrid={[10, 10]}*/>
+        <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
           <Background color="hsl(var(--b1))" />
           <Controls className="bg-gray-300" />
-          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" />
+          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" pannable={true} />
         </ReactFlow>
       </div>
     </div>
@@ -83,4 +94,3 @@ const Canvas: React.FC = () => {
 }
 
 export default Canvas
-
