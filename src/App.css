@@ -250,7 +250,7 @@
 .react-flow__nodesselection-rect,
 .react-flow__selection {
   background: rgba(150, 150, 180, 0.1);
-  border: 1px dotted rgba(155, 155, 155, 0.8);
+  
 }
 .react-flow__controls {
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.08);

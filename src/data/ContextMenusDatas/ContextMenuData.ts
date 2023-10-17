@@ -1,4 +1,4 @@
-const RightClickMenuData = [
+const ContextMenuData = [
   {
     label: "Sort by +",
     action: "",
@@ -65,4 +65,4 @@ const RightClickMenuData = [
   }
 ]
 
-export default RightClickMenuData
+export default ContextMenuData
