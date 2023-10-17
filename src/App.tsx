@@ -1,7 +1,7 @@
 import "./App.css"
 import React from "react"
 import { Canvas } from "./pages"
-import { RightClick, Toolbar } from "./components"
+import { ContextMenu, Toolbar } from "./components"
 
 const App: React.FC = () => {
   return (
@@ -10,8 +10,8 @@ const App: React.FC = () => {
         {/* <EditorFilter /> */}
         <Canvas />
         {/* <EditorProps /> */}
-        {/* <RightClick /> */}
       </div>
+      <ContextMenu />
       <Toolbar />
     </>
   )
