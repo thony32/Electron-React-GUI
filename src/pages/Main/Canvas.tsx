@@ -103,17 +103,17 @@ const Canvas: React.FC = () => {
   }
 
   return (
-    <div className="h-screen">
+    <main className="h-screen">
       <div className="w-full h-full flex justify-center items-center"  onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onConnect={() => {}} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
           <Background color="hsl(var(--b1))" />
-          <Controls className="bg-gray-300 rounded-sm" />
+          <Controls className="bg-neutral-content rounded-sm" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" pannable={true} />
         </ReactFlow>
         {show && <ContextMenu top={points.y} left={points.x} />}
       </div>
-    </div>
+    </main>
   )
 }
 
