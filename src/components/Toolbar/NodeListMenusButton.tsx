@@ -18,7 +18,7 @@ const NodeListMenusButton: React.FC = () => {
         <ul className="menu p-4 w-96 min-h-full bg-base-200 text-base-content flex flex-col gap-4">
           {/* Sidebar content here */}
           <li>
-            <ImageList />
+            {/* <ImageList /> */}
           </li>
           <li>
             <VideoList />
