@@ -7,7 +7,7 @@ const NodeInfosMenusButton: React.FC = () => {
       <div className="drawer-content">
         {/* Page content here */}
         <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
-          Open drawer
+          Node Proprieties
         </label>
       </div>
       <div className="drawer-side">

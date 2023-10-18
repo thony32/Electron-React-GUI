@@ -2,11 +2,10 @@ import React from "react"
 
 const ImageList: React.FC = () => {
   return (
-    <div className="collapse collapse-arrow bg-base-300">
-      <input type="radio" name="my-accordion-2" checked={true} />
+    <div tabIndex={0} className="collapse collapse-arrow border border-base-300 bg-base-200">
       <div className="collapse-title text-xl font-medium">Your Ref Images</div>
       <div className="collapse-content">
-        <p>hello</p>
+        <p>tabIndex={0} attribute is necessary to make the div focusable</p>
       </div>
     </div>
   )
