@@ -107,7 +107,7 @@ const Canvas: React.FC = () => {
       <div className="w-full h-full flex justify-center items-center"  onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onConnect={() => {}} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
-          <Background color="hsl(var(--bc)" />
+          <Background color="hsl(var(--b1)" />
           <Controls className="bg-neutral-content rounded-sm" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" pannable={true} />
         </ReactFlow>
