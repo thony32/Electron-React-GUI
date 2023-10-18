@@ -1,8 +1,6 @@
 //* All Components Exports
 
 import InputText from "./Inputs/InputText"
-import EditorFilter from "./Layouts/EditorFilter"
-import EditorProps from "./Layouts/EditorProps"
 import Toolbar from "./Layouts/Toolbar"
 import ThemeChanger from "./ThemeChanger/ThemeChanger"
 import ContextMenu from "./ContextMenus/ContextMenu"
@@ -11,4 +9,4 @@ import VideoPlayer from "./Medias/VideoPlayer"
 
 
 
-export { EditorFilter, EditorProps, Toolbar, InputText, ThemeChanger, ContextMenu, Gifs, VideoPlayer }
+export { Toolbar, InputText, ThemeChanger, ContextMenu, Gifs, VideoPlayer }
