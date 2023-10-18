@@ -1,11 +1,8 @@
 import { ImageList, VideoList, Others } from ".."
-import { Node } from "reactflow"
 
-type NodeListMenusButtonProps = {
-  nodes: Node[] // Define the prop for nodes
-}
 
-const NodeListMenusButton: React.FC<NodeListMenusButtonProps> = ({ nodes }) => {
+
+const NodeListMenusButton: React.FC = () => {
 
   return (
     <div className="drawer w-32">
@@ -21,7 +18,7 @@ const NodeListMenusButton: React.FC<NodeListMenusButtonProps> = ({ nodes }) => {
         <ul className="menu p-4 w-96 min-h-full bg-base-200 text-base-content flex flex-col gap-4">
           {/* Sidebar content here */}
           <li>
-            <ImageList nodes={nodes} />
+            <ImageList />
           </li>
           <li>
             <VideoList />

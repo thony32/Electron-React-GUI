@@ -1,11 +1,6 @@
 import React from "react"
-import { Node } from "reactflow"
 
-type ImageListProps = {
-  nodes: Node[]
-}
-
-const ImageList: React.FC<ImageListProps> = ({ nodes }) => {
+const ImageList: React.FC = () => {
   return (
     <div tabIndex={0} className="collapse collapse-arrow border border-base-300 bg-base-200">
 
