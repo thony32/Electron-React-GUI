@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react"
 
 const ThemeChanger: React.FC = () => {
   // Theme State
-  const [theme, setThemeCurrent] = useState(localStorage.getItem("theme") ? localStorage.getItem("theme") : "black")
+  const [theme, setThemeCurrent] = useState(localStorage.getItem("theme") ? localStorage.getItem("theme") : "dark")
 
   // Theme used when the app loads
   useEffect(() => {
-    if (theme === "black") {
-      document.getElementById("app")!.setAttribute("data-theme", "black")
-      localStorage.setItem("theme", "black")
+    if (theme === "dark") {
+      document.getElementById("app")!.setAttribute("data-theme", "dark")
+      localStorage.setItem("theme", "dark")
       window.dispatchEvent(new Event("themeChanged"))
     } else if (theme === "winter") {
       document.getElementById("app")!.setAttribute("data-theme", "winter")
@@ -23,7 +23,7 @@ const ThemeChanger: React.FC = () => {
     if (e.target.checked) {
       setThemeCurrent("winter")
     } else {
-      setThemeCurrent("black")
+      setThemeCurrent("dark")
     }
   }
 

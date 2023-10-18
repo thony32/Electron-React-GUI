@@ -2,11 +2,10 @@ import React from "react"
 
 const Others: React.FC = () => {
   return (
-    <div className="collapse collapse-arrow bg-base-300">
-      <input type="radio" name="my-accordion-2" checked={true} />
+    <div tabIndex={0} className="collapse collapse-arrow border border-base-300 bg-base-200">
       <div className="collapse-title text-xl font-medium">Your other Refs</div>
       <div className="collapse-content">
-        <p>hello</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt minima neque, similique quo amet sed id at eveniet, laudantium error dicta dolorum adipisci beatae vitae, vel quas distinctio cupiditate ratione?</p>        
       </div>
     </div>
   )
