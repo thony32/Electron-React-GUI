@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useState } from "react"
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes, useKeyPress, OnNodesDelete } from "reactflow"
 import "../../App.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
-import { ContextMenu, Gifs, VideoPlayer } from "../../components"
+import { Gifs, VideoPlayer } from "../../components"
+import { ContextMenu } from "../../components"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
@@ -14,6 +15,7 @@ const Canvas: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>([])
   const [show, setShow] = useState(false)
   const [points, setPoints] = useState({ x: 0, y: 0 })
+  // const jPressed = useKeyPress("j")
 
   useEffect(() => {
     window.addEventListener("click", () => {
@@ -32,6 +34,17 @@ const Canvas: React.FC = () => {
     console.log(event.pageX, event.pageY)
     setPoints({ x: event.pageX, y: event.pageY })
   }
+
+  // NOTE: Example of using useKeyPress hook
+  // useEffect(() => {
+  //   const event = {
+  //     preventDefault: () => {}, // Define a dummy preventDefault function
+  //     pageX: 0, // Set the desired values for pageX and pageY
+  //     pageY: 0,
+  //   };
+
+  //   showContextMenu(event as React.MouseEvent<HTMLDivElement>);
+  // }, [jPressed])
 
   // TODO: Handle Copy Nodes
 
@@ -63,9 +76,7 @@ const Canvas: React.FC = () => {
           id: `VIDEO-${Date.now()}`,
           type: "ResizableNodeSelected",
           data: {
-            label: (
-              <VideoPlayer src={videoUrl} file={file.type} />
-            ),
+            label: <VideoPlayer src={videoUrl} file={file.type} />,
           },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
@@ -86,18 +97,23 @@ const Canvas: React.FC = () => {
 
   const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
 
+  // NOTE: onNodeDelete React Flow function
+  const onNodesDelete: any = (nodeId: string) => {
+    setNodes((nodes) => nodes.filter((node) => node.id !== nodeId))
+  }
+
   return (
-    <div className="h-full col-span-12">
-      <div className="h-full flex flex-col justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
+    <main className="h-screen">
+      <div className="w-full h-full flex justify-center items-center"  onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
         {/* React Flow component */}
-        <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onConnect={() => {}} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
+        <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onConnect={() => {}} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
           <Background color="hsl(var(--b1))" />
-          <Controls className="bg-gray-300" />
+          <Controls className="bg-neutral-content rounded-sm" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" pannable={true} />
         </ReactFlow>
         {show && <ContextMenu top={points.y} left={points.x} />}
       </div>
-    </div>
+    </main>
   )
 }
 
