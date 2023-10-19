@@ -4,7 +4,7 @@ import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChan
 import "../../../node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { Gifs, VideoPlayer } from "../../components"
-import { ContextMenu } from "../../components"
+import { MainContextMenu } from "../../components"
 import { useRecoilState } from "recoil"
 import { nodesState } from "../../states"
 
@@ -57,7 +57,7 @@ const Canvas: React.FC = () => {
         const newNode = {
           id: `IMG-${Date.now()}`,
           type: "ResizableNodeSelected",
-          data: { label: <img src={imageUrl} /> },
+          data: { label: <img src={imageUrl} className="w-full h-full object-cover" /> },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
@@ -87,7 +87,7 @@ const Canvas: React.FC = () => {
     }
   }
 
-  const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
+  const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []) 
 
   // NOTE: onNodeDelete React Flow function
   const onNodesDelete: any = (nodeId: string) => {
@@ -114,7 +114,7 @@ const Canvas: React.FC = () => {
           <Controls className="bg-neutral-content rounded-sm" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" pannable={true} />
         </ReactFlow>
-        {show && <ContextMenu top={points.y} left={points.x} />}
+        {show && <MainContextMenu top={points.y} left={points.x} />}
       </div>
     </main>
   )
