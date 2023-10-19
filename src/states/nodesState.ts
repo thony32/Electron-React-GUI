@@ -1,12 +1,11 @@
-// src/states/nodesState.ts
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { atom } from "recoil"
 
 export interface NodeData {
   id: string
   type: string
   data: {
-    label: React.ReactNode
+    label: any
   }
   position: {
     x: number

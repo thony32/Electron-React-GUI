@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useState } from "react"
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, Node, NodeTypes } from "reactflow"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, NodeTypes } from "reactflow"
 import "../../../node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { Gifs, VideoPlayer } from "../../components"
