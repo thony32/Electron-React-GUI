@@ -1,4 +1,5 @@
 import React from "react"
+import { NodePosition } from ".."
 
 const NodeInfosMenusButton: React.FC = () => {
   return (
@@ -7,7 +8,7 @@ const NodeInfosMenusButton: React.FC = () => {
       <div className="drawer-content">
         {/* Page content here */}
         <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
-          Node Proprieties
+          Node Properties
         </label>
       </div>
       <div className="drawer-side">
@@ -15,7 +16,7 @@ const NodeInfosMenusButton: React.FC = () => {
         <ul className="menu p-4 w-96 min-h-full bg-base-200 text-base-content">
           {/* Sidebar content here */}
           <li>
-            <a>Sidebar Item 1</a>
+            <NodePosition/>
           </li>
           <li>
             <a>Sidebar Item 2</a>

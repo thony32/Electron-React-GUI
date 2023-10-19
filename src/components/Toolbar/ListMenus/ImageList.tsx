@@ -1,21 +1,34 @@
 import React from "react"
+import { useRecoilValue } from "recoil"
+import { nodesState } from "../../../states"
+import { Trashbin } from "../../../assets"
 
 const ImageList: React.FC = () => {
+  const imageNodes = useRecoilValue(nodesState)
   return (
-    <div tabIndex={0} className="collapse collapse-arrow border border-base-300 bg-base-200">
-
-      // FIXME: Mapping the nodes id and label to display the images as a list
-      <div className="collapse-title text-xl font-medium">Your Ref Images</div>
-      {nodes && nodes.length > 0 ? (
-        nodes.map((node) => (
-          <div key={node.id} className="collapse-content flex gap-4">
-            {node.data.label}
-            <p>ID: {node.id}</p>
-          </div>
-        ))
-      ) : (
-        <div className="collapse-content"><p>No images to display.</p></div>
-      )}
+    <div tabIndex={0} className="collapse collapse-arrow border border-base-300 bg-base-200 w-full">
+      <div className="collapse-title text-lg font-medium w-full uppercase">Your Ref Images</div>
+      <div className="collapse-content flex flex-col gap-4">
+        {imageNodes.length > 0 ? (
+          imageNodes.map((node) => (
+            <div key={node.id} className="flex items-center space-x-8 hover:bg-base-300 px-4 py-4 rounded-sm duration-200">
+              <div className="avatar">
+                <div className="mask w-12 h-12">{node.data.label}</div>
+              </div>
+              <div>
+                <div className="font-bold">{node.id}</div>
+              </div>
+              <div>
+                <button className="btn btn-error btn-sm btn-circle">
+                  <Trashbin />
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No images to display.</p>
+        )}
+      </div>
     </div>
   )
 }
