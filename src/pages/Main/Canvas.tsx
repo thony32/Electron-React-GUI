@@ -8,6 +8,7 @@ import { MainContextMenu } from "../../components"
 import { useRecoilState } from "recoil"
 import { nodesState } from "../../states"
 import { v4 as uuidv4 } from "uuid"
+import { Toolbar } from "../../components"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
@@ -108,8 +109,8 @@ const Canvas: React.FC = () => {
   // }, [jPressed])
 
   return (
-    <main className="h-screen overflow-hidden">
-      <div className="w-full h-full flex justify-center items-center" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
+    <main className="h-screen overflow-hidden" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
+      <div className="w-full h-full flex justify-center items-center" >
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onConnect={() => {}} fitView onEdgesChange={onEdgesChange} edges={edges} /* snapToGrid={true} snapGrid={[5, 5]}*/>
           <Background color="hsl(var(--b1)" />
@@ -118,6 +119,7 @@ const Canvas: React.FC = () => {
         </ReactFlow>
         {show && <MainContextMenu top={points.y} left={points.x} />}
       </div>
+      <Toolbar />
     </main>
   )
 }
