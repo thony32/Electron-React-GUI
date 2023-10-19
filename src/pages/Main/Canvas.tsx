@@ -5,6 +5,8 @@ import "../../../node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { Gifs, VideoPlayer } from "../../components"
 import { ContextMenu } from "../../components"
+import { useRecoilState } from "recoil"
+import { nodesState } from "../../states"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
@@ -12,7 +14,8 @@ const nodeTypes: NodeTypes = {
 
 // Define the Canvas component
 const Canvas: React.FC = () => {
-  const [nodes, setNodes] = useState<Node[]>([])
+  // const [nodes, setNodes] = useState<Node[]>([])
+  const [nodes, setNodes] = useRecoilState(nodesState)
   const [show, setShow] = useState(false)
   const [points, setPoints] = useState({ x: 0, y: 0 })
   // const jPressed = useKeyPress("j")
@@ -34,17 +37,6 @@ const Canvas: React.FC = () => {
     console.log(event.pageX, event.pageY)
     setPoints({ x: event.pageX, y: event.pageY })
   }
-
-  // NOTE: Example of using useKeyPress hook
-  // useEffect(() => {
-  //   const event = {
-  //     preventDefault: () => {}, // Define a dummy preventDefault function
-  //     pageX: 0, // Set the desired values for pageX and pageY
-  //     pageY: 0,
-  //   };
-
-  //   showContextMenu(event as React.MouseEvent<HTMLDivElement>);
-  // }, [jPressed])
 
   // TODO: Handle Copy Nodes
 
@@ -80,7 +72,7 @@ const Canvas: React.FC = () => {
           },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
-        setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
+        setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type === "image/gif") {
         // NOTE: Handle gif file as a new node
         const gifUrl = URL.createObjectURL(file)
@@ -102,8 +94,19 @@ const Canvas: React.FC = () => {
     setNodes((nodes) => nodes.filter((node) => node.id !== nodeId))
   }
 
+  // NOTE: Example of using useKeyPress hook
+  // useEffect(() => {
+  //   const event = {
+  //     preventDefault: () => {}, // Define a dummy preventDefault function
+  //     pageX: 0, // Set the desired values for pageX and pageY
+  //     pageY: 0,
+  //   };
+
+  //   showContextMenu(event as React.MouseEvent<HTMLDivElement>);
+  // }, [jPressed])
+
   return (
-    <main className="h-screen">
+    <main className="h-screen overflow-hidden">
       <div className="w-full h-full flex justify-center items-center"  onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onConnect={() => {}} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
