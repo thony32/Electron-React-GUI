@@ -4,7 +4,7 @@ import type { ContextMenuProps } from "../../utils"
 
 const MainContextMenu: React.FC<ContextMenuProps> = ({top, left}) => {
 
-  const containerClasses = `absolute flex flex-col w-[15%] lg:w-[200px] bg-base-300 rounded-sm z-50`
+  const containerClasses = `absolute flex flex-col w-[150px] lg:w-[200px] bg-base-300 rounded-sm z-50`
   
   return (
     <div className={containerClasses} style={{top: top, left: left}}>
