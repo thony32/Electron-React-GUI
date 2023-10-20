@@ -3,12 +3,10 @@ import React, { useCallback, useEffect, useState } from "react"
 import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, NodeTypes, OnEdgesChange, applyEdgeChanges, useEdges } from "reactflow"
 import "../../../node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
-import { Gifs, VideoPlayer } from "../../components"
-import { MainContextMenu } from "../../components"
+import { Gifs, VideoPlayer, MainContextMenu, Toolbar } from "../../components"
 import { useRecoilState } from "recoil"
 import { nodesState } from "../../states"
 import { v4 as uuidv4 } from "uuid"
-import { Toolbar } from "../../components"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
