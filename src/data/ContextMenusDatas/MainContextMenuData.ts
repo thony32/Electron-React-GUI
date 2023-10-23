@@ -23,14 +23,19 @@ const MainContextMenuData = [
     key: OS(window) === "MacOS" ? "Cmd + Y" : "Ctrl + Y",
     action: "",
   },
+  // {
+  //   label: "Copy",
+  //   key: OS(window) === "MacOS" ? "Cmd + C" : "Ctrl + C",
+  //   action: "",
+  // },
+  // {
+  //   label: "Paste",
+  //   key: OS(window) === "MacOS" ? "Cmd + V" : "Ctrl + V",
+  //   action: "",
+  // },
   {
-    label: "Copy",
-    key: OS(window) === "MacOS" ? "Cmd + C" : "Ctrl + C",
-    action: "",
-  },
-  {
-    label: "Paste",
-    key: OS(window) === "MacOS" ? "Cmd + V" : "Ctrl + V",
+    label: "Add Text",
+    key: OS(window) === "MacOS" ? "Cmd + T" : "Ctrl + T",
     action: "",
   },
   {

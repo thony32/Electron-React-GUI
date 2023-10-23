@@ -11,6 +11,8 @@ export interface NodeData {
     x: number
     y: number
   }
+  selectable: boolean
+  selected: boolean
 }
 
 export const nodesState = atom<NodeData[]>({
