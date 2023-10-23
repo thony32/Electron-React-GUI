@@ -4,11 +4,9 @@ import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChan
 import "../../../node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { Gifs, VideoPlayer, MainContextMenu, Toolbar } from "../../components"
-import { useRecoilState } from "recoil"
-import { nodesState } from "../../states"
-import { v4 as uuidv4 } from "uuid"
-import { NodeData } from "../../states/nodesState"
+import { NodeData, nodesState } from "../../states/nodesState"
 import { useHotkeys } from "react-hotkeys-hook"
+import { RecoilRoot, useRecoilState } from "recoil"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
@@ -17,6 +15,7 @@ const nodeTypes: NodeTypes = {
 // Define the Canvas component
 const Canvas: React.FC = () => {
   const [nodes, setNodes] = useRecoilState(nodesState)
+  const [menu, setMenu] = useState(null)
   // const [edges, setEdges] = useState([])
   const [show, setShow] = useState(false)
   const [points, setPoints] = useState({ x: 0, y: 0 })
@@ -26,6 +25,7 @@ const Canvas: React.FC = () => {
       setNodes((nodes) => nodes.filter((node) => node.id !== selectedNode.id))
     }
   })
+
   useEffect(() => {
     window.addEventListener("click", () => {
       setShow(false)
@@ -35,6 +35,9 @@ const Canvas: React.FC = () => {
         setShow(false)
       })
   }, [])
+
+  // Close the context menu if it's open whenever the window is clicked.
+  const onPaneClick = useCallback(() => setMenu(null), [setMenu])
 
   // NOTE: Handle Context Menu event listener
   const showContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -110,11 +113,8 @@ const Canvas: React.FC = () => {
   //   tabIndex,
   // ]);
 
-  // TODO: Handle Copy Nodes
-
-  // TODO: Handle Paste Nodes
-
   // ? Function to handle drop of media files into React Flow
+
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
@@ -128,39 +128,39 @@ const Canvas: React.FC = () => {
         // NOTE: Handle image file as a new node
         const imageUrl = URL.createObjectURL(file)
         const newNode = {
-          id: `IMG-${uuidv4()}`,
+          id: `IMG-${Date.now()}`,
           type: "ResizableNodeSelected",
           data: { label: <img src={imageUrl} /> },
           position: { x: event.clientX, y: event.clientY },
         }
-        setNodes((prevNodes: NodeData[]) => [...prevNodes, newNode])
+        setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
         // FIXME: Handle video file as a new node
         const videoUrl = URL.createObjectURL(file)
         const newNode = {
-          id: `VID-${uuidv4()}`,
+          id: `VID-${Date.now()}`,
           type: "ResizableNodeSelected",
           data: {
             label: <VideoPlayer src={videoUrl} file={file.type} />,
           },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
-        setNodes((prevNodes: NodeData[]) => [...prevNodes, newNode])
+        setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type === "image/gif") {
         // NOTE: Handle gif file as a new node
         const gifUrl = URL.createObjectURL(file)
         const newNode = {
-          id: `GIF-${uuidv4()}`,
+          id: `GIF-${Date.now()}`,
           type: "ResizableNodeSelected",
           data: { label: <Gifs src={gifUrl} /> },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
-        setNodes((prevNodes: NodeData[]) => [...prevNodes, newNode])
+        setNodes((prevNodes: any) => [...prevNodes, newNode])
       }
     }
   }
 
-  const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []) 
+  const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
 
   // NOTE: onNodeDelete React Flow function
   const onNodeClick = (target, nodes: Node[]) => {
@@ -199,7 +199,6 @@ const Canvas: React.FC = () => {
           <Controls className="bg-neutral-content rounded-sm" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" pannable={true} />
         </ReactFlow>
-
         {show && <MainContextMenu top={points.y} left={points.x} />}
       </div>
       <Toolbar />

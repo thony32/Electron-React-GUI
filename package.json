@@ -25,7 +25,8 @@
     "reactflow": "^11.9.2",
     "recoil": "^0.7.7",
     "uuid": "^9.0.1",
-    "vite-tsconfig-paths": "^4.2.1"
+    "vite-tsconfig-paths": "^4.2.1",
+    "zustand": "^4.4.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.21",

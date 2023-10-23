@@ -1,12 +1,11 @@
-import React from "react"
-import { MainContextMenuData } from "../../data"
-import type { ContextMenuProps } from "../../utils"
+import React from 'react'
+import { ContextMenuProps } from '../../utils'
+import { NodeContextMenuData } from '../../data'
 
-const MainContextMenu: React.FC<ContextMenuProps> = ({top, left}) => {
-  
+const NodeContextMenu: React.FC<ContextMenuProps> = ({top, left}) => {
   return (
     <div className='absolute flex flex-col w-[150px] lg:w-[200px] bg-base-300 rounded-sm z-50' style={{top: top, left: left}}>
-      {MainContextMenuData.map((menu, index) => {
+      {NodeContextMenuData.map((menu, index) => {
         return (
           <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between" key={index}>
             {menu.label}
@@ -18,4 +17,4 @@ const MainContextMenu: React.FC<ContextMenuProps> = ({top, left}) => {
   )
 }
 
-export default MainContextMenu
+export default NodeContextMenu
