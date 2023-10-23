@@ -1,18 +1,53 @@
-import React from 'react'
-import { ContextMenuProps } from '../../utils'
-import { NodeContextMenuData } from '../../data'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useCallback, useEffect } from "react"
+import { useKeyPress, useReactFlow } from "reactflow"
+import { v4 as uuidv4 } from "uuid"
+import { useHotkeys } from 'react-hotkeys-hook';
+interface NodeContextMenuProps {
+  id: string
+  top: number
+  left: number
+  right: number
+  bottom: number
+}
 
-const NodeContextMenu: React.FC<ContextMenuProps> = ({top, left}) => {
+const NodeContextMenu: React.FC<NodeContextMenuProps> = ({ id, top, left, right, bottom, ...props }) => {
+  const { getNode, setNodes, addNodes, setEdges } = useReactFlow()
+  const duplicateNodeKey = useKeyPress('D')
+  const deleteNodeKey = useKeyPress('Delete')
+
+  // NOTE: Duplicate node
+  const duplicateNode = useCallback(() => {
+    const node: any = getNode(id)
+    const position = {
+      x: node.position.x + 50,
+      y: node.position.y + 50,
+    }
+
+    addNodes({ ...node, id: `${node.id}-${uuidv4()}`, position })
+  }, [id, getNode, addNodes])
+  useHotkeys('ctrl+c', duplicateNode)
+
+  
+  // NOTE: Delete node
+  const deleteNode = useCallback(() => {
+    setNodes((nodes) => nodes.filter((node) => node.id !== id))
+    setEdges((edges) => edges.filter((edge) => edge.source !== id))
+  }, [id, setNodes, setEdges])
+  
+  useHotkeys('D', deleteNode)
+  
+
   return (
-    <div className='absolute flex flex-col w-[150px] lg:w-[200px] bg-base-300 rounded-sm z-50' style={{top: top, left: left}}>
-      {NodeContextMenuData.map((menu, index) => {
-        return (
-          <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between" key={index}>
-            {menu.label}
-            <kbd className="kbd-xs">{menu.key}</kbd>
-          </button>
-        )
-      })}
+    <div style={{ top, left, right, bottom }} className="absolute flex flex-col w-[150px] lg:w-[200px] bg-base-300 rounded-sm z-50" {...props}>
+      <button onClick={duplicateNode} className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between">
+        <span>Duplicate</span>
+        <kbd className="kbd-xs">Ctrl + C</kbd>
+      </button>
+      <button onClick={deleteNode} className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between">
+        <span>Delete</span>
+        <kbd className="kbd-xs">Del</kbd>
+      </button>
     </div>
   )
 }
