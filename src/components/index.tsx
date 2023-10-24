@@ -12,6 +12,7 @@ import ImageList from "./Toolbar/ListMenus/ImageList"
 import VideoList from './Toolbar/ListMenus/VideoList';
 import Others from './Toolbar/ListMenus/Others';
 import NodePosition from "./Toolbar/InfosMenus/NodePosition"
+import NodeContextMenu from './ContextMenus/NodeContextMenu';
 
 
-export { Toolbar, InputText, ThemeChanger, MainContextMenu, Gifs, VideoPlayer, NodeInfosMenusButton, NodeListMenusButton, ImageList, VideoList, Others, NodePosition }
+export { Toolbar, InputText, ThemeChanger, MainContextMenu, Gifs, VideoPlayer, NodeInfosMenusButton, NodeListMenusButton, ImageList, VideoList, Others, NodePosition, NodeContextMenu }

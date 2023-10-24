@@ -5,12 +5,14 @@ export interface NodeData {
   id: string
   type: string
   data: {
-    label: any
+    label: HTMLElement
   }
   position: {
     x: number
     y: number
   }
+  selectable: boolean
+  selected: boolean
 }
 
 export const nodesState = atom<NodeData[]>({

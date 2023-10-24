@@ -1,14 +1,22 @@
 import "./App.css"
 import React from "react"
 import { Canvas } from "./pages"
-import { Toolbar } from "./components"
+import { ReactFlowProvider } from "reactflow"
+import { RecoilRoot } from "recoil"
+import { FunctionProvider } from "./contexts/CanvasContext"
+import { ReactFlowContextProvider } from "./contexts/ReactFlowContext"
 
 const App: React.FC = () => {
   return (
-    <>
-      <Canvas />
-      <Toolbar />
-    </>
+    <ReactFlowProvider>
+      <ReactFlowContextProvider>
+        <FunctionProvider>
+          <RecoilRoot>
+            <Canvas />
+          </RecoilRoot>
+        </FunctionProvider>
+      </ReactFlowContextProvider>
+    </ReactFlowProvider>
   )
 }
 

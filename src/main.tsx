@@ -1,16 +1,16 @@
-// import React from "react"
+import React from "react"
 import ReactDOM from "react-dom/client"
-import { RecoilRoot } from "recoil"
+// import { RecoilRoot } from "recoil"
 import App from "./App.tsx"
 import "./index.css"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  // <React.StrictMode>
+  // <RecoilRoot>
   //   <App />
-  // </React.StrictMode>,
-  <RecoilRoot>
+  // </RecoilRoot>
+  <React.StrictMode>
     <App />
-  </RecoilRoot>,
+  </React.StrictMode>
 )
 
 // Remove Preload scripts loading
