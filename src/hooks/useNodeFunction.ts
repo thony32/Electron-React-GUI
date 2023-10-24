@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext } from "react"
-import CanvasContext from "../contexts/canvasContext"
+import CanvasContext from "../contexts/CanvasContext"
 
 export function useNodeFunction() {
   const context = useContext(CanvasContext)

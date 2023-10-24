@@ -20,8 +20,8 @@ const Canvas: React.FC = () => {
   const [nodes, setNodes] = useRecoilState(nodesState)
   const [edges, setEdges] = useEdgesState([])
   const [menu, setMenu] = useState(null)
-  const [show, setShow] = useState(false) // NOTE State for context Menu
-  const [points, setPoints] = useState({ x: 0, y: 0 }) // NOTE State for context Menu position
+  const [show, setShow] = useState(false) // NOTE State for main context Menu
+  const [points, setPoints] = useState({ x: 0, y: 0 }) // NOTE State for main context Menu position
   const [rightClickOnNode, setRightClickOnNode] = useState(false)
   const ref = useRef<HTMLDivElement | any>(null)
 
@@ -64,7 +64,7 @@ const Canvas: React.FC = () => {
     }
   }
 
-  // FIXME: Handle Undo/Redo
+  // TODO: Handle Undo/Redo
   // const undo = useCallback(() => {
   //   // get the last state that we want to go back to
   //   const pastState = past[tabIndex][past[tabIndex].length - 1];
