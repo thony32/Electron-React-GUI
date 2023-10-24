@@ -2,12 +2,12 @@
 import { useContext } from "react"
 import CanvasContext from "../contexts/canvasContext"
 
-export function useMyFunction() {
-  const context = useContext(CanvasContext) as any
+export function useNodeFunction() {
+  const context = useContext(CanvasContext)
 
   if (context === undefined) {
-    throw new Error("useMyFunction must be used within a MyProvider")
+    throw new Error("useNodeFunction must be used within a MyProvider")
   }
 
-  return context.myFunction
+  return context
 }

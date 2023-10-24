@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, NodeTypes, useNodesState, useEdgesState, addEdge, applyEdgeChanges } from "reactflow"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, NodeTypes, useEdgesState, addEdge, applyEdgeChanges } from "reactflow"
 import "../../../node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { Gifs, VideoPlayer, MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
-import { useHotkeys } from "react-hotkeys-hook"
+// import { useHotkeys } from "react-hotkeys-hook"
 import { useRecoilState } from "recoil"
-import { NodeData, nodesState } from "../../states/nodesState"
+import { nodesState } from "../../states/nodesState"
 // import { useHotkeys } from "react-hotkeys-hook"
 // import { shallow } from 'zustand/shallow';
 // import useStore from "../../zustand/store"
@@ -23,7 +23,7 @@ const Canvas: React.FC = () => {
   const [show, setShow] = useState(false) // NOTE State for context Menu
   const [points, setPoints] = useState({ x: 0, y: 0 }) // NOTE State for context Menu position
   const [rightClickOnNode, setRightClickOnNode] = useState(false)
-  const ref = useRef<HTMLDivElement | any>(null) 
+  const ref = useRef<HTMLDivElement | any>(null)
 
   // NOTE: All ReactFlow Props Functions
   const onNodesChange = useCallback((changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
