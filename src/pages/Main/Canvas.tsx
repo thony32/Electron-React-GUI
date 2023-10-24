@@ -23,12 +23,15 @@ const Canvas: React.FC = () => {
   const [show, setShow] = useState(false) // NOTE State for context Menu
   const [points, setPoints] = useState({ x: 0, y: 0 }) // NOTE State for context Menu position
   const [rightClickOnNode, setRightClickOnNode] = useState(false)
-  // const [selectedNode, setSelectedNode] = useState<any>(null)
-  const ref = useRef<any>(null)
+  const ref = useRef<HTMLDivElement | any>(null) 
 
-  // NOTE: Handle Nodes and Edges Change
+  // NOTE: All ReactFlow Props Functions
   const onNodesChange = useCallback((changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
   const onEdgesChange = useCallback((changes: any) => setEdges((eds) => applyEdgeChanges(changes, eds)), [])
+  const onConnect = useCallback((params: any) => setEdges((els) => addEdge(params, els)), [setEdges])
+  const onNodesDelete = (nodeId: any) => {
+    setNodes((nodes) => nodes.filter((node) => node.id !== nodeId))
+  }
 
   useEffect(() => {
     window.addEventListener("click", () => {
@@ -43,7 +46,7 @@ const Canvas: React.FC = () => {
   // Close the context menu if it's open whenever the window is clicked.
   const onPaneClick = useCallback(() => setMenu(null), [setMenu])
 
-  // NOTE: Handle Context Menu event listener
+  // NOTE: Handle Main Context Menu event listener
   const showContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
     const targetNode = event.target as HTMLElement
@@ -127,7 +130,7 @@ const Canvas: React.FC = () => {
   //   tabIndex,
   // ]);
 
-  // ? Function to handle drop of media files into React Flow
+  // NOTE: Function to handle drop of media files into React Flow
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
@@ -174,28 +177,13 @@ const Canvas: React.FC = () => {
     }
   }
 
-  const onNodesDelete: any = (nodeId: string) => {
-    setNodes((nodes) => nodes.filter((node) => node.id !== nodeId))
-  }
-
-  const onConnect = useCallback((params: any) => setEdges((els) => addEdge(params, els)), [setEdges])
+  // NOTE: Handle Node Context Menu
 
   const onNodeContextMenu = useCallback(
     (event: React.MouseEvent, node: any) => {
       // Prevent native context menu from showing
       event.preventDefault()
 
-      // Calculate position of the context menu. We want to make sure it
-      // doesn't get positioned off-screen.
-      // const pane = ref.current.getBoundingClientRect()
-      // setMenu({
-      //   id: node.id,
-      //   top: event.clientY < pane.height - 200 && event.clientY,
-      //   left: event.clientX < pane.width - 200 && event.clientX,
-      //   right: event.clientX >= pane.width - 200 && pane.width - event.clientX,
-      //   bottom: event.clientY >= pane.height - 200 && pane.height - event.clientY,
-      // })
-      // setShow(false)
       if (rightClickOnNode) {
         const pane = ref.current.getBoundingClientRect()
         setMenu({

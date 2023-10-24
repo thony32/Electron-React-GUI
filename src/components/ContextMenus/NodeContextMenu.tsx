@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useEffect } from "react"
-import { useKeyPress, useReactFlow } from "reactflow"
+import React, { useCallback } from "react"
+import { useReactFlow } from "reactflow"
 import { v4 as uuidv4 } from "uuid"
-import { useHotkeys } from 'react-hotkeys-hook';
+// import { useHotkeys } from 'react-hotkeys-hook';
 interface NodeContextMenuProps {
   id: string
   top: number
@@ -24,7 +24,7 @@ const NodeContextMenu: React.FC<NodeContextMenuProps> = ({ id, top, left, right,
 
     addNodes({ ...node, id: `${node.id}-${uuidv4()}`, position })
   }, [id, getNode, addNodes])
-  useHotkeys('ctrl+c', duplicateNode)
+  // useHotkeys('ctrl+c', duplicateNode)
 
   
   // NOTE: Delete node
@@ -32,7 +32,7 @@ const NodeContextMenu: React.FC<NodeContextMenuProps> = ({ id, top, left, right,
     setNodes((nodes) => nodes.filter((node) => node.id !== id))
     setEdges((edges) => edges.filter((edge) => edge.source !== id))
   }, [id, setNodes, setEdges])
-  useHotkeys('D', deleteNode)
+  // useHotkeys('D', deleteNode)
   
   
 
