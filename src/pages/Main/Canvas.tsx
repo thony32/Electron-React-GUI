@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, NodeTypes, useEdgesState, addEdge, applyEdgeChanges } from "reactflow"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, NodeTypes, useEdgesState, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange } from "reactflow"
 import "../../../node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { Gifs, VideoPlayer, MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
@@ -19,15 +19,15 @@ const nodeTypes: NodeTypes = {
 const Canvas: React.FC = () => {
   const [nodes, setNodes] = useRecoilState(nodesState)
   const [edges, setEdges] = useEdgesState([])
-  const [menu, setMenu] = useState(null)
+  const [menu, setMenu] = useState(null) as any
   const [show, setShow] = useState(false) // NOTE State for main context Menu
   const [points, setPoints] = useState({ x: 0, y: 0 }) // NOTE State for main context Menu position
   const [rightClickOnNode, setRightClickOnNode] = useState(false)
   const ref = useRef<HTMLDivElement | any>(null)
 
   // NOTE: All ReactFlow Props Functions
-  const onNodesChange = useCallback((changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
-  const onEdgesChange = useCallback((changes: any) => setEdges((eds) => applyEdgeChanges(changes, eds)), [])
+  const onNodesChange: OnNodesChange = useCallback((changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
+  const onEdgesChange: OnEdgesChange = useCallback((changes: any) => setEdges((eds) => applyEdgeChanges(changes, eds)), [])
   const onConnect = useCallback((params: any) => setEdges((els) => addEdge(params, els)), [setEdges])
   const onNodesDelete = (nodeId: any) => {
     setNodes((nodes) => nodes.filter((node) => node.id !== nodeId))
@@ -152,6 +152,7 @@ const Canvas: React.FC = () => {
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
+
         // FIXME: Handle video file as a new node
         const videoUrl = URL.createObjectURL(file)
         const newNode = {
