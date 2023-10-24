@@ -3,13 +3,16 @@ import React from "react"
 import { Canvas } from "./pages"
 import { ReactFlowProvider } from "reactflow"
 import { RecoilRoot } from "recoil"
+import { FunctionProvider } from "./contexts/canvasContext"
 
 const App: React.FC = () => {
   return (
     <ReactFlowProvider>
-      <RecoilRoot>
-        <Canvas />
-      </RecoilRoot>
+      <FunctionProvider>
+        <RecoilRoot>
+          <Canvas />
+        </RecoilRoot>
+      </FunctionProvider>
     </ReactFlowProvider>
   )
 }

@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, NodeTypes, useNodesState, useEdgesState, addEdge } from "reactflow"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, OnNodesChange, NodeTypes, useNodesState, useEdgesState, addEdge, applyEdgeChanges } from "reactflow"
 import "../../../node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { Gifs, VideoPlayer, MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
-// import { NodeData, nodesState } from "../../states/nodesState"
+import { useHotkeys } from "react-hotkeys-hook"
+import { useRecoilState } from "recoil"
+import { NodeData, nodesState } from "../../states/nodesState"
 // import { useHotkeys } from "react-hotkeys-hook"
-// import { useRecoilState } from "recoil"
 // import { shallow } from 'zustand/shallow';
 // import useStore from "../../zustand/store"
 
@@ -16,14 +17,18 @@ const nodeTypes: NodeTypes = {
 
 // Define the Canvas component
 const Canvas: React.FC = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState([])
-  const [edges, setEdges, onEdgesChange] = useEdgesState([])
+  const [nodes, setNodes] = useRecoilState(nodesState)
+  const [edges, setEdges] = useEdgesState([])
   const [menu, setMenu] = useState(null)
   const [show, setShow] = useState(false) // NOTE State for context Menu
   const [points, setPoints] = useState({ x: 0, y: 0 }) // NOTE State for context Menu position
-  const [rightClickOnNode, setRightClickOnNode] = useState(false);
+  const [rightClickOnNode, setRightClickOnNode] = useState(false)
   // const [selectedNode, setSelectedNode] = useState<any>(null)
   const ref = useRef<any>(null)
+
+  // NOTE: Handle Nodes and Edges Change
+  const onNodesChange = useCallback((changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
+  const onEdgesChange = useCallback((changes: any) => setEdges((eds) => applyEdgeChanges(changes, eds)), [])
 
   useEffect(() => {
     window.addEventListener("click", () => {
@@ -42,17 +47,17 @@ const Canvas: React.FC = () => {
   const showContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
     const targetNode = event.target as HTMLElement
-    const isNode = targetNode && targetNode.classList.contains("node__img")
-    // setShow(true)
-    // setPoints({ x: event.pageX, y: event.pageY })
+    const isNode = targetNode && targetNode.classList.contains("nodes")
+
     if (isNode) {
       // Right-click on a node
-      setRightClickOnNode(true);
+      setRightClickOnNode(true)
+      setShow(false)
     } else {
       // Right-click in the canvas
-      setRightClickOnNode(false);
-      setPoints({ x: event.pageX, y: event.pageY });
-      setShow(true);
+      setRightClickOnNode(false)
+      setPoints({ x: event.pageX, y: event.pageY })
+      setShow(true)
     }
   }
 
@@ -139,7 +144,7 @@ const Canvas: React.FC = () => {
         const newNode = {
           id: `IMG-${Date.now()}`,
           type: "ResizableNodeSelected",
-          data: { label: <img src={imageUrl} className="node__img"/> },
+          data: { label: <img src={imageUrl} className="nodes" /> },
           position: { x: event.clientX, y: event.clientY },
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
@@ -192,18 +197,18 @@ const Canvas: React.FC = () => {
       // })
       // setShow(false)
       if (rightClickOnNode) {
-        const pane = ref.current.getBoundingClientRect();
+        const pane = ref.current.getBoundingClientRect()
         setMenu({
           id: node.id,
           top: event.clientY < pane.height - 200 && event.clientY,
           left: event.clientX < pane.width - 200 && event.clientX,
           right: event.clientX >= pane.width - 200 && pane.width - event.clientX,
           bottom: event.clientY >= pane.height - 200 && pane.height - event.clientY,
-        });
+        })
       } else {
-        setMenu(null); // Clear the menu if right-clicking in the canvas
-        setPoints({ x: event.pageX, y: event.pageY });
-        setShow(true);
+        setMenu(null) // Clear the menu if right-clicking in the canvas
+        setPoints({ x: event.pageX, y: event.pageY })
+        setShow(true)
       }
     },
     [setMenu, rightClickOnNode]
@@ -218,7 +223,7 @@ const Canvas: React.FC = () => {
           <Controls className="bg-neutral-content rounded-sm" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" pannable={true} />
           {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
-          {show && <MainContextMenu top={points.y} left={points.x} onClick={onPaneClick}/>}
+          {show && <MainContextMenu top={points.y} left={points.x} />}
         </ReactFlow>
       </div>
       <Toolbar />

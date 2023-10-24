@@ -13,9 +13,7 @@ interface NodeContextMenuProps {
 
 const NodeContextMenu: React.FC<NodeContextMenuProps> = ({ id, top, left, right, bottom, ...props }) => {
   const { getNode, setNodes, addNodes, setEdges } = useReactFlow()
-  const duplicateNodeKey = useKeyPress('D')
-  const deleteNodeKey = useKeyPress('Delete')
-
+  
   // NOTE: Duplicate node
   const duplicateNode = useCallback(() => {
     const node: any = getNode(id)
@@ -34,8 +32,8 @@ const NodeContextMenu: React.FC<NodeContextMenuProps> = ({ id, top, left, right,
     setNodes((nodes) => nodes.filter((node) => node.id !== id))
     setEdges((edges) => edges.filter((edge) => edge.source !== id))
   }, [id, setNodes, setEdges])
-  
   useHotkeys('D', deleteNode)
+  
   
 
   return (
