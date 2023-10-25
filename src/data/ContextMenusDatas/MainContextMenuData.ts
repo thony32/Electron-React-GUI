@@ -1,3 +1,4 @@
+import { useRFInstance } from "../../hooks";
 import { OS } from "../../utils"
 
 // TODO: Create function for each of these datas
@@ -6,11 +7,6 @@ const MainContextMenuData = [
   {
     label: "Help",
     key: OS(window) === "MacOS" ? "Cmd + H" : "Ctrl + H",
-    action: "",
-  },
-  {
-    label: "Settings",
-    key: OS(window) === "MacOS" ? "Cmd + U" : "Ctrl + U",
     action: "",
   },
   {
@@ -23,16 +19,6 @@ const MainContextMenuData = [
     key: OS(window) === "MacOS" ? "Cmd + Y" : "Ctrl + Y",
     action: "",
   },
-  // {
-  //   label: "Copy",
-  //   key: OS(window) === "MacOS" ? "Cmd + C" : "Ctrl + C",
-  //   action: "",
-  // },
-  // {
-  //   label: "Paste",
-  //   key: OS(window) === "MacOS" ? "Cmd + V" : "Ctrl + V",
-  //   action: "",
-  // },
   {
     label: "Add Text",
     key: OS(window) === "MacOS" ? "Cmd + T" : "Ctrl + T",
@@ -41,7 +27,13 @@ const MainContextMenuData = [
   {
     label: "Save",
     key: OS(window) === "MacOS" ? "Cmd + S" : "Ctrl + S",
-    action: "",
+    action: () => {
+      const { rfInstance } = useRFInstance();
+      if (rfInstance) {
+        const flow = rfInstance.toObject();
+        localStorage.setItem(flowKey, JSON.stringify(flow));
+      }
+    },
   },
   {
     label: "Quit",

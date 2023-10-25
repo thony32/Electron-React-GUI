@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import ReactFlowContext from "../contexts/ReactFlowContext"
 
-export function useReactFlowFunctions() {
+export const useReactFlowFunctions = () => {
   const context = useContext(ReactFlowContext)
 
   if (context === undefined) {

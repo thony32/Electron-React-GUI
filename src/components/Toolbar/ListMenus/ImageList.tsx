@@ -2,9 +2,14 @@ import React from "react"
 import { useRecoilValue } from "recoil"
 import { nodesState } from "../../../states"
 import { Trashbin } from "../../../assets"
+import { useNodeFunction } from "../../../hooks"
 
 const ImageList: React.FC = () => {
   const imageNodes = useRecoilValue(nodesState)
+  const { deleteNode } = useNodeFunction()
+  const handleDeleteClick = (nodeId: string) => {
+    deleteNode(nodeId)
+  }
   return (
     <div tabIndex={0} className="collapse collapse-arrow border border-base-300 bg-base-200 w-full">
       <div className="collapse-title text-lg font-medium w-full uppercase">Your Ref Images</div>
@@ -18,8 +23,8 @@ const ImageList: React.FC = () => {
               <div>
                 <div className="font-bold">{node.id}</div>
               </div>
-              <div>
-                <button className="btn btn-error btn-sm btn-circle">
+              <div className="z-50">
+                <button className="btn btn-error btn-sm btn-circle z-20" onClick={() => handleDeleteClick(node.id)}>
                   <Trashbin />
                 </button>
               </div>
