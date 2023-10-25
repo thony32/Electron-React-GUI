@@ -7,6 +7,7 @@ import { Gifs, VideoPlayer, MainContextMenu, Toolbar, NodeContextMenu } from "..
 // import { useHotkeys } from "react-hotkeys-hook"
 import { useRecoilState } from "recoil"
 import { nodesState } from "../../states/nodesState"
+import { RFProvider } from "../../contexts/RfContext"
 // import { useHotkeys } from "react-hotkeys-hook"
 // import { shallow } from 'zustand/shallow';
 // import useStore from "../../zustand/store"
@@ -152,7 +153,6 @@ const Canvas: React.FC = () => {
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
-
         // FIXME: Handle video file as a new node
         const videoUrl = URL.createObjectURL(file)
         const newNode = {
@@ -212,7 +212,11 @@ const Canvas: React.FC = () => {
           <Controls className="bg-neutral-content rounded-sm" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" pannable={true} />
           {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
-          {show && <MainContextMenu top={points.y} left={points.x} />}
+          {show && (
+            <RFProvider>
+              <MainContextMenu top={points.y} left={points.x} />
+            </RFProvider>
+          )}
         </ReactFlow>
       </div>
       <Toolbar />

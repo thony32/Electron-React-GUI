@@ -1,7 +1,17 @@
 import React from "react"
 import { OS, type ContextMenuProps } from "../../utils"
+import { useRFInstance } from "../../hooks"
+
+const flowKey = "flowKey"
 
 const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
+  const { rfInstance } = useRFInstance()
+  const handleSave = () => {
+    if (rfInstance) {
+      const flow = rfInstance.toObject()
+      localStorage.setItem(flowKey, JSON.stringify(flow))
+    }
+  }
   return (
     <div className="absolute flex flex-col w-[150px] lg:w-[200px] bg-base-300 rounded-sm z-50" style={{ top: top, left: left }}>
       <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between">
@@ -20,7 +30,7 @@ const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
         Add Text
         <kbd className="kbd-xs">{OS(window) === "MacOS" ? "Cmd + T" : "Ctrl + T"}</kbd>
       </button>
-      <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between">
+      <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between" onClick={handleSave}>
         Save
         <kbd className="kbd-xs">{OS(window) === "MacOS" ? "Cmd + S" : "Ctrl + S"}</kbd>
       </button>
