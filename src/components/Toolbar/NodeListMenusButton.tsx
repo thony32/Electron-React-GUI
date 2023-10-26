@@ -1,4 +1,4 @@
-import { ImageList, VideoList, Others } from ".."
+import { NodesList, VideoList, Others } from ".."
 import { SideNav } from "../../assets"
 
 
@@ -19,7 +19,7 @@ const NodeListMenusButton: React.FC = () => {
         <ul className="menu p-4 w-96 min-h-full bg-base-200 text-base-content flex flex-col gap-4">
           {/* Sidebar content here */}
           <li>
-            <ImageList />
+            <NodesList />
           </li>
           <li>
             <VideoList />

@@ -8,9 +8,9 @@ const ReactFlowContext = createContext<any | undefined>(undefined)
 
 export function ReactFlowContextProvider({ children }: ProviderProps) {
   // Utilisez le hook useReactFlow pour obtenir les fonctions spécifiques à React Flow
-  const { getNode, getEdges, setNodes, addNodes, setEdges, addEdges } = useReactFlow()
+  const { getNode, getNodes, getEdge, getEdges, setNodes, addNodes, setEdges, addEdges } = useReactFlow()
 
-  return <ReactFlowContext.Provider value={{ getNode, getEdges, setNodes, addNodes, setEdges, addEdges }}>{children}</ReactFlowContext.Provider>
+  return <ReactFlowContext.Provider value={{ getNode, getNodes, getEdge, getEdges, setNodes, addNodes, setEdges, addEdges }}>{children}</ReactFlowContext.Provider>
 }
 
 export default ReactFlowContext

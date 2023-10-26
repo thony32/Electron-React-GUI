@@ -19,10 +19,12 @@ const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
 
 function createWindow() {
   win = new BrowserWindow({
+    width: 1280,
+    height: 720,
     icon: path.join(process.env.VITE_PUBLIC, "/public/favico.svg"),
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
-    },
+    }
   });
 
   const mainMenu = Menu.buildFromTemplate([]);

@@ -4,7 +4,7 @@ import { nodesState } from "../../../states"
 import { Trashbin } from "../../../assets"
 import { useNodeFunction } from "../../../hooks"
 
-const ImageList: React.FC = () => {
+const NodesList: React.FC = () => {
   const imageNodes = useRecoilValue(nodesState)
   const { deleteNode } = useNodeFunction()
   const handleDeleteClick = (nodeId: string) => {
@@ -38,4 +38,4 @@ const ImageList: React.FC = () => {
   )
 }
 
-export default ImageList
+export default NodesList

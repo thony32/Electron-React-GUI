@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, NodeTypes, useEdgesState, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange } from "reactflow"
-import "../../../node_modules/reactflow/dist/style.css"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange } from "reactflow"
+import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
-import { Gifs, VideoPlayer, MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
+import { VideoPlayer, MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
 // import { useHotkeys } from "react-hotkeys-hook"
 import { useRecoilState } from "recoil"
 import { nodesState } from "../../states/nodesState"
 import { RFProvider } from "../../contexts/RfContext"
-// import { useHotkeys } from "react-hotkeys-hook"
-// import { shallow } from 'zustand/shallow';
-// import useStore from "../../zustand/store"
+import { edgesState } from "../../states"
+import ReactPlayer from "react-player"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
@@ -19,7 +18,7 @@ const nodeTypes: NodeTypes = {
 // Define the Canvas component
 const Canvas: React.FC = () => {
   const [nodes, setNodes] = useRecoilState(nodesState)
-  const [edges, setEdges] = useEdgesState([])
+  const [edges, setEdges] = useRecoilState(edgesState)
   const [menu, setMenu] = useState(null) as any
   const [show, setShow] = useState(false) // NOTE State for main context Menu
   const [points, setPoints] = useState({ x: 0, y: 0 }) // NOTE State for main context Menu position
@@ -159,18 +158,12 @@ const Canvas: React.FC = () => {
           id: `VID-${Date.now()}`,
           type: "ResizableNodeSelected",
           data: {
-            label: <VideoPlayer src={videoUrl} file={file.type} />,
+            label: (
+              <div className="nodes w-full h-full">
+                <ReactPlayer className="nodes" url={videoUrl} width="100%" height="100%" controls />
+              </div>
+            ),
           },
-          position: { x: event.clientX - 100, y: event.clientY - 100 },
-        }
-        setNodes((prevNodes: any) => [...prevNodes, newNode])
-      } else if (file.type === "image/gif") {
-        // NOTE: Handle gif file as a new node
-        const gifUrl = URL.createObjectURL(file)
-        const newNode = {
-          id: `GIF-${Date.now()}`,
-          type: "ResizableNodeSelected",
-          data: { label: <Gifs src={gifUrl} /> },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
