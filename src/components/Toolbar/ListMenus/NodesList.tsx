@@ -1,8 +1,11 @@
 import React from "react"
 import { useRecoilValue } from "recoil"
 import { nodesState } from "../../../states"
-import { Trashbin } from "../../../assets"
 import { useNodeFunction } from "../../../hooks"
+import DeleteIcon from "@mui/icons-material/Delete"
+import IconButton from "@mui/material/IconButton"
+import Tooltip from "@mui/material/Tooltip"
+import { useHotkeys } from 'react-hotkeys-hook';
 
 const NodesList: React.FC = () => {
   const imageNodes = useRecoilValue(nodesState)
@@ -10,30 +13,30 @@ const NodesList: React.FC = () => {
   const handleDeleteClick = (nodeId: string) => {
     deleteNode(nodeId)
   }
+
   return (
-    <div tabIndex={0} className="collapse collapse-arrow border border-base-300 bg-base-200 w-full">
-      <div className="collapse-title text-lg font-medium w-full uppercase">Your Ref Images</div>
-      <div className="collapse-content flex flex-col gap-4">
-        {imageNodes.length > 0 ? (
-          imageNodes.map((node) => (
-            <div key={node.id} className="flex items-center space-x-8 hover:bg-base-300 px-4 py-4 rounded-sm duration-200">
-              <div className="avatar">
-                <div className="mask w-12 h-12">{node.data.label}</div>
+    <div className="p-2">
+      <div className="text-sm font-bold">Nodes List</div>
+      <div className="divider"></div>
+      {imageNodes.map((node) => (
+        <div key={node.id} className="flex space-y-8 justify-center items-center px-2 hover:bg-base-200">
+          <div className="flex items-center">
+            {/* <div className="avatar">
+              <div className="mask w-10 h-10 rounded-full ring-offset-base-100 ring-offset-2">
+                {node.data.label}
               </div>
-              <div>
-                <div className="font-bold">{node.id}</div>
-              </div>
-              <div className="z-50">
-                <button className="btn btn-error btn-sm btn-circle z-20" onClick={() => handleDeleteClick(node.id)}>
-                  <Trashbin />
-                </button>
-              </div>
+            </div> */}
+            <div className="text-xs text-ellipsis">
+              {node.id}
             </div>
-          ))
-        ) : (
-          <p>No images to display.</p>
-        )}
-      </div>
+          </div>
+          <Tooltip title="Delete">
+            <IconButton onClick={() => handleDeleteClick(node.id)}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
+      ))}
     </div>
   )
 }
