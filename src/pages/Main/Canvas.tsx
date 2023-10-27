@@ -5,10 +5,10 @@ import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
 // import { useHotkeys } from "react-hotkeys-hook"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { nodesState } from "../../states/nodesState"
 import { RFProvider } from "../../contexts/RfContext"
-import { edgesState } from "../../states"
+import { edgesState, selectedNodeIdState } from "../../states"
 import ReactPlayer from "react-player"
 
 const nodeTypes: NodeTypes = {
@@ -19,16 +19,18 @@ const nodeTypes: NodeTypes = {
 const Canvas: React.FC = () => {
   const [nodes, setNodes] = useRecoilState(nodesState)
   const [edges, setEdges] = useRecoilState(edgesState)
-  const [menu, setMenu] = useState(null) as any
+  const [menu, setMenu] = useState<any>(null)
   const [show, setShow] = useState(false) // NOTE State for main context Menu
   const [points, setPoints] = useState({ x: 0, y: 0 }) // NOTE State for main context Menu position
   const [rightClickOnNode, setRightClickOnNode] = useState(false)
+  const selectedNodeId = useRecoilValue(selectedNodeIdState)
   const ref = useRef<HTMLDivElement | any>(null)
 
   // NOTE: All ReactFlow Props Functions
   const onNodesChange: OnNodesChange = useCallback((changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
   const onEdgesChange: OnEdgesChange = useCallback((changes: any) => setEdges((eds) => applyEdgeChanges(changes, eds)), [])
   const onConnect = useCallback((params: any) => setEdges((els) => addEdge(params, els)), [setEdges])
+
   const onNodesDelete = (nodeId: any) => {
     setNodes((nodes) => nodes.filter((node) => node.id !== nodeId))
   }
@@ -149,6 +151,7 @@ const Canvas: React.FC = () => {
           type: "ResizableNodeSelected",
           data: { label: <img src={imageUrl} className="nodes" /> },
           position: { x: event.clientX, y: event.clientY },
+          selected: `IMG-${Date.now()}` === selectedNodeId 
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {

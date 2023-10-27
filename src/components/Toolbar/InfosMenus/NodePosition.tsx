@@ -7,7 +7,7 @@ const NodePosition: React.FC = () => {
 
   return (
     <div className="p-2 h-96 overflow-y-auto">
-      <div className="text-sm font-bold">Nodes Position</div>
+      <div className="text-sm font-bold uppercase">Nodes Position</div>
       <div className="divider"></div>
       {imageNodes.map((node) => (
         <div key={node.id} className="flex flex-col space-y-4 justify-between p-2 hover:bg-base-200">

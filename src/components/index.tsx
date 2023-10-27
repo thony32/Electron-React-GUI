@@ -8,10 +8,9 @@ import VideoPlayer from "./Medias/VideoPlayer"
 import NodeInfosBar from "./Toolbar/NodeInfosBar"
 import NodesListBar from "./Toolbar/NodesListBar"
 import NodesList from "./Toolbar/ListMenus/NodesList"
-import VideoList from './Toolbar/ListMenus/VideoList';
-import Others from './Toolbar/ListMenus/Others';
 import NodePosition from "./Toolbar/InfosMenus/NodePosition"
 import NodeContextMenu from './ContextMenus/NodeContextMenu';
+import ImageExport from './Toolbar/InfosMenus/ImageExport';
 
 
-export { Toolbar, InputText, ThemeChanger, MainContextMenu, VideoPlayer, NodeInfosBar, NodesListBar, NodesList, VideoList, Others, NodePosition, NodeContextMenu }
+export { Toolbar, InputText, ThemeChanger, MainContextMenu, VideoPlayer, NodeInfosBar, NodesListBar, NodesList, NodePosition, NodeContextMenu, ImageExport }
