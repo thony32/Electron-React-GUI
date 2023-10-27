@@ -5,7 +5,7 @@ export interface NodeData {
   id: string
   type: string
   data: {
-    label: HTMLElement
+    label: any
   }
   position: {
     x: number

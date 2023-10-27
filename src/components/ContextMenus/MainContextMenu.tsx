@@ -1,19 +1,47 @@
 import React from "react"
-import { MainContextMenuData } from "../../data"
-import type { ContextMenuProps } from "../../utils"
+import { OS, type ContextMenuProps } from "../../utils"
+import { useRFInstance } from "../../hooks"
 
-const MainContextMenu: React.FC<ContextMenuProps> = ({top, left}) => {
-  
+const flowKey = "flowKey"
+
+const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
+  const { rfInstance } = useRFInstance()
+  const handleSave = () => {
+    if (rfInstance) {
+      const flow = rfInstance.toObject()
+      localStorage.setItem(flowKey, JSON.stringify(flow))
+    }
+  }
   return (
-    <div className='absolute flex flex-col w-[150px] lg:w-[200px] bg-base-300 rounded-sm z-50' style={{top: top, left: left}}>
-      {MainContextMenuData.map((menu, index) => {
-        return (
-          <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between" key={index}>
-            {menu.label}
-            <kbd className="kbd-xs">{menu.key}</kbd>
-          </button>
-        )
-      })}
+    <div className="absolute flex flex-col w-[150px] lg:w-[200px] bg-base-300 rounded-sm z-10" style={{ top: top, left: left }}>
+      <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between">
+        Help
+        <kbd className="kbd-xs">{OS(window) === "MacOS" ? "Cmd + H" : "Ctrl + H"}</kbd>
+      </button>
+      <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between">
+        Undo
+        <kbd className="kbd-xs">{OS(window) === "MacOS" ? "Cmd + Z" : "Ctrl + Z"}</kbd>
+      </button>
+      <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between">
+        Redo
+        <kbd className="kbd-xs">{OS(window) === "MacOS" ? "Cmd + Y" : "Ctrl + Y"}</kbd>
+      </button>
+      <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between">
+        Add Text
+        <kbd className="kbd-xs">{OS(window) === "MacOS" ? "Cmd + T" : "Ctrl + T"}</kbd>
+      </button>
+      <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between" onClick={handleSave}>
+        Save
+        <kbd className="kbd-xs">{OS(window) === "MacOS" ? "Cmd + S" : "Ctrl + S"}</kbd>
+      </button>
+      <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between">
+        Export
+        <kbd className="kbd-xs">{OS(window) === "MacOS" ? "Cmd + E" : "Ctrl + E"}</kbd>
+      </button>
+      <button className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between">
+        Quit
+        <kbd className="kbd-xs">{OS(window) === "MacOS" ? "Cmd + Q" : "Ctrl + Q"}</kbd>
+      </button>
     </div>
   )
 }

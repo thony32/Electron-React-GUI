@@ -10,8 +10,8 @@ type VideoProps = {
 const VideoPlayer: React.FC<VideoProps> = ({src, file}) => {
   const { videoRef, fastForward, fastBackward } = useVideoFunctions()
   return (
-    <div className="flex justify-center items-center z-20">
-      <video ref={videoRef} controls autoPlay loop className="w-full h-full">
+    <div className="flex justify-center items-center nodes">
+      <video ref={videoRef} controls autoPlay loop className="">
         <source src={src} type={file.type} />
       </video>
       <button className="btn btn-primary btn-sm" onClick={fastBackward}>

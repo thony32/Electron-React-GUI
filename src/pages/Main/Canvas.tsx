@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, NodeTypes, useEdgesState, addEdge, applyEdgeChanges } from "reactflow"
-import "../../../node_modules/reactflow/dist/style.css"
+import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange } from "reactflow"
+import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
-import { Gifs, VideoPlayer, MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
+import { MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
 // import { useHotkeys } from "react-hotkeys-hook"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { nodesState } from "../../states/nodesState"
-// import { useHotkeys } from "react-hotkeys-hook"
-// import { shallow } from 'zustand/shallow';
-// import useStore from "../../zustand/store"
+import { RFProvider } from "../../contexts/RfContext"
+import { edgesState, selectedNodeIdState } from "../../states"
+import ReactPlayer from "react-player"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
@@ -18,17 +18,19 @@ const nodeTypes: NodeTypes = {
 // Define the Canvas component
 const Canvas: React.FC = () => {
   const [nodes, setNodes] = useRecoilState(nodesState)
-  const [edges, setEdges] = useEdgesState([])
-  const [menu, setMenu] = useState(null)
+  const [edges, setEdges] = useRecoilState(edgesState)
+  const [menu, setMenu] = useState<any>(null)
   const [show, setShow] = useState(false) // NOTE State for main context Menu
   const [points, setPoints] = useState({ x: 0, y: 0 }) // NOTE State for main context Menu position
   const [rightClickOnNode, setRightClickOnNode] = useState(false)
+  const selectedNodeId = useRecoilValue(selectedNodeIdState)
   const ref = useRef<HTMLDivElement | any>(null)
 
   // NOTE: All ReactFlow Props Functions
-  const onNodesChange = useCallback((changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
-  const onEdgesChange = useCallback((changes: any) => setEdges((eds) => applyEdgeChanges(changes, eds)), [])
+  const onNodesChange: OnNodesChange = useCallback((changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
+  const onEdgesChange: OnEdgesChange = useCallback((changes: any) => setEdges((eds) => applyEdgeChanges(changes, eds)), [])
   const onConnect = useCallback((params: any) => setEdges((els) => addEdge(params, els)), [setEdges])
+
   const onNodesDelete = (nodeId: any) => {
     setNodes((nodes) => nodes.filter((node) => node.id !== nodeId))
   }
@@ -149,6 +151,7 @@ const Canvas: React.FC = () => {
           type: "ResizableNodeSelected",
           data: { label: <img src={imageUrl} className="nodes" /> },
           position: { x: event.clientX, y: event.clientY },
+          selected: `IMG-${Date.now()}` === selectedNodeId 
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
@@ -158,18 +161,12 @@ const Canvas: React.FC = () => {
           id: `VID-${Date.now()}`,
           type: "ResizableNodeSelected",
           data: {
-            label: <VideoPlayer src={videoUrl} file={file.type} />,
+            label: (
+              <div className="nodes w-full h-full">
+                <ReactPlayer className="nodes" url={videoUrl} width="100%" height="100%" controls />
+              </div>
+            ),
           },
-          position: { x: event.clientX - 100, y: event.clientY - 100 },
-        }
-        setNodes((prevNodes: any) => [...prevNodes, newNode])
-      } else if (file.type === "image/gif") {
-        // NOTE: Handle gif file as a new node
-        const gifUrl = URL.createObjectURL(file)
-        const newNode = {
-          id: `GIF-${Date.now()}`,
-          type: "ResizableNodeSelected",
-          data: { label: <Gifs src={gifUrl} /> },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
@@ -203,15 +200,19 @@ const Canvas: React.FC = () => {
   )
 
   return (
-    <main className="h-screen overflow-hidden" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
+    <main className="h-screen overflow-hidden col-span-8" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
       <div className="w-full h-full flex justify-center items-center" ref={ref}>
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onEdgesChange={onEdgesChange} onPaneClick={onPaneClick} onConnect={onConnect} onNodeContextMenu={onNodeContextMenu} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
           <Background color="hsl(var(--b1)" />
-          <Controls className="bg-neutral-content rounded-sm" />
-          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content" pannable={true} />
+          <Controls className="bg-neutral-content rounded-sm translate-x-[250px]" />
+          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content -translate-x-[220px]" pannable={true} />
           {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
-          {show && <MainContextMenu top={points.y} left={points.x} />}
+          {show && (
+            <RFProvider>
+              <MainContextMenu top={points.y} left={points.x} />
+            </RFProvider>
+          )}
         </ReactFlow>
       </div>
       <Toolbar />

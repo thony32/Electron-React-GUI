@@ -5,6 +5,7 @@ import { ReactFlowProvider } from "reactflow"
 import { RecoilRoot } from "recoil"
 import { FunctionProvider } from "./contexts/CanvasContext"
 import { ReactFlowContextProvider } from "./contexts/ReactFlowContext"
+import { NodeInfosBar, NodesListBar } from "./components"
 
 const App: React.FC = () => {
   return (
@@ -12,7 +13,11 @@ const App: React.FC = () => {
       <ReactFlowContextProvider>
         <FunctionProvider>
           <RecoilRoot>
-            <Canvas />
+            <div>
+              <NodeInfosBar />
+              <Canvas />
+              <NodesListBar/>
+            </div>
           </RecoilRoot>
         </FunctionProvider>
       </ReactFlowContextProvider>
