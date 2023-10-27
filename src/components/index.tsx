@@ -11,6 +11,7 @@ import NodesList from "./Toolbar/ListMenus/NodesList"
 import NodePosition from "./Toolbar/InfosMenus/NodePosition"
 import NodeContextMenu from './ContextMenus/NodeContextMenu';
 import ImageExport from './Toolbar/InfosMenus/ImageExport';
+import FileExport from './Toolbar/InfosMenus/FileExport';
 
 
-export { Toolbar, InputText, ThemeChanger, MainContextMenu, VideoPlayer, NodeInfosBar, NodesListBar, NodesList, NodePosition, NodeContextMenu, ImageExport }
+export { Toolbar, InputText, ThemeChanger, MainContextMenu, VideoPlayer, NodeInfosBar, NodesListBar, NodesList, NodePosition, NodeContextMenu, ImageExport, FileExport }
