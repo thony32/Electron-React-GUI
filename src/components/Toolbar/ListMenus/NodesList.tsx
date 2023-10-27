@@ -21,7 +21,7 @@ const NodesList: React.FC = () => {
       <div className="text-sm font-bold uppercase">Nodes List</div>
       <div className="divider"></div>
       {imageNodes.map((node) => (
-        <div key={node.id} className="flex justify-center items-center p-2 hover:bg-base-200 space-x-1 cursor-pointer" onClick={() => handleNodeClick(node.id)}>
+        <div key={node.id} className="flex justify-center items-center p-1 hover:bg-base-200 space-x-1 cursor-pointer" onClick={() => handleNodeClick(node.id)}>
           <div className="flex items-center gap-2">
             <div className="avatar">
               <div className="mask w-10 h-10 rounded-full">{node.data.label}</div>

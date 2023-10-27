@@ -1,9 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react"
-import { useRecoilValue } from "recoil"
+import { useRecoilState } from "recoil"
 import { nodesState } from "../../../states"
 
 const NodePosition: React.FC = () => {
-  const imageNodes = useRecoilValue(nodesState)
+  const [imageNodes, setImageNodes] = useRecoilState(nodesState)
+
+  const handleXPositionChange = (id: string, newXValue: string) => {
+    const value = newXValue.trim() === "" ? "0" : newXValue
+    setImageNodes((prevNodes: any) =>  
+      prevNodes.map((node: any) => 
+        node.id === id ? { ...node, position: { ...node.position, x: parseFloat(value) } } : node
+      )
+    )
+  }
+
+  const handleYPositionChange = (id: string, newYValue: string) => {
+    const value = newYValue.trim() === "" ? "0" : newYValue;
+    setImageNodes((prevNodes: any) =>
+      prevNodes.map((node: any) =>
+        node.id === id ? { ...node, position: { ...node.position, y: parseFloat(value) } } : node
+      )
+    )
+  }
 
   return (
     <div className="p-2 h-96 overflow-y-auto">
@@ -18,10 +37,11 @@ const NodePosition: React.FC = () => {
             <div className="text-xs">
               X: {node.position.x.toFixed(0)}
             </div>
-            <input type="text" className="block py-1 px-0 w-1/4 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600  focus:outline-none focus:ring-0 peer text-current" value={node.position.x.toFixed(0)} />
+            <input type="text" className="block py-1 px-0 w-1/4 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600  focus:outline-none focus:ring-0 peer text-current" value={node.position.x.toFixed(0)} onChange={(e) => handleXPositionChange(node.id, e.target.value)} />
             <div className="text-xs">
               Y: {node.position.y.toFixed(0)}
             </div>
+            <input type="text" className="block py-1 px-0 w-1/4 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600  focus:outline-none focus:ring-0 peer text-current" value={node.position.y.toFixed(0)} onChange={(e) => handleYPositionChange(node.id, e.target.value)} />
           </div>
         </div>
       ))}
