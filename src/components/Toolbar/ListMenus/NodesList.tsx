@@ -2,10 +2,8 @@ import React from "react"
 import { useRecoilValue } from "recoil"
 import { nodesState } from "../../../states"
 import { useNodeFunction } from "../../../hooks"
-import DeleteIcon from "@mui/icons-material/Delete"
-import IconButton from "@mui/material/IconButton"
-import Tooltip from "@mui/material/Tooltip"
 import { useHotkeys } from 'react-hotkeys-hook';
+import { Trashbin } from "../../../assets"
 
 const NodesList: React.FC = () => {
   const imageNodes = useRecoilValue(nodesState)
@@ -15,26 +13,24 @@ const NodesList: React.FC = () => {
   }
 
   return (
-    <div className="p-2">
+    <div className="p-2 overflow-y-auto h-full">
       <div className="text-sm font-bold">Nodes List</div>
       <div className="divider"></div>
       {imageNodes.map((node) => (
-        <div key={node.id} className="flex space-y-8 justify-center items-center px-2 hover:bg-base-200">
-          <div className="flex items-center">
-            {/* <div className="avatar">
-              <div className="mask w-10 h-10 rounded-full ring-offset-base-100 ring-offset-2">
+        <div key={node.id} className="flex justify-center items-center p-2 hover:bg-base-200 space-x-1">
+          <div className="flex items-center gap-2">
+            <div className="avatar">
+              <div className="mask w-10 h-10 rounded-full">
                 {node.data.label}
               </div>
-            </div> */}
-            <div className="text-xs text-ellipsis">
+            </div>
+            <div className="text-xs">
               {node.id}
             </div>
           </div>
-          <Tooltip title="Delete">
-            <IconButton onClick={() => handleDeleteClick(node.id)}>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
+          <button className="p-1 rounded-full bg-red-400 hover:bg-red-600 active:scale-90 duration-300" onClick={() => handleDeleteClick(node.id)}>
+            <Trashbin/>
+          </button>
         </div>
       ))}
     </div>
