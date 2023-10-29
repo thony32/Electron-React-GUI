@@ -21,7 +21,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 1500,
     height: 920,
-    icon: path.join(process.env.VITE_PUBLIC, "/public/favico.svg"),
+    icon: path.join("/public/favico.svg", process.env.VITE_PUBLIC),
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     }
@@ -45,7 +45,6 @@ function createWindow() {
 
 app.on('ready', () => {
   // Votre code de chargement de contenu ou d'autres configurations ici...
-
   // Enregistrez un raccourci global
   globalShortcut.register('CommandOrControl+Shift+T', () => {
       if (win) {
