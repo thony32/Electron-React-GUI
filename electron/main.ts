@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from "electron";
+import { app, BrowserWindow, globalShortcut, Menu } from "electron";
 import path from "node:path";
 
 // The built directory structure
@@ -42,6 +42,23 @@ function createWindow() {
     win.loadFile(path.join(process.env.DIST, "index.html"));
   }
 }
+
+app.on('ready', () => {
+  // Votre code de chargement de contenu ou d'autres configurations ici...
+
+  // Enregistrez un raccourci global
+  globalShortcut.register('CommandOrControl+Shift+T', () => {
+      if (win) {
+          const isAlwaysOnTop = win.isAlwaysOnTop();
+          win.setAlwaysOnTop(!isAlwaysOnTop); // bascule entre on/off
+      }
+  });
+});
+
+app.on('will-quit', () => {
+  // Désenregistrez le raccourci pour éviter des fuites
+  globalShortcut.unregisterAll();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

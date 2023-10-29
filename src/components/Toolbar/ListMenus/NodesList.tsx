@@ -2,7 +2,6 @@ import React from "react"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { nodesState, selectedNodeIdState } from "../../../states"
 import { useNodeFunction } from "../../../hooks"
-import { useHotkeys } from "react-hotkeys-hook"
 import { Trashbin } from "../../../assets"
 
 const NodesList: React.FC = () => {
@@ -18,7 +17,7 @@ const NodesList: React.FC = () => {
 
   return (
     <div className="p-2 overflow-y-auto h-full">
-      <div className="text-sm font-bold uppercase">Nodes List</div>
+      <div className="text-sm font-bold uppercase px-4">Nodes List</div>
       <div className="divider"></div>
       {imageNodes.map((node) => (
         <div key={node.id} className="flex justify-center items-center p-1 hover:bg-base-200 space-x-1 cursor-pointer" onClick={() => handleNodeClick(node.id)}>

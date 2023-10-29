@@ -4,7 +4,6 @@ import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, NodeTypes, 
 import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
-// import { useHotkeys } from "react-hotkeys-hook"
 import { useRecoilState, useRecoilValue } from "recoil"
 import { nodesState } from "../../states/nodesState"
 import { RFProvider } from "../../contexts/RfContext"
