@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "electron-store": "^8.1.0",
     "flowbite": "^1.8.1",
     "flowbite-react": "^0.6.3",
     "html-to-image": "^1.11.11",

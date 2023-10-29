@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react"
 import { useRecoilState } from "recoil"
-import { nodesState } from "../../../states"
+import { nodesState } from "../../states"
 
 const NodePosition: React.FC = () => {
   const [imageNodes, setImageNodes] = useRecoilState(nodesState)

@@ -1,12 +1,21 @@
 import React from "react"
-import { ThemeChanger } from ".."
+import { Undo, Redo, Text, Help } from "../../assets"
 
 const Toolbar: React.FC = () => {
   return (
-    <div className="fixed bottom-5 left-[25%] max-[500px]:hidden xl:left-[30%] 2xl:left-[35%] min-[2560px]:left-[40%] w-[400px] xl:w-[500px] 2xl:w-[600px] bg-base-300 px-4 py-2 rounded-md flex gap-4">
-      {/* <ThemeChanger /> */}
-      {/* <NodeListMenusButton /> */}
-      {/* <NodeInfosMenusButton /> */}
+    <div className="fixed bottom-5  max-[500px]:hidden left-[40%] min-[2560px]:left-[40%] xl:w-64 bg-base-300 px-4 py-2 rounded-md flex gap-4 justify-between">
+      <button className="p-2 rounded-md hover:bg-base-200 duration-300 active:scale-95">
+        <Undo />
+      </button>
+      <button className="p-2 rounded-md hover:bg-base-200 duration-300 active:scale-95">
+        <Redo />
+      </button>
+      <button className="p-2 rounded-md hover:bg-base-200 duration-300 active:scale-95">
+        <Text />
+      </button>
+      <button className="p-2 rounded-md hover:bg-base-200 duration-300 active:scale-95">
+        <Help />
+      </button>
     </div>
   )
 }

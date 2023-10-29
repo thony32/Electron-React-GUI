@@ -170,6 +170,21 @@ const Canvas: React.FC = () => {
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       }
+      else if (file.type.startsWith("text/")) {
+        // Handle text file as a new node
+        const reader = new FileReader()
+        reader.onload = (event: any) => {
+          const textContent = event.target.result
+          const newNode = {
+            id: `TXT-${Date.now()}`,
+            type: "ResizableNodeSelected",
+            data: { label: <div>{textContent}</div> },
+            position: { x: event.clientX, y: event.clientY },
+          }
+          setNodes((prevNodes: any) => [...prevNodes, newNode])
+        }
+        reader.readAsText(file)
+      }
     }
   }
 
@@ -205,7 +220,7 @@ const Canvas: React.FC = () => {
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onEdgesChange={onEdgesChange} onPaneClick={onPaneClick} onConnect={onConnect} onNodeContextMenu={onNodeContextMenu} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
           <Background color="hsl(var(--b1)" />
           <Controls className="bg-neutral-content rounded-sm translate-x-[250px]" />
-          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content -translate-x-[220px]" pannable={true} />
+          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content -translate-x-[220px] 2xl:-translate-x-[250px]" pannable={true} />
           {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
           {show && (
             <RFProvider>

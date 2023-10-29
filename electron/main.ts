@@ -1,6 +1,6 @@
 import { app, BrowserWindow, globalShortcut, Menu } from "electron";
 import path from "node:path";
-
+import Store from 'electron-store';
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -13,11 +13,13 @@ import path from "node:path";
 process.env.DIST = path.join(__dirname, "../dist");
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, "../public");
 
+
+const store = new Store();
 let win: BrowserWindow | null;
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
 
-function createWindow() {
+const createWindow = () => {
   win = new BrowserWindow({
     width: 1500,
     height: 920,
@@ -27,13 +29,20 @@ function createWindow() {
     }
   });
 
+  // win.on('close', () => {
+  //   if (win) {
+  //       const { x, y, width, height } = win.getBounds();
+  //       store.set('windowState', { x, y, width, height });
+  //   }
+  // })
+
   const mainMenu = Menu.buildFromTemplate([]);
   Menu.setApplicationMenu(mainMenu);
 
   // Test active push message to Renderer-process.
   win.webContents.on("did-finish-load", () => {
-    win?.webContents.send("main-process-message", new Date().toLocaleString());
-  });
+    win?.webContents.send("main-process-message", new Date().toLocaleString())
+  })
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);

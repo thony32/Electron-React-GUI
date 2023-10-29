@@ -28,7 +28,7 @@ const ThemeChanger: React.FC = () => {
   }
 
   return (
-    <div className="absolute top-5 left-[250px] flex z-10 rounded-md bg-red-200 bg-base-200">
+    <div className="absolute top-5 left-[250px] flex z-10 rounded-md bg-base-200">
       {/* <input type="checkbox" className="hidden" onChange={changeTheme} /> */}
       {/* sun icon */}
       <button className="p-2 hover:bg-base-300 duration-300 rounded-l-md border-r-[1px] border-gray-300" onClick={toggleWinterTheme}>
