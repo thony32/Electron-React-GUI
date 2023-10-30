@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import ReactFlow, { Controls, Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange } from "reactflow"
+import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange } from "reactflow"
 import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
@@ -9,6 +9,7 @@ import { nodesState } from "../../states/nodesState"
 import { RFProvider } from "../../contexts/RfContext"
 import { edgesState, selectedNodeIdState } from "../../states"
 import ReactPlayer from "react-player"
+import {nanoid} from "nanoid"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
@@ -146,7 +147,7 @@ const Canvas: React.FC = () => {
         // NOTE: Handle image file as a new node
         const imageUrl = URL.createObjectURL(file)
         const newNode = {
-          id: `IMG-${Date.now()}`,
+          id: `IMG-${nanoid(3)}`,
           type: "ResizableNodeSelected",
           data: { label: <img src={imageUrl} className="nodes" /> },
           position: { x: event.clientX, y: event.clientY },
@@ -157,7 +158,7 @@ const Canvas: React.FC = () => {
         // FIXME: Handle video file as a new node
         const videoUrl = URL.createObjectURL(file)
         const newNode = {
-          id: `VID-${Date.now()}`,
+          id: `VID-${nanoid(3)}`,
           type: "ResizableNodeSelected",
           data: {
             label: (
@@ -176,7 +177,7 @@ const Canvas: React.FC = () => {
         reader.onload = (event: any) => {
           const textContent = event.target.result
           const newNode = {
-            id: `TXT-${Date.now()}`,
+            id: `TXT-${nanoid(3)}`,
             type: "ResizableNodeSelected",
             data: { label: <div>{textContent}</div> },
             position: { x: event.clientX, y: event.clientY },
@@ -219,7 +220,6 @@ const Canvas: React.FC = () => {
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onEdgesChange={onEdgesChange} onPaneClick={onPaneClick} onConnect={onConnect} onNodeContextMenu={onNodeContextMenu} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
           <Background color="hsl(var(--b1)" />
-          {/* <Controls className="bg-neutral-content rounded-sm translate-x-[250px]" /> */}
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content -translate-x-[220px] 2xl:-translate-x-[250px]" pannable={true} />
           {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
           {show && (

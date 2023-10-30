@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createContext, useCallback, useContext, useId } from "react"
+import { createContext, useCallback, useContext } from "react"
 import { ProviderProps } from "../utils"
 import { nanoid } from "nanoid"
 import ReactFlowContext from "./ReactFlowContext"
@@ -18,7 +18,6 @@ const CanvasContext = createContext<ContextTypes | undefined>(undefined)
 export const FunctionProvider = ({ children }: ProviderProps) => {
   // La fonction que vous souhaitez partager
   const { getNode, setNodes, addNodes, setEdges } = useContext(ReactFlowContext)
-  const copyId = useId()
   
   // NOTE: Duplicate node
   const duplicateNode = useCallback((id: string) => {
@@ -28,7 +27,7 @@ export const FunctionProvider = ({ children }: ProviderProps) => {
       y: node.position.y + 50,
     }
 
-    addNodes({ ...node, id: `${node.id}-${nanoid(5)}`, position })
+    addNodes({ ...node, id: `${node.id}-${nanoid(2)}`, position })
   }, [addNodes, getNode])
 
   // NOTE: Delete node
