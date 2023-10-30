@@ -162,7 +162,7 @@ const Canvas: React.FC = () => {
           data: {
             label: (
               <div className="nodes w-full h-full">
-                <ReactPlayer className="nodes" url={videoUrl} width="100%" height="100%" controls />
+                <ReactPlayer className="nodes" url="https://www.youtube.com/watch?v=LAeGVbx4-Bc" width="100%" height="100%" controls />
               </div>
             ),
           },
@@ -219,7 +219,7 @@ const Canvas: React.FC = () => {
         {/* React Flow component */}
         <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onEdgesChange={onEdgesChange} onPaneClick={onPaneClick} onConnect={onConnect} onNodeContextMenu={onNodeContextMenu} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
           <Background color="hsl(var(--b1)" />
-          <Controls className="bg-neutral-content rounded-sm translate-x-[250px]" />
+          {/* <Controls className="bg-neutral-content rounded-sm translate-x-[250px]" /> */}
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content -translate-x-[220px] 2xl:-translate-x-[250px]" pannable={true} />
           {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
           {show && (

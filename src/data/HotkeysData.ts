@@ -20,6 +20,10 @@ const HotkeysData = [
     hotkey: "delete"
   },
   {
+    label: "Multiple Selection",
+    hotkey: "ctrl+mouseClick | shift+mouseDrag"
+  },
+  {
     label: "Window always on Top",
     hotkey: "ctrl+shift+t"
   },
