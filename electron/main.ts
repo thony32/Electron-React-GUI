@@ -21,18 +21,12 @@ const createWindow = () => {
   win = new BrowserWindow({
     width: 1500,
     height: 920,
+    minWidth: 1150,
     icon: path.join("/public/favico.svg", process.env.VITE_PUBLIC),
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     }
   });
-
-  // win.on('close', () => {
-  //   if (win) {
-  //       const { x, y, width, height } = win.getBounds();
-  //       store.set('windowState', { x, y, width, height });
-  //   }
-  // })
 
   const mainMenu = Menu.buildFromTemplate([]);
   Menu.setApplicationMenu(mainMenu);

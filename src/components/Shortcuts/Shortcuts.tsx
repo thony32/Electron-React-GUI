@@ -9,21 +9,23 @@ const Shortcuts: React.FC = () => {
         <Help />
       </button>
       <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box">
-          <h3 className="font-bold text-xl">ProRef SHORTCUTS</h3>
+        <div className="modal-box space-y-8">
+          <h3 className="font-extrabold text-2xl text-base-content">ProRef SHORTCUTS</h3>
           {/* Modal Content */}
-          {HotkeysData.map((hotkey, index) => {
-            return (
-              <div className="py-2" key={index}>
-                <div className="flex justify-between items-center">
-                  <div className="font-bold">{hotkey.label}</div>
-                  <kbd className="kbd-sm">{hotkey.hotkey}</kbd>
+          <div>
+            {HotkeysData.map((hotkey, index) => {
+              return (
+                <div className="py-2" key={index}>
+                  <div className="flex justify-between items-center">
+                    <div>{hotkey.label}</div>
+                    <kbd className="kbd-sm">{hotkey.hotkey}</kbd>
+                  </div>
                 </div>
-              </div>
-            )
-          }, [])}
+              )
+            }, [])}
+          </div>
           {/* Button Close */}
-          <div className="modal-action absolute top-0 right-5">
+          <div className="modal-action absolute -top-3 right-5">
             <form method="dialog">
               <button className="p-2 rounded-full bg-base-200 hover:bg-base-300 duration-300">
                 <svg viewBox="0 -960 960 960" className="w-4 h-4 fill-current">
