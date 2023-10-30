@@ -162,7 +162,7 @@ const Canvas: React.FC = () => {
           data: {
             label: (
               <div className="nodes w-full h-full">
-                <ReactPlayer className="nodes" url="https://www.youtube.com/watch?v=LAeGVbx4-Bc" width="100%" height="100%" controls />
+                <ReactPlayer className="nodes" url={videoUrl} width="100%" height="100%" controls />
               </div>
             ),
           },

@@ -17,6 +17,7 @@
     "html-to-image": "^1.11.11",
     "i18next": "^23.5.1",
     "intro.js": "^7.2.0",
+    "nanoid": "^5.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
@@ -27,13 +28,11 @@
     "react-router-dom": "^6.16.0",
     "reactflow": "^11.9.2",
     "recoil": "^0.7.7",
-    "uuid": "^9.0.1",
     "vite-tsconfig-paths": "^4.2.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
-    "@types/uuid": "^9.0.4",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
     "@vitejs/plugin-react": "^4.0.4",

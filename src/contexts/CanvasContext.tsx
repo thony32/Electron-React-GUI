@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createContext, useCallback, useContext } from "react"
+import { createContext, useCallback, useContext, useId } from "react"
 import { ProviderProps } from "../utils"
-import { v4 as uuidv4 } from "uuid"
+import { nanoid } from "nanoid"
 import ReactFlowContext from "./ReactFlowContext"
 import { Edge, Node } from "reactflow"
 
@@ -13,11 +13,12 @@ interface ContextTypes {
 
 const CanvasContext = createContext<ContextTypes | undefined>(undefined)
 
-// Créez un provider pour envelopper votre application
+// Provider pour envelopper votre application
 
 export const FunctionProvider = ({ children }: ProviderProps) => {
   // La fonction que vous souhaitez partager
   const { getNode, setNodes, addNodes, setEdges } = useContext(ReactFlowContext)
+  const copyId = useId()
   
   // NOTE: Duplicate node
   const duplicateNode = useCallback((id: string) => {
@@ -27,7 +28,7 @@ export const FunctionProvider = ({ children }: ProviderProps) => {
       y: node.position.y + 50,
     }
 
-    addNodes({ ...node, id: `${node.id}-${uuidv4()}`, position })
+    addNodes({ ...node, id: `${node.id}-${nanoid(5)}`, position })
   }, [addNodes, getNode])
 
   // NOTE: Delete node

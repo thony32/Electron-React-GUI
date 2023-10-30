@@ -25,7 +25,6 @@ const Shortcuts: React.FC = () => {
           {/* Button Close */}
           <div className="modal-action absolute top-0 right-5">
             <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
               <button className="p-2 rounded-full bg-base-200 hover:bg-base-300 duration-300">
                 <svg viewBox="0 -960 960 960" className="w-4 h-4 fill-current">
                   <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
