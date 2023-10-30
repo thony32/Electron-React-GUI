@@ -25,7 +25,7 @@ const HotkeysData = [
   },
   {
     label: "Window always on Top",
-    hotkey: "ctrl+shift+t"
+    hotkey: "shift+t"
   },
   {
     label: "Save",

@@ -1,6 +1,5 @@
 import { app, BrowserWindow, globalShortcut, Menu } from "electron";
 import path from "node:path";
-import Store from 'electron-store';
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -14,7 +13,6 @@ process.env.DIST = path.join(__dirname, "../dist");
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, "../public");
 
 
-const store = new Store();
 let win: BrowserWindow | null;
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
@@ -55,7 +53,7 @@ const createWindow = () => {
 app.on('ready', () => {
   // Votre code de chargement de contenu ou d'autres configurations ici...
   // Enregistrez un raccourci global
-  globalShortcut.register('CommandOrControl+Shift+T', () => {
+  globalShortcut.register('Shift+T', () => {
       if (win) {
           const isAlwaysOnTop = win.isAlwaysOnTop();
           win.setAlwaysOnTop(!isAlwaysOnTop); // bascule entre on/off

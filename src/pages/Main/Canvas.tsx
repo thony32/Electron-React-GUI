@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange } from "reactflow"
+import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge } from "reactflow"
 import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
@@ -27,9 +27,9 @@ const Canvas: React.FC = () => {
   const ref = useRef<HTMLDivElement | any>(null)
 
   // NOTE: All ReactFlow Props Functions
-  const onNodesChange: OnNodesChange = useCallback((changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)), [])
-  const onEdgesChange: OnEdgesChange = useCallback((changes: any) => setEdges((eds) => applyEdgeChanges(changes, eds)), [])
-  const onConnect = useCallback((params: any) => setEdges((els) => addEdge(params, els)), [setEdges])
+  const onNodesChange: OnNodesChange = useCallback((changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)), [setNodes])
+  const onEdgesChange: OnEdgesChange = useCallback((changes: any) => setEdges((eds) => applyEdgeChanges(changes, eds)), [setEdges])
+  const onConnect = useCallback((params: Connection | Edge) => setEdges((els) => addEdge(params, els)), [setEdges])
 
   const onNodesDelete = (nodeId: any) => {
     setNodes((nodes) => nodes.filter((node) => node.id !== nodeId))
@@ -65,72 +65,6 @@ const Canvas: React.FC = () => {
       setShow(true)
     }
   }
-
-  // TODO: Handle Undo/Redo
-  // const undo = useCallback(() => {
-  //   // get the last state that we want to go back to
-  //   const pastState = past[tabIndex][past[tabIndex].length - 1];
-
-  //   if (pastState) {
-  //     // first we remove the state from the history
-  //     setPast((old) => {
-  //       let newPast = cloneDeep(old);
-  //       newPast[tabIndex] = old[tabIndex].slice(0, old[tabIndex].length - 1);
-  //       return newPast;
-  //     });
-  //     // we store the current graph for the redo operation
-  //     setFuture((old) => {
-  //       let newFuture = cloneDeep(old);
-  //       newFuture[tabIndex] = old[tabIndex];
-  //       newFuture[tabIndex].push({ nodes: getNodes(), edges: getEdges() });
-  //       return newFuture;
-  //     });
-  //     // now we can set the graph to the past state
-  //     setNodes(pastState.nodes);
-  //     setEdges(pastState.edges);
-  //   }
-  // }, [
-  //   setNodes,
-  //   setEdges,
-  //   getNodes,
-  //   getEdges,
-  //   future,
-  //   past,
-  //   setFuture,
-  //   setPast,
-  //   tabIndex,
-  // ]);
-
-  // const redo = useCallback(() => {
-  //   const futureState = future[tabIndex][future[tabIndex].length - 1];
-
-  //   if (futureState) {
-  //     setFuture((old) => {
-  //       let newFuture = cloneDeep(old);
-  //       newFuture[tabIndex] = old[tabIndex].slice(0, old[tabIndex].length - 1);
-  //       return newFuture;
-  //     });
-  //     setPast((old) => {
-  //       let newPast = cloneDeep(old);
-  //       newPast[tabIndex] = old[tabIndex];
-  //       newPast[tabIndex].push({ nodes: getNodes(), edges: getEdges() });
-  //       return newPast;
-  //     });
-  //     setNodes(futureState.nodes);
-  //     setEdges(futureState.edges);
-  //   }
-  // }, [
-  //   future,
-  //   past,
-  //   setFuture,
-  //   setPast,
-  //   setNodes,
-  //   setEdges,
-  //   getNodes,
-  //   getEdges,
-  //   future,
-  //   tabIndex,
-  // ]);
 
   // NOTE: Function to handle drop of media files into React Flow
 
