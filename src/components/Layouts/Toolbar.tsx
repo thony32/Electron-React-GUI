@@ -1,5 +1,6 @@
 import React from "react"
-import { Undo, Redo, Text, Help } from "../../assets"
+import { Undo, Redo, Text } from "../../assets"
+import { Shortcuts } from ".."
 
 const Toolbar: React.FC = () => {
   return (
@@ -13,9 +14,7 @@ const Toolbar: React.FC = () => {
       <button className="p-2 rounded-md hover:bg-base-200 duration-300 active:scale-95">
         <Text />
       </button>
-      <button className="p-2 rounded-md hover:bg-base-200 duration-300 active:scale-95">
-        <Help />
-      </button>
+      <Shortcuts/>
     </div>
   )
 }

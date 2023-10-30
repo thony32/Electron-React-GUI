@@ -12,6 +12,7 @@ import NodesList from './ListMenus/NodesList';
 import NodePosition from './InfosMenus/NodePosition';
 import ImageExport from './InfosMenus/ImageExport';
 import FileExport from './InfosMenus/FileExport';
+import Shortcuts from './Shortcuts/Shortcuts';
 
 
-export { Toolbar, InputText, ThemeChanger, MainContextMenu, VideoPlayer, NodeInfosBar, NodesListBar, NodesList, NodePosition, NodeContextMenu, ImageExport, FileExport }
+export { Toolbar, InputText, ThemeChanger, MainContextMenu, VideoPlayer, NodeInfosBar, NodesListBar, NodesList, NodePosition, NodeContextMenu, ImageExport, FileExport, Shortcuts }

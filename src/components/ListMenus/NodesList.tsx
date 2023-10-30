@@ -3,9 +3,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil"
 import { nodesState, selectedNodeIdState } from "../../states"
 import { useNodeFunction } from "../../hooks"
 import { Copy, Trashbin } from "../../assets"
-// import { nodesState, selectedNodeIdState } from "../../../states"
-// import { useNodeFunction } from "../../../hooks"
-// import { Trashbin } from "../../../assets"
 
 const NodesList: React.FC = () => {
   const imageNodes = useRecoilValue(nodesState)
