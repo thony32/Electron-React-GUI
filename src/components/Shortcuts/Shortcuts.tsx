@@ -4,9 +4,15 @@ import { Help } from "../../assets"
 import { HotkeysData } from "../../data"
 
 const Shortcuts: React.FC = () => {
+  const openModal = () => {
+    const modal = document.getElementById("my_modal_5");
+    if (modal instanceof HTMLDialogElement) {
+      modal.showModal();
+    }
+  };
   return (
     <>
-      <button className="p-2 rounded-md hover:bg-base-200 duration-300 active:scale-95" onClick={() => document.getElementById("my_modal_5").showModal()}>
+      <button className="p-2 rounded-md hover:bg-base-200 duration-300 active:scale-95" onClick={openModal}>
         <Help />
       </button>
       <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
