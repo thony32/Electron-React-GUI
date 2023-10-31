@@ -9,20 +9,20 @@ import { NodeInfosBar, NodesListBar, ThemeChanger } from "./components"
 
 const App: React.FC = () => {
   return (
-    <ReactFlowProvider>
-      <ReactFlowContextProvider>
-        <FunctionProvider>
-          <RecoilRoot>
+    <RecoilRoot>
+      <ReactFlowProvider>
+        <ReactFlowContextProvider>
+          <FunctionProvider>
             <div>
-              <ThemeChanger/>
+              <ThemeChanger />
               <NodeInfosBar />
               <Canvas />
-              <NodesListBar/>
+              <NodesListBar />
             </div>
-          </RecoilRoot>
-        </FunctionProvider>
-      </ReactFlowContextProvider>
-    </ReactFlowProvider>
+          </FunctionProvider>
+        </ReactFlowContextProvider>
+      </ReactFlowProvider>
+    </RecoilRoot>
   )
 }
 

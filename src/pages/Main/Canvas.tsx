@@ -85,7 +85,7 @@ const Canvas: React.FC = () => {
           type: "ResizableNodeSelected",
           data: { label: <img src={imageUrl} className="nodes" /> },
           position: { x: event.clientX, y: event.clientY },
-          selected: `IMG-${Date.now()}` === selectedNodeId 
+          selected: `IMG-${nanoid(3)}` === selectedNodeId 
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
