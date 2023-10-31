@@ -21,7 +21,6 @@ const createWindow = () => {
   win = new BrowserWindow({
     width: 1500,
     height: 920,
-    minWidth: 1150,
     icon: path.join("/public/favico.svg", process.env.VITE_PUBLIC),
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -47,7 +46,7 @@ const createWindow = () => {
 app.on('ready', () => {
   // Votre code de chargement de contenu ou d'autres configurations ici...
   // Enregistrez un raccourci global
-  globalShortcut.register('Shift+T', () => {
+  globalShortcut.register('CommandOrControl+Shift+T', () => {
       if (win) {
           const isAlwaysOnTop = win.isAlwaysOnTop();
           win.setAlwaysOnTop(!isAlwaysOnTop); // bascule entre on/off

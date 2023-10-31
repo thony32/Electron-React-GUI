@@ -5,7 +5,7 @@ import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
 import { useRecoilState, useRecoilValue } from "recoil"
-import { nodesState } from "../../states/nodesState"
+import { nodesState } from "../../states"
 import { RFProvider } from "../../contexts/RfContext"
 import { edgesState, selectedNodeIdState } from "../../states"
 import ReactPlayer from "react-player"
@@ -152,7 +152,7 @@ const Canvas: React.FC = () => {
     <main className="h-screen overflow-hidden col-span-8" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
       <div className="w-full h-full flex justify-center items-center" ref={ref}>
         {/* React Flow component */}
-        <ReactFlow nodes={nodes} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onEdgesChange={onEdgesChange} onPaneClick={onPaneClick} onConnect={onConnect} onNodeContextMenu={onNodeContextMenu} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
+        <ReactFlow nodes={nodes} edges={edges as any} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onEdgesChange={onEdgesChange} onPaneClick={onPaneClick} onConnect={onConnect} onNodeContextMenu={onNodeContextMenu} fitView /* snapToGrid={true} snapGrid={[5, 5]}*/>
           <Background color="hsl(var(--b1)" />
           <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content -translate-x-[220px] 2xl:-translate-x-[250px]" pannable={true} />
           {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
