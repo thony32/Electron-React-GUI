@@ -3,8 +3,7 @@ import React from "react"
 import { Canvas } from "./pages"
 import { ReactFlowProvider } from "reactflow"
 import { RecoilRoot } from "recoil"
-import { FunctionProvider } from "./contexts/CanvasContext"
-import { ReactFlowContextProvider } from "./contexts/ReactFlowContext"
+import { CanvasContextProvider, NodesAndEdgesContextProvider, ReactFlowContextProvider } from "./contexts"
 import { NodeInfosBar, NodesListBar, ThemeChanger } from "./components"
 
 const App: React.FC = () => {
@@ -12,14 +11,16 @@ const App: React.FC = () => {
     <RecoilRoot>
       <ReactFlowProvider>
         <ReactFlowContextProvider>
-          <FunctionProvider>
-            <div>
-              <ThemeChanger />
-              <NodeInfosBar />
-              <Canvas />
-              <NodesListBar />
-            </div>
-          </FunctionProvider>
+          <CanvasContextProvider>
+            <NodesAndEdgesContextProvider>
+              <div>
+                <ThemeChanger />
+                <NodeInfosBar />
+                <Canvas />
+                <NodesListBar />
+              </div>
+            </NodesAndEdgesContextProvider>
+          </CanvasContextProvider>
         </ReactFlowContextProvider>
       </ReactFlowProvider>
     </RecoilRoot>

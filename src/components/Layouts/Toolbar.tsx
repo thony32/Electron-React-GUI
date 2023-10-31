@@ -14,7 +14,7 @@ const Toolbar: React.FC = () => {
       <button className="p-2 rounded-md hover:bg-base-200 duration-300 active:scale-95">
         <Text />
       </button>
-      <Shortcuts/>
+      <Shortcuts />
     </div>
   )
 }
