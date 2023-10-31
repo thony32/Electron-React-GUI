@@ -1,27 +1,29 @@
 import "./App.css"
 import React from "react"
-import { Canvas } from "./pages"
+import { Canvas } from "./page"
 import { ReactFlowProvider } from "reactflow"
 import { RecoilRoot } from "recoil"
-import { FunctionProvider } from "./contexts/CanvasContext"
-import { ReactFlowContextProvider } from "./contexts/ReactFlowContext"
-import { NodeInfosBar, NodesListBar } from "./components"
+import { CanvasContextProvider, NodesAndEdgesContextProvider, ReactFlowContextProvider } from "./contexts"
+import { NodeInfosBar, NodesListBar, ThemeChanger } from "./components"
 
 const App: React.FC = () => {
   return (
-    <ReactFlowProvider>
-      <ReactFlowContextProvider>
-        <FunctionProvider>
-          <RecoilRoot>
-            <div>
-              <NodeInfosBar />
-              <Canvas />
-              <NodesListBar/>
-            </div>
-          </RecoilRoot>
-        </FunctionProvider>
-      </ReactFlowContextProvider>
-    </ReactFlowProvider>
+    <RecoilRoot>
+      <ReactFlowProvider>
+        <ReactFlowContextProvider>
+          <CanvasContextProvider>
+            <NodesAndEdgesContextProvider>
+              <div>
+                <ThemeChanger />
+                <NodeInfosBar />
+                <Canvas />
+                <NodesListBar />
+              </div>
+            </NodesAndEdgesContextProvider>
+          </CanvasContextProvider>
+        </ReactFlowContextProvider>
+      </ReactFlowProvider>
+    </RecoilRoot>
   )
 }
 

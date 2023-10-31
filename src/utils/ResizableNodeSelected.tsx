@@ -11,10 +11,8 @@ const ResizableNodeSelected: React.FC<ResizableNodeSelectedProps> = ({ data, sel
     <>
       <NodeResizer color="hsl(var(--bc))" isVisible={selected} minWidth={100} minHeight={30} keepAspectRatio={true} />
       <div className="p-2">{data.label}</div>
-      <Handle type="target" className="w-3 h-3 rounded-full bg-base-content border-none" position={Position.Top} isConnectable={true} isConnectableEnd={true} />
-      <Handle type="source" className="w-3 h-3 rounded-full bg-blue-700 border-none" position={Position.Right} isConnectable={true} isConnectableStart={true} />
-      <Handle type="source" className="w-3 h-3 rounded-full bg-blue-700 border-none" position={Position.Bottom} isConnectable={true} isConnectableStart={true} />
-      <Handle type="target" className="w-3 h-3 rounded-full bg-base-content border-none" position={Position.Left} isConnectable={true} isConnectableEnd={true} />
+      <Handle type="source" className="w-2 h-12 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={true} />
+      <Handle type="target" className="w-2 h-12 rounded-full bg-black border-none" position={Position.Left} isConnectable={true} />
     </>
   )
 }

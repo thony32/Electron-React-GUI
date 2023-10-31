@@ -1,6 +1,5 @@
-import { app, BrowserWindow, Menu } from "electron";
+import { app, BrowserWindow, globalShortcut, Menu } from "electron";
 import path from "node:path";
-
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -13,15 +12,16 @@ import path from "node:path";
 process.env.DIST = path.join(__dirname, "../dist");
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, "../public");
 
+
 let win: BrowserWindow | null;
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
 
-function createWindow() {
+const createWindow = () => {
   win = new BrowserWindow({
     width: 1500,
     height: 920,
-    icon: path.join(process.env.VITE_PUBLIC, "/public/favico.svg"),
+    icon: path.join("/public/favico.svg", process.env.VITE_PUBLIC),
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     }
@@ -32,8 +32,8 @@ function createWindow() {
 
   // Test active push message to Renderer-process.
   win.webContents.on("did-finish-load", () => {
-    win?.webContents.send("main-process-message", new Date().toLocaleString());
-  });
+    win?.webContents.send("main-process-message", new Date().toLocaleString())
+  })
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
@@ -42,6 +42,22 @@ function createWindow() {
     win.loadFile(path.join(process.env.DIST, "index.html"));
   }
 }
+
+app.on('ready', () => {
+  // Votre code de chargement de contenu ou d'autres configurations ici...
+  // Enregistrez un raccourci global
+  globalShortcut.register('CommandOrControl+Shift+T', () => {
+      if (win) {
+          const isAlwaysOnTop = win.isAlwaysOnTop();
+          win.setAlwaysOnTop(!isAlwaysOnTop); // bascule entre on/off
+      }
+  });
+});
+
+app.on('will-quit', () => {
+  // Désenregistrez le raccourci pour éviter des fuites
+  globalShortcut.unregisterAll();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

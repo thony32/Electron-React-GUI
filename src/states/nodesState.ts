@@ -4,6 +4,7 @@ import { atom } from "recoil"
 export interface NodeData {
   id: string
   type: string
+  className: string
   data: {
     label: any
   }

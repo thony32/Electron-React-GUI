@@ -1,15 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EdgeMarkerType } from "reactflow"
 import { atom } from "recoil"
+import { EdgeMarkerType } from "reactflow"
 
 export interface EdgeData {
   id: string
   type: string
   label: string
-  position: {
-    x: number
-    y: number
-  }
   animated: boolean
   labelBgPadding: [number, number]
   labelBgStyle: any

@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import RFContext from "../contexts/RfContext"
+import RFContext from "../contexts/ReactFlowInstanceContext"
 
 export const useRFInstance = () => {
   const context = useContext(RFContext)

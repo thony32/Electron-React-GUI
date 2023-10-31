@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useState } from "react"
-import ReactFlowContext from "../../../contexts/ReactFlowContext"
 import { getRectOfNodes, getTransformForBounds } from "reactflow"
 import { toPng } from "html-to-image"
-import { FileExport } from "../.."
-import { ImageIcon } from "../../../assets"
+import ReactFlowContext from "../../contexts/ReactFlowContext"
+import { ImageIcon } from "../../assets"
+import { FileExport } from ".."
+
 
 const downloadImage = (dataUrl: string) => {
   const a = document.createElement("a")
@@ -23,7 +24,7 @@ const ImageExport: React.FC = () => {
     const transform = getTransformForBounds(nodesBounds, imageWidth, imageHeight, 0.5, 2)
 
     toPng(document.querySelector<any>(".react-flow__viewport"), {
-      backgroundColor: "hsl(var(--b1))",
+      backgroundColor: "#1E242A",
       width: imageWidth,
       height: imageHeight,
       style: {
@@ -35,7 +36,7 @@ const ImageExport: React.FC = () => {
   }
   return (
     <div className="p-2 h-48">
-      <div className="text-sm font-bold uppercase">Export</div>
+      <div className="text-sm font-bold uppercase px-4">Export</div>
       <div className="divider"></div>
       <div className="p-4 space-y-4">
         <div className="space-y-2">
