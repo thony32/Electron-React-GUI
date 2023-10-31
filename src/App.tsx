@@ -1,6 +1,6 @@
 import "./App.css"
 import React from "react"
-import { Canvas } from "./pages"
+import { Canvas } from "./page"
 import { ReactFlowProvider } from "reactflow"
 import { RecoilRoot } from "recoil"
 import { CanvasContextProvider, NodesAndEdgesContextProvider, ReactFlowContextProvider } from "./contexts"

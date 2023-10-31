@@ -2,12 +2,12 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge } from "reactflow"
 import "/node_modules/reactflow/dist/style.css"
-import { handleDragOver, ResizableNodeSelected } from "../../utils"
-import { MainContextMenu, Toolbar, NodeContextMenu } from "../../components"
-import { ReactFlowInstanceProvider } from "../../contexts"
+import { handleDragOver, ResizableNodeSelected } from "../utils"
+import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
+import { ReactFlowInstanceProvider } from "../contexts"
 import ReactPlayer from "react-player"
 import { nanoid } from "nanoid"
-import { useNodesAndEdgesState } from "../../hooks"
+import { useNodesAndEdgesState } from "../hooks"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
