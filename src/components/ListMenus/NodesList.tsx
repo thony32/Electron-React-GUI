@@ -12,15 +12,19 @@ const NodesList: React.FC = () => {
   const { setNodes, setEdges } = useReactFlowFunctions()
   const [tempId, setTempId] = useState<string>("")
   const [editingNodeId, setEditingNodeId] = useState<string | null>(null)
+
   const handleDeleteClick = (nodeId: string) => {
     deleteNode(nodeId)
   }
+
   const handleNodeClick = (nodeId: string) => {
     setSelectedNodeId(nodeId)
   }
+
   const handleDuplicateClick = (nodeId: string) => {
     duplicateNode(nodeId)
   }
+
   // TODO: Handle Id change
   const handleIdChange = (oldId: string, newId: string) => {
     setNodes((prevNodes: any) => prevNodes.map((node: any) => (node.id === oldId ? { ...node, id: newId } : node)))
@@ -56,7 +60,13 @@ const NodesList: React.FC = () => {
               <div className="mask w-10 h-10 rounded-full">{node.data.label}</div>
             </div>
             {/* <div className="text-xs">{node.id}</div> */}
-            <input type="text" className="block py-1 px-0 w-1/3 text-xs bg-transparent border-0 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer text-current" value={editingNodeId === node.id ? tempId : node.id} onFocus={() => handleInputFocus(node.id)} onChange={(e) => handleInputChange(node.id, e.target.value)} />
+            <input
+              type="text"
+              className="block py-1 px-0 w-1/3 text-xs bg-transparent border-0 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer text-current"
+              value={editingNodeId === node.id ? tempId : node.id}
+              onFocus={() => handleInputFocus(node.id)}
+              onChange={(e) => handleInputChange(node.id, e.target.value)}
+            />
           </div>
           <div className="flex items-center gap-2">
             {editingNodeId === node.id && (

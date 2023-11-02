@@ -1,19 +1,52 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Handle, NodeResizer, Position } from "reactflow"
+import { useEffect, useRef, useState } from "react"
+import { Handle, NodeProps, NodeResizer, Position, useUpdateNodeInternals } from "reactflow"
+import { drag } from "d3-drag"
+import { select } from "d3-selection"
+import styles from './style.module.css'
 
-interface ResizableNodeSelectedProps {
-  data: any
-  selected: boolean
-}
+const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps) => {
+  const [rotation, setRotation] = useState(0)
+  const [rotatable, setRotatable] = useState(true)
+  const updateNodeInternals = useUpdateNodeInternals()
+  const rotateControlRef = useRef<any>(null)
 
-const ResizableNodeSelected: React.FC<ResizableNodeSelectedProps> = ({ data, selected }) => {
+  useEffect(() => {
+    if (!rotateControlRef.current) {
+      return
+    }
+
+    const selection = select(rotateControlRef.current)
+    const dragHandler = drag().on("drag", (event: any) => {
+      const dx = event.x - 100
+      const dy = event.y - 100
+      const rad = Math.atan2(dx, dy)
+      const deg = rad * (180 / Math.PI)
+      setRotation(180 - deg)
+      updateNodeInternals(id)
+    })
+
+    selection.call(dragHandler)
+  }, [id, updateNodeInternals])
+
   return (
-    <>
-      <NodeResizer color="hsl(var(--bc))" isVisible={selected} minWidth={100} minHeight={30} keepAspectRatio={true} />
-      <div className="p-2">{data.label}</div>
-      <Handle type="source" className="w-2 h-12 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={true} />
-      <Handle type="target" className="w-2 h-12 rounded-full bg-black border-none" position={Position.Left} isConnectable={true} />
-    </>
+    <div
+      style={{
+        transform: `rotate(${rotation}deg)`,
+      }}
+    >
+      <NodeResizer color="hsl(var(--bc))" isVisible={selected} minWidth={500} minHeight={400} maxWidth={data.label.width} maxHeight={data.label.height} keepAspectRatio={true} />
+      <div
+        ref={rotateControlRef}
+        style={{
+          display: rotatable ? "block" : "none",
+        }}
+        className={`nodrag ${styles.rotateHandle}`}
+      />
+      <div className="p-2 nodes">{data.label}</div>
+      <Handle type="source" className="w-2 h-12 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
+      <Handle type="target" className="w-2 h-12 rounded-full bg-black border-none" position={Position.Left} isConnectable={isConnectable} />
+    </div>
   )
 }
 
