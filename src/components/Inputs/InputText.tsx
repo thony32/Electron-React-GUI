@@ -29,7 +29,7 @@ const InputText: React.FC = () => {
               </label>
             </div>
             <div className="flex justify-end">
-              <button className="py-2 px-5 bg-neutral/75 rounded-md hover:bg-neutral/90 active:scale-95 text-neutral-content duration-300">Add</button>
+              <button className="py-2 px-5 bg-neutral/75 rounded-md hover:bg-neutral/90 active:scale-95 text-neutral-content font-bold duration-300">Add</button>
             </div>
           </div>
           {/* Button Close */}
