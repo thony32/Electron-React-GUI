@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 
 // NOTE: Detect Operating system
 const getOperatingSystem = (window: any) => {

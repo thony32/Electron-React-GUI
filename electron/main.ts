@@ -41,12 +41,13 @@ const createWindow = () => {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(process.env.DIST, "index.html"));
   }
+
 }
 
 app.on('ready', () => {
   // Votre code de chargement de contenu ou d'autres configurations ici...
   // Enregistrez un raccourci global
-  globalShortcut.register('CommandOrControl+Shift+T', () => {
+  globalShortcut.register('CommandOrControl+Shift+O', () => {
       if (win) {
           const isAlwaysOnTop = win.isAlwaysOnTop();
           win.setAlwaysOnTop(!isAlwaysOnTop); // bascule entre on/off

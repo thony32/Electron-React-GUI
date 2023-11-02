@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useEffect, useRef, useState } from "react"
 import { Handle, NodeProps, NodeResizer, Position, useUpdateNodeInternals } from "reactflow"
 import { drag } from "d3-drag"
 import { select } from "d3-selection"
-import styles from './style.module.css'
+import styles from "./style.module.css"
 
 const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps) => {
   const [rotation, setRotation] = useState(0)
@@ -44,8 +44,8 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
         className={`nodrag ${styles.rotateHandle}`}
       />
       <div className="p-2 nodes">{data.label}</div>
-      <Handle type="source" className="w-2 h-12 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
-      <Handle type="target" className="w-2 h-12 rounded-full bg-black border-none" position={Position.Left} isConnectable={isConnectable} />
+      <Handle type="source" className="w-3 h-8 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
+      <Handle type="target" className="w-3 h-8 rounded-full bg-black border-none" position={Position.Left} isConnectable={isConnectable} />
     </div>
   )
 }

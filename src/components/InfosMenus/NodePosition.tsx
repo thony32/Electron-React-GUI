@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from "react"
 import { useRecoilState } from "recoil"
 import { nodesState } from "../../states"

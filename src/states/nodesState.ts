@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Node } from "reactflow"
 import { atom } from "recoil"
 

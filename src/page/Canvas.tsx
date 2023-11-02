@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge } from "reactflow"
 import "/node_modules/reactflow/dist/style.css"
@@ -99,20 +98,6 @@ const Canvas: React.FC = () => {
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
-      } else if (file.type.startsWith("text/")) {
-        // Handle text file as a new node
-        const reader = new FileReader()
-        reader.onload = (event: any) => {
-          const textContent = event.target.result
-          const newNode = {
-            id: `TXT-${nanoid(3)}`,
-            type: "ResizableNodeSelected",
-            data: { label: <div>{textContent}</div> },
-            position: { x: event.clientX, y: event.clientY },
-          }
-          setNodes((prevNodes: any) => [...prevNodes, newNode])
-        }
-        reader.readAsText(file)
       }
     }
   }

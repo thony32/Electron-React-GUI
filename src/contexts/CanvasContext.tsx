@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { createContext, useCallback } from "react"
 import { ProviderProps } from "../utils"
 import { nanoid } from "nanoid"
@@ -16,10 +16,11 @@ const CanvasContext = createContext<ContextTypes | undefined>(undefined)
 // Provider pour envelopper votre application
 
 export const CanvasContextProvider = ({ children }: ProviderProps) => {
+
   // La fonction que vous souhaitez partager
   const { getNode, setNodes, addNodes, setEdges } = useReactFlowFunctions()
 
-  // // Trouvez le nœud actuellement sélectionné
+  // Trouvez le nœud actuellement sélectionné
   // const selectedNode = nodes.find(node => node.selected);
   
   // NOTE: Duplicate node

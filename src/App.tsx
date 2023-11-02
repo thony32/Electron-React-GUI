@@ -10,18 +10,18 @@ const App: React.FC = () => {
   return (
     <RecoilRoot>
       <ReactFlowProvider>
-        <ReactFlowContextProvider>
-          <CanvasContextProvider>
-            <NodesAndEdgesContextProvider>
+        <NodesAndEdgesContextProvider>
+          <ReactFlowContextProvider>
+            <CanvasContextProvider>
               <div>
                 <ThemeChanger />
                 <NodeInfosBar />
                 <Canvas />
                 <NodesListBar />
               </div>
-            </NodesAndEdgesContextProvider>
-          </CanvasContextProvider>
-        </ReactFlowContextProvider>
+            </CanvasContextProvider>
+          </ReactFlowContextProvider>
+        </NodesAndEdgesContextProvider>
       </ReactFlowProvider>
     </RecoilRoot>
   )

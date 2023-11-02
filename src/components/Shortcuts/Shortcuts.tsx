@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react"
 import { Help } from "../../assets"
 import { HotkeysData } from "../../data"
 
 const Shortcuts: React.FC = () => {
   const openModal = () => {
-    const modal = document.getElementById("my_modal_5");
+    const modal = document.getElementById("shortcut_modal");
     if (modal instanceof HTMLDialogElement) {
       modal.showModal();
     }
@@ -15,7 +14,7 @@ const Shortcuts: React.FC = () => {
       <button className="p-2 rounded-md hover:bg-base-200 duration-300 active:scale-95" onClick={openModal}>
         <Help />
       </button>
-      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+      <dialog id="shortcut_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box space-y-8">
           <h3 className="font-extrabold text-2xl text-base-content">ProRef SHORTCUTS</h3>
           {/* Modal Content */}

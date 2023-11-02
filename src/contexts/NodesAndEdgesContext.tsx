@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { createContext } from "react"
 import type { ProviderProps } from "../utils"
 import { useRecoilState } from "recoil"

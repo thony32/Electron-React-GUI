@@ -25,14 +25,3 @@
   transform: translate(-50%, -50%);
   cursor: alias;
 }
-
-/* .rotateHandle:after {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 1px;
-  height: 30px;
-  background: #3367d9;
-  left: 4px;
-  top: 5px;
-} */
