@@ -87,13 +87,17 @@ const Canvas: React.FC = () => {
         }
         setNodes((prevNodes: any) => [...prevNodes, newNode])
       } else if (file.type.startsWith("video/")) {
-        // FIXME: Handle video file as a new node
+        // NOTE: Handle video file as a new node
         const videoUrl = URL.createObjectURL(file)
         const newNode = {
           id: `VID-${nanoid(3)}`,
           type: "ResizableNodeSelected",
           data: {
-            label: <ReactPlayer className="nodes" url={videoUrl} width="100%" height="100%" controls />,
+            label: (
+              <div>
+                <ReactPlayer className="nodes z-50" url={videoUrl} width="100%" height="100%" controls />
+              </div>
+            ),
           },
           position: { x: event.clientX - 100, y: event.clientY - 100 },
         }
@@ -133,7 +137,9 @@ const Canvas: React.FC = () => {
         {/* React Flow component */}
         <ReactFlow
           nodes={nodes}
-          edges={edges as any}
+          edges={edges}
+          minZoom={0.02}
+          maxZoom={2}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           onNodesDelete={onNodesDelete}
