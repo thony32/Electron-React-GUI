@@ -3,12 +3,18 @@ import { Handle, NodeProps, NodeResizer, Position, useUpdateNodeInternals } from
 import { drag } from "d3-drag"
 import { select } from "d3-selection"
 import styles from "./style.module.css"
+import { useNodesAndEdgesState } from "../hooks"
 
 const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps) => {
   const [rotation, setRotation] = useState(0)
   const [rotatable, setRotatable] = useState(true)
   const updateNodeInternals = useUpdateNodeInternals()
   const rotateControlRef = useRef<any>(null)
+  const { nodes } = useNodesAndEdgesState()
+  const lineStyle: React.CSSProperties = {
+    maxWidth: "100%",
+    maxHeight: "100%",
+  }
 
   useEffect(() => {
     if (!rotateControlRef.current) {
@@ -34,7 +40,7 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
         transform: `rotate(${rotation}deg)`,
       }}
     >
-      <NodeResizer color="hsl(var(--bc))" isVisible={selected} minWidth={500} minHeight={400} maxWidth={data.label.width} maxHeight={data.label.height} keepAspectRatio={true} />
+      <NodeResizer nodeId={nodes.id} color="hsl(var(--ac))" lineStyle={lineStyle} isVisible={selected} keepAspectRatio={true} />
       <div
         ref={rotateControlRef}
         style={{
