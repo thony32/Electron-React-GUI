@@ -17,7 +17,7 @@ const HotkeysData = [
   },
   {
     label: "Delete",
-    hotkey: "delete"
+    hotkey: "Backspace"
   },
   {
     label: "Multiple Selection",

@@ -2,15 +2,16 @@ import React, { useCallback, useEffect, useRef, useState } from "react"
 import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge } from "reactflow"
 import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../utils"
-import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
+import { MainContextMenu, Toolbar, NodeContextMenu, VideoPlayer } from "../components"
 import { ReactFlowInstanceProvider } from "../contexts"
 import ReactPlayer from "react-player"
 import { nanoid } from "nanoid"
-import { useNodesAndEdgesState } from "../hooks"
-import introJs from "intro.js"
+import { useNodesAndEdgesState, useVideoFunctions } from "../hooks"
+import ResizableNodeControlSelected from '../utils/ResizableNodeControlSelected';
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
+  ResizableNodeControlSelected
 }
 
 // Define the Canvas component
@@ -21,6 +22,7 @@ const Canvas: React.FC = () => {
   const [points, setPoints] = useState({ x: 0, y: 0 })
   const [rightClickOnNode, setRightClickOnNode] = useState(false)
   const ref = useRef<HTMLDivElement | any>(null)
+  const { videoRef, fastForward, fastBackward } = useVideoFunctions() as any
 
   // NOTE All ReactFlow Props Functions
   const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds: any) => applyNodeChanges(changes, nds)), [setNodes])
@@ -43,25 +45,6 @@ const Canvas: React.FC = () => {
         setShow(false)
       })
   }, [])
-
-  // useEffect(() => {
-  //   introJs()
-  //     .setOptions({
-  //       nextLabel: " Suivant ",
-  //       prevLabel: " Précédent ",
-  //       doneLabel: " Terminer ",
-  //       // dontShowAgain: true, // TODO: MILA ACTIVENA AMINY FARANY
-  //       showBullets: false,
-  //       steps: [
-  //         {
-  //           title: "Bienvenue sur le simulateur 3D",
-  //           intro: "Laissez-nous vous faire explorer notre simulateur",
-  //           position: "top",
-  //         },
-  //       ],
-  //     })
-  //     .start()
-  // }, [])
 
   // NOTE Close the context menu if it's open whenever the window is clicked.
   const onPaneClick = useCallback(() => setMenu(null), [setMenu])
@@ -140,9 +123,18 @@ const Canvas: React.FC = () => {
             type: "ResizableNodeSelected",
             data: {
               label: (
-                <>
-                  <ReactPlayer className="nodes z-50" url={videoUrl} width="100%" height="100%" controls autoPlay />
-                </>
+                <div className="flex flex-col nodes">
+                  <ReactPlayer ref={videoRef} className="nodes z-50" url={videoUrl} width="100%" height="100%" controls autoPlay />
+                  <div>
+                    <button className="btn btn-primary btn-sm" onClick={fastBackward}>
+                      -10
+                    </button>
+                    <button className="btn btn-primary btn-sm" onClick={fastForward}>
+                      +10
+                    </button>
+                  </div>
+                </div>
+                // <VideoPlayer src={videoUrl}/>
               ),
             },
             position: { x: event.clientX - 100, y: event.clientY - 100 },

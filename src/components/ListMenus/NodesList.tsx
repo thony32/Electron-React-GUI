@@ -1,12 +1,11 @@
-
 import React, { useState } from "react"
-import { useRecoilValue, useSetRecoilState } from "recoil"
-import { nodesState, selectedNodeIdState } from "../../states"
-import { useNodeFunction, useReactFlowFunctions } from "../../hooks"
+import { useSetRecoilState } from "recoil"
+import { selectedNodeIdState } from "../../states"
+import { useNodeFunction, useNodesAndEdgesState, useReactFlowFunctions } from "../../hooks"
 import { Copy, Trashbin } from "../../assets"
 
 const NodesList: React.FC = () => {
-  const nodes = useRecoilValue(nodesState)
+  const { nodes } = useNodesAndEdgesState()
   const setSelectedNodeId = useSetRecoilState(selectedNodeIdState)
   const { deleteNode, duplicateNode } = useNodeFunction()
   const { setNodes, setEdges } = useReactFlowFunctions()
@@ -53,7 +52,7 @@ const NodesList: React.FC = () => {
     <div className="p-1 overflow-y-auto h-full">
       <div className="text-sm font-bold uppercase px-4">Nodes List</div>
       <div className="divider"></div>
-      {nodes.map((node, index) => (
+      {nodes.map((node: any, index: number) => (
         <div key={index} className="flex justify-between items-center p-1 hover:bg-base-200 cursor-pointer" onClick={() => handleNodeClick(node.id)}>
           <div className="flex items-center gap-3">
             <div className="avatar">

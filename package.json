@@ -21,6 +21,7 @@
     "intro.js": "^7.2.0",
     "nanoid": "^5.0.2",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-hotkeys-hook": "^4.4.1",

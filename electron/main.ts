@@ -21,7 +21,8 @@ const createWindow = () => {
   win = new BrowserWindow({
     width: 1500,
     height: 920,
-    icon: path.join("/public/favico.svg", process.env.VITE_PUBLIC),
+    // icon: path.join("/public/favico.svg", process.env.VITE_PUBLIC),
+    icon: path.join(process.env.VITE_PUBLIC, "favico.svg"),
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     }
@@ -39,7 +40,8 @@ const createWindow = () => {
     win.loadURL(VITE_DEV_SERVER_URL);
   } else {
     // win.loadFile('dist/index.html')
-    win.loadFile(path.join(process.env.DIST, "index.html"));
+    // win.loadFile(path.join(process.env.DIST, "index.html"));
+    win.loadFile(path.join(__dirname, "../dist/index.html"));
   }
 
 }
