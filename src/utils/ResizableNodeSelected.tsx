@@ -46,11 +46,11 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
   // NOTE This effect will calculate the aspect ratio of the content
   useEffect(() => {
     if (contentRef.current) {
-      const { offsetWidth, offsetHeight } = contentRef.current;
-      setAspectRatio(offsetWidth / offsetHeight);
+      const { offsetWidth, offsetHeight } = contentRef.current
+      setAspectRatio(offsetWidth / offsetHeight)
+      
     }
-  }, [data]); 
-
+  }, [data])
 
   // NOTE This effect will update the content size when the aspect ratio changes
   const onResize = (_event: any, { width }: Size) => {
@@ -68,7 +68,6 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
     <div
       style={{
         transform: `rotate(${rotation}deg)`,
-        overflow: "hidden"
       }}
     >
       <NodeResizer nodeId={nodes.id} color="hsl(var(--bc))" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={{ width: "75px", height: "75px" }} />
@@ -79,21 +78,11 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
         }}
         className={`nodrag ${styles.rotateHandle}`}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 fill-current" viewBox="0 -960 960 960">
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 fill-current" viewBox="0 -960 960 960">
           <path d="M482-160q-134 0-228-93t-94-227v-7l-64 64-56-56 160-160 160 160-56 56-64-64v7q0 100 70.5 170T482-240q26 0 51-6t49-18l60 60q-38 22-78 33t-82 11Zm278-161L600-481l56-56 64 64v-7q0-100-70.5-170T478-720q-26 0-51 6t-49 18l-60-60q38-22 78-33t82-11q134 0 228 93t94 227v7l64-64 56 56-160 160Z" />
         </svg>
       </div>
-      <div
-        className="p-2 nodes"
-        style={{
-          width: "100%", // Initially, the content should take up the full size of the node
-          height: "100%", // Initially, the content should take up the full size of the node
-          display: "flex",  //Use flex to center the content
-          alignItems: "center",  //Center content vertically
-          justifyContent: "center",  //Center content horizontally
-        }}
-        ref={contentRef}
-      >
+      <div className="p-2 nodes w-full h-full flex items-center justify-center" ref={contentRef}>
         {data.label}
       </div>
       <Handle type="source" className="w-3 h-8 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />

@@ -7,11 +7,9 @@ import { ReactFlowInstanceProvider } from "../contexts"
 import ReactPlayer from "react-player"
 import { nanoid } from "nanoid"
 import { useNodesAndEdgesState, useVideoFunctions } from "../hooks"
-import ResizableNodeControlSelected from "../utils/ResizableNodeControlSelected"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
-  ResizableNodeControlSelected,
 }
 
 // Define the Canvas component
