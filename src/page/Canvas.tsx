@@ -6,7 +6,7 @@ import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
 import { ReactFlowInstanceProvider } from "../contexts"
 import ReactPlayer from "react-player"
 import { nanoid } from "nanoid"
-import { useNodesAndEdgesState, useVideoFunctions } from "../hooks"
+import { useNodesAndEdgesState } from "../hooks"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
@@ -20,7 +20,7 @@ const Canvas: React.FC = () => {
   const [points, setPoints] = useState({ x: 0, y: 0 })
   const [rightClickOnNode, setRightClickOnNode] = useState(false)
   const ref = useRef<HTMLDivElement | any>(null)
-  const { videoRef, fastForward, fastBackward } = useVideoFunctions() as any
+  // const { videoRef, fastForward, fastBackward } = useVideoFunctions() as any
 
   // NOTE All ReactFlow Props Functions
   const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds: any) => applyNodeChanges(changes, nds)), [setNodes])
@@ -78,7 +78,7 @@ const Canvas: React.FC = () => {
       data: {
         label: (
           <>
-            <ReactPlayer className="nodes w-full h-full object-contain block" ref={videoRef} url={url} controls autoPlay />
+            <ReactPlayer className="nodes w-full h-full object-contain block" url={url} controls autoPlay />
           </>
         ),
       },
@@ -125,18 +125,17 @@ const Canvas: React.FC = () => {
             type: "ResizableNodeSelected",
             data: {
               label: (
-                <div className="flex flex-col nodes w-full h-full object-contain">
-                  <ReactPlayer ref={videoRef} className="nodes z-50" url={videoUrl} width="100%" height="100%" controls autoPlay />
-                  <div>
+                <div className="nodes flex flex-col w-full h-full object-contain">
+                  <ReactPlayer className="nodes" url={videoUrl} controls autoPlay />
+                  {/* <div>
                     <button className="btn btn-primary btn-sm" onClick={fastBackward}>
                       -10
                     </button>
                     <button className="btn btn-primary btn-sm" onClick={fastForward}>
                       +10
                     </button>
-                  </div>
+                  </div> */}
                 </div>
-                // <VideoPlayer src={videoUrl}/>
               ),
             },
             position: { x: event.clientX - 100, y: event.clientY - 100 },
