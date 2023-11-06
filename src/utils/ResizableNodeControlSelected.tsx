@@ -28,7 +28,7 @@ const ResizeIcon = () => {
       height="20"
       viewBox="0 0 24 24"
       strokeWidth="2"
-      stroke="hsl(var(--ac))"
+      stroke="hsl(var(--bc))"
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"

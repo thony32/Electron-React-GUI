@@ -2,16 +2,16 @@ import React, { useCallback, useEffect, useRef, useState } from "react"
 import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge } from "reactflow"
 import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected } from "../utils"
-import { MainContextMenu, Toolbar, NodeContextMenu, VideoPlayer } from "../components"
+import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
 import { ReactFlowInstanceProvider } from "../contexts"
 import ReactPlayer from "react-player"
 import { nanoid } from "nanoid"
 import { useNodesAndEdgesState, useVideoFunctions } from "../hooks"
-import ResizableNodeControlSelected from '../utils/ResizableNodeControlSelected';
+import ResizableNodeControlSelected from "../utils/ResizableNodeControlSelected"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
-  ResizableNodeControlSelected
+  ResizableNodeControlSelected,
 }
 
 // Define the Canvas component
@@ -78,7 +78,11 @@ const Canvas: React.FC = () => {
       id: `VID-${nanoid(3)}`,
       type: "ResizableNodeSelected",
       data: {
-        label: <ReactPlayer className="nodes z-50" url={url} width="800px" height="600px" controls autoPlay />,
+        label: (
+          <>
+            <ReactPlayer className="nodes w-full h-full object-contain block" ref={videoRef} url={url} controls autoPlay />
+          </>
+        ),
       },
       position: {
         x: clientX - 100,
@@ -110,7 +114,7 @@ const Canvas: React.FC = () => {
           const newNode = {
             id: `IMG-${nanoid(3)}`,
             type: "ResizableNodeSelected",
-            data: { label: <img src={imageUrl} className="nodes" /> },
+            data: { label: <img src={imageUrl} className="nodes w-full h-full object-contain block" /> },
             position: { x: event.clientX, y: event.clientY },
             selected: true,
           }
@@ -123,7 +127,7 @@ const Canvas: React.FC = () => {
             type: "ResizableNodeSelected",
             data: {
               label: (
-                <div className="flex flex-col nodes">
+                <div className="flex flex-col nodes w-full h-full object-contain">
                   <ReactPlayer ref={videoRef} className="nodes z-50" url={videoUrl} width="100%" height="100%" controls autoPlay />
                   <div>
                     <button className="btn btn-primary btn-sm" onClick={fastBackward}>

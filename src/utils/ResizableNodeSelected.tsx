@@ -68,10 +68,10 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
     <div
       style={{
         transform: `rotate(${rotation}deg)`,
-        overflow: "hidden",
+        overflow: "hidden"
       }}
     >
-      <NodeResizer nodeId={nodes.id} color="hsl(var(--ac))" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={{ width: "15px", height: "15px" }} />
+      <NodeResizer nodeId={nodes.id} color="hsl(var(--bc))" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={{ width: "75px", height: "75px" }} />
       <div
         ref={rotateControlRef}
         style={{
@@ -88,9 +88,9 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
         style={{
           width: "100%", // Initially, the content should take up the full size of the node
           height: "100%", // Initially, the content should take up the full size of the node
-          display: "flex", // Use flex to center the content
-          alignItems: "center", // Center content vertically
-          justifyContent: "center", // Center content horizontally
+          display: "flex",  //Use flex to center the content
+          alignItems: "center",  //Center content vertically
+          justifyContent: "center",  //Center content horizontally
         }}
         ref={contentRef}
       >
