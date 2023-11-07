@@ -146,6 +146,17 @@ const Canvas: React.FC = () => {
     }
   }
 
+  // Function to add a new text node
+  const addTextNode = (text: string, position = { x: 250, y: 100 }) => {
+    const newNode = {
+      id: `text-${nanoid(3)}`,
+      type: 'input', // or any custom type you have defined
+      data: { label: <p className="nodes text-xl">{text}</p> },
+      position,
+    };
+    setNodes((prevNodes: any) => [...prevNodes, newNode]);
+  };
+
   // NOTE: Handle Node Context Menu
 
   const onNodeContextMenu = useCallback(
@@ -178,8 +189,8 @@ const Canvas: React.FC = () => {
         <ReactFlow
           nodes={nodes}
           edges={edges}
-          minZoom={0.02}
-          maxZoom={2}
+          minZoom={0.0001}
+          maxZoom={10}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           onNodesDelete={onNodesDelete}
@@ -199,7 +210,7 @@ const Canvas: React.FC = () => {
           )}
         </ReactFlow>
       </div>
-      <Toolbar />
+      <Toolbar addTextNode={addTextNode}/>
     </main>
   )
 }
