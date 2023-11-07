@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge } from "reactflow"
 import "/node_modules/reactflow/dist/style.css"
-import { handleDragOver, ResizableNodeSelected } from "../utils"
+import { handleDragOver, ResizableNodeSelected, TextNode } from "../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
 import { ReactFlowInstanceProvider } from "../contexts"
 import ReactPlayer from "react-player"
@@ -10,6 +10,7 @@ import { useNodesAndEdgesState } from "../hooks"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
+  TextNode,
 }
 
 // Define the Canvas component
@@ -125,17 +126,9 @@ const Canvas: React.FC = () => {
             type: "ResizableNodeSelected",
             data: {
               label: (
-                <div className="nodes flex flex-col w-full h-full object-contain">
-                  <ReactPlayer className="nodes" url={videoUrl} controls autoPlay />
-                  {/* <div>
-                    <button className="btn btn-primary btn-sm" onClick={fastBackward}>
-                      -10
-                    </button>
-                    <button className="btn btn-primary btn-sm" onClick={fastForward}>
-                      +10
-                    </button>
-                  </div> */}
-                </div>
+                <>
+                  <ReactPlayer className="nodes w-full h-full object-contain block" url={videoUrl} controls autoPlay />
+                </>
               ),
             },
             position: { x: event.clientX - 100, y: event.clientY - 100 },
@@ -146,16 +139,16 @@ const Canvas: React.FC = () => {
     }
   }
 
-  // Function to add a new text node
-  const addTextNode = (text: string, position = { x: 250, y: 100 }) => {
+  // NOTE: Function to add a new text node
+  const addTextNode = (text: string, position = { x: Math.floor(Math.random() * 1001), y: Math.floor(Math.random() * 1001) }) => {
     const newNode = {
       id: `text-${nanoid(3)}`,
-      type: 'input', // or any custom type you have defined
-      data: { label: <p className="nodes text-xl">{text}</p> },
+      type: "TextNode", // or any custom type you have defined
+      data: { label: <p className="nodes text-xl w-full h-full">{text}</p> },
       position,
-    };
-    setNodes((prevNodes: any) => [...prevNodes, newNode]);
-  };
+    }
+    setNodes((prevNodes: any) => [...prevNodes, newNode])
+  }
 
   // NOTE: Handle Node Context Menu
 
@@ -174,7 +167,7 @@ const Canvas: React.FC = () => {
           bottom: event.clientY >= pane.height - 200 && pane.height - event.clientY,
         })
       } else {
-        setMenu(null) // Clear the menu if right-clicking in the canvas
+        setMenu(null)
         setPoints({ x: event.pageX, y: event.pageY })
         setShow(true)
       }
@@ -210,7 +203,7 @@ const Canvas: React.FC = () => {
           )}
         </ReactFlow>
       </div>
-      <Toolbar addTextNode={addTextNode}/>
+      <Toolbar addTextNode={addTextNode} />
     </main>
   )
 }
