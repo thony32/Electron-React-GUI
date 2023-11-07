@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from "react"
 import { useRecoilState } from "recoil"
 import { nodesState } from "../../states"
@@ -17,7 +17,7 @@ const NodePosition: React.FC = () => {
   }
 
   return (
-    <div className="p-2 h-96 overflow-y-auto">
+    <div className="p-2 h-[50%] overflow-y-auto">
       <div className="text-sm font-bold uppercase px-4">Nodes Position</div>
       <div className="divider"></div>
       {imageNodes.map((node) => (

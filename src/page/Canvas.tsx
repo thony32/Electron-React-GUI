@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge } from "reactflow"
 import "/node_modules/reactflow/dist/style.css"
@@ -21,6 +20,7 @@ const Canvas: React.FC = () => {
   const [points, setPoints] = useState({ x: 0, y: 0 })
   const [rightClickOnNode, setRightClickOnNode] = useState(false)
   const ref = useRef<HTMLDivElement | any>(null)
+  // const { videoRef, fastForward, fastBackward } = useVideoFunctions() as any
 
   // NOTE All ReactFlow Props Functions
   const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds: any) => applyNodeChanges(changes, nds)), [setNodes])
@@ -44,7 +44,7 @@ const Canvas: React.FC = () => {
       })
   }, [])
 
-  // Close the context menu if it's open whenever the window is clicked.
+  // NOTE Close the context menu if it's open whenever the window is clicked.
   const onPaneClick = useCallback(() => setMenu(null), [setMenu])
 
   // NOTE: Handle Main Context Menu event listener
@@ -65,54 +65,83 @@ const Canvas: React.FC = () => {
     }
   }
 
+  // NOTE: Function to check if the URL is a video
+  const isVideoURL = (url: string): boolean => {
+    return url.startsWith("http://") || url.startsWith("https://")
+  }
+
+  // NOTE: Function to create a video as a node from the web
+  const createVideoNodeFromURL = (url: string, clientX: number, clientY: number) => {
+    const newNode = {
+      id: `VID-${nanoid(3)}`,
+      type: "ResizableNodeSelected",
+      data: {
+        label: (
+          <>
+            <ReactPlayer className="nodes w-full h-full object-contain block" url={url} controls autoPlay />
+          </>
+        ),
+      },
+      position: {
+        x: clientX - 100,
+        y: clientY - 100,
+      },
+    }
+    setNodes((prevNodes: any) => [...prevNodes, newNode])
+  }
+
   // NOTE: Function to handle drop of media files into React Flow
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
 
-    const files = event.dataTransfer.files
+    const uri = event.dataTransfer.getData("URL") || event.dataTransfer.getData("text/uri-list")
+    if (uri && isVideoURL(uri)) {
+      createVideoNodeFromURL(uri, event.clientX, event.clientY)
+      return
+    } else {
+      const files = event.dataTransfer.files
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i]
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i]
 
-      if (file.type.startsWith("image/")) {
-        // NOTE: Handle image file as a new node
-        const imageUrl = URL.createObjectURL(file)
-        const newNode = {
-          id: `IMG-${nanoid(3)}`,
-          type: "ResizableNodeSelected",
-          data: { label: <img src={imageUrl} className="nodes" /> },
-          position: { x: event.clientX, y: event.clientY },
-          selected: true,
-        }
-        setNodes((prevNodes: any) => [...prevNodes, newNode])
-      } else if (file.type.startsWith("video/")) {
-        // FIXME: Handle video file as a new node
-        const videoUrl = URL.createObjectURL(file)
-        const newNode = {
-          id: `VID-${nanoid(3)}`,
-          type: "ResizableNodeSelected",
-          data: {
-            label: <ReactPlayer className="nodes" url={videoUrl} width="100%" height="100%" controls />,
-          },
-          position: { x: event.clientX - 100, y: event.clientY - 100 },
-        }
-        setNodes((prevNodes: any) => [...prevNodes, newNode])
-      } else if (file.type.startsWith("text/")) {
-        // Handle text file as a new node
-        const reader = new FileReader()
-        reader.onload = (event: any) => {
-          const textContent = event.target.result
+        if (file.type.startsWith("image/")) {
+          // NOTE: Handle image file as a new node
+          const imageUrl = URL.createObjectURL(file)
           const newNode = {
-            id: `TXT-${nanoid(3)}`,
+            id: `IMG-${nanoid(3)}`,
             type: "ResizableNodeSelected",
-            data: { label: <div>{textContent}</div> },
+            data: { label: <img src={imageUrl} className="nodes w-full h-full object-contain block" /> },
             position: { x: event.clientX, y: event.clientY },
+            selected: true,
+          }
+          setNodes((prevNodes: any) => [...prevNodes, newNode])
+        } else if (file.type.startsWith("video/")) {
+          // NOTE: Handle video file as a new node
+          const videoUrl = URL.createObjectURL(file)
+          const newNode = {
+            id: `VID-${nanoid(3)}`,
+            type: "ResizableNodeSelected",
+            data: {
+              label: (
+                <div className="nodes flex flex-col w-full h-full object-contain">
+                  <ReactPlayer className="nodes" url={videoUrl} controls autoPlay />
+                  {/* <div>
+                    <button className="btn btn-primary btn-sm" onClick={fastBackward}>
+                      -10
+                    </button>
+                    <button className="btn btn-primary btn-sm" onClick={fastForward}>
+                      +10
+                    </button>
+                  </div> */}
+                </div>
+              ),
+            },
+            position: { x: event.clientX - 100, y: event.clientY - 100 },
           }
           setNodes((prevNodes: any) => [...prevNodes, newNode])
         }
-        reader.readAsText(file)
       }
     }
   }
@@ -143,12 +172,14 @@ const Canvas: React.FC = () => {
   )
 
   return (
-    <main className="h-screen overflow-hidden col-span-8" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
+    <main className="h-screen overflow-hidden col-span-8 -z-50 introjs-tooltiptext" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
       <div className="w-full h-full flex justify-center items-center" ref={ref}>
         {/* React Flow component */}
         <ReactFlow
           nodes={nodes}
-          edges={edges as any}
+          edges={edges}
+          minZoom={0.02}
+          maxZoom={2}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           onNodesDelete={onNodesDelete}

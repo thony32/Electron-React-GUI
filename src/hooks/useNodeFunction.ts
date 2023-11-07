@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useContext } from "react"
 import CanvasContext from "../contexts/CanvasContext"
 

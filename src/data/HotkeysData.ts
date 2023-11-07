@@ -17,7 +17,7 @@ const HotkeysData = [
   },
   {
     label: "Delete",
-    hotkey: "delete"
+    hotkey: "Backspace"
   },
   {
     label: "Multiple Selection",
@@ -25,7 +25,7 @@ const HotkeysData = [
   },
   {
     label: "Window always on Top",
-    hotkey: "shift+t"
+    hotkey: "Alt+shift+t"
   },
   {
     label: "Save",
