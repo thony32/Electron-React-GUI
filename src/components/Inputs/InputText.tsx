@@ -15,7 +15,7 @@ const InputText: React.FC = () => {
       </button>
       <dialog id="inputtext" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box space-y-8">
-          <h3 className="font-extrabold text-2xl text-base-content">Add your text</h3>
+          <h3 className="font-extrabold text-2xl text-base-content">Add your note</h3>
           {/* Modal Content */}
           <div className="space-y-4">
             <div className="relative">
