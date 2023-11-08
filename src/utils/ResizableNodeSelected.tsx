@@ -69,7 +69,7 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
         transform: `rotate(${rotation}deg)`,
       }}
     >
-      <NodeResizer nodeId={nodes.id} color="hsl(var(--bc))" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={{ width: "75px", height: "75px" }} />
+      <NodeResizer nodeId={nodes.id} color="hsl(var(--in))" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={{ width: "50px", height: "50px" }} />
       <div
         ref={rotateControlRef}
         style={{

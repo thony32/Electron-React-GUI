@@ -182,8 +182,8 @@ const Canvas: React.FC = () => {
         <ReactFlow
           nodes={nodes}
           edges={edges}
-          minZoom={0.0001}
-          maxZoom={10}
+          minZoom={0.01}
+          maxZoom={1000}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           onNodesDelete={onNodesDelete}
