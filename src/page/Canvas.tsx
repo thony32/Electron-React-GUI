@@ -124,12 +124,7 @@ const Canvas: React.FC = () => {
   }
 
   // NOTE: Function to create a clickable link node from a URL
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const createLinkNodeFromURL = (url: string, clientX: number, clientY: number) => {
-    // Generate a random position for the node
-    const randomX = Math.floor(Math.random() * 1001)
-    const randomY = Math.floor(Math.random() * 1001)
-
     const newNode = {
       id: `LINK-${nanoid(3)}`,
       type: "TextNode",
@@ -140,7 +135,7 @@ const Canvas: React.FC = () => {
           </a>
         ),
       },
-      position: { x: randomX, y: randomY },
+      position: { x: clientX, y: clientY },
     }
     setNodes((prevNodes: any) => [...prevNodes, newNode])
   }
@@ -150,9 +145,9 @@ const Canvas: React.FC = () => {
     // Perform a HEAD request to check the Content-Type
     try {
       const response = await fetch(uri, { method: "HEAD" })
-      console.log(response)
+      // console.log(response)
       const contentType = response.headers.get("Content-Type")
-      console.log(contentType)
+      // console.log(contentType)
 
       if (contentType?.startsWith("video")) {
         // It's a video
@@ -160,7 +155,7 @@ const Canvas: React.FC = () => {
       } else if (contentType?.startsWith("image")) {
         // It's an image
         createImageNodeFromURL(uri, clientX, clientY)
-      } 
+      }
     } catch (error) {
       // If HEAD request fails, fallback to extension checking
       console.error("Error fetching URL, fallback to extension checking:", error)
