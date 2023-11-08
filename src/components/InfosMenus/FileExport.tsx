@@ -10,7 +10,7 @@ const FileExport: React.FC = () => {
       <div>
         <button className="flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-primary text-slate-200 text-sm font-bold w-full hover:bg-primary/75 active:scale-95 duration-300">
           <Download/>
-          <span>Export as .ref</span>
+          <span>Export as File</span>
         </button>
       </div>
     </div>

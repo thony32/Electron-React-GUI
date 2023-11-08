@@ -21,7 +21,6 @@ const Canvas: React.FC = () => {
   const [points, setPoints] = useState({ x: 0, y: 0 })
   const [rightClickOnNode, setRightClickOnNode] = useState(false)
   const ref = useRef<HTMLDivElement | any>(null)
-  // const { videoRef, fastForward, fastBackward } = useVideoFunctions() as any
 
   // NOTE All ReactFlow Props Functions
   const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds: any) => applyNodeChanges(changes, nds)), [setNodes])
@@ -68,10 +67,31 @@ const Canvas: React.FC = () => {
 
   // NOTE: Function to check if the URL is a video
   const isVideoURL = (url: string): boolean => {
-    return url.startsWith("http://") || url.startsWith("https://")
+    // List of common video file extensions and patterns in video URLs
+    const videoIndicators = [
+      ".mp4",
+      ".webm",
+      ".ogg",
+      ".avi",
+      ".mov",
+      ".mkv", // extensions
+      "youtube.com",
+      "vimeo.com", // domains known for videos
+      "/video",
+      "watch?",
+      "embed", // URL segments that could indicate video content
+    ]
+
+    // Check if any of the video indicators are present in the URL
+    return videoIndicators.some((indicator) => url.toLowerCase().includes(indicator))
   }
 
-  // NOTE: Function to create a video as a node from the web
+  const isImageURL = (url: string): boolean => {
+    const imageExtensions = [".jpeg", ".jpg", ".gif", ".png", ".bmp", ".svg", ".webp"]
+    return imageExtensions.some((extension) => url.toLowerCase().endsWith(extension))
+  }
+
+  // NOTE: Create a video as a new node
   const createVideoNodeFromURL = (url: string, clientX: number, clientY: number) => {
     const newNode = {
       id: `VID-${nanoid(3)}`,
@@ -79,7 +99,7 @@ const Canvas: React.FC = () => {
       data: {
         label: (
           <>
-            <ReactPlayer className="nodes w-full h-full object-contain block" url={url} controls autoPlay />
+            <ReactPlayer className="nodes w-full h-full object-contain block" url={url} controls />
           </>
         ),
       },
@@ -91,50 +111,102 @@ const Canvas: React.FC = () => {
     setNodes((prevNodes: any) => [...prevNodes, newNode])
   }
 
-  // NOTE: Function to handle drop of media files into React Flow
+  // NOTE: Create image file as a new node
+  const createImageNodeFromURL = (url: string, clientX: number, clientY: number) => {
+    const newNode = {
+      id: `IMG-${nanoid(3)}`,
+      type: "ResizableNodeSelected",
+      data: { label: <img src={url} className="nodes w-full h-full object-contain block" /> },
+      position: { x: clientX, y: clientY },
+      selected: true,
+    }
+    setNodes((prevNodes: any) => [...prevNodes, newNode])
+  }
+
+  // NOTE: Function to create a clickable link node from a URL
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const createLinkNodeFromURL = (url: string, clientX: number, clientY: number) => {
+    // Generate a random position for the node
+    const randomX = Math.floor(Math.random() * 1001)
+    const randomY = Math.floor(Math.random() * 1001)
+
+    const newNode = {
+      id: `LINK-${nanoid(3)}`,
+      type: "TextNode",
+      data: {
+        label: (
+          <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500">
+            {url}
+          </a>
+        ),
+      },
+      position: { x: randomX, y: randomY },
+    }
+    setNodes((prevNodes: any) => [...prevNodes, newNode])
+  }
+
+  // NOTE: Function to check if the URL is a video or image
+  const handleDroppedURL = async (uri: string, clientX: number, clientY: number) => {
+    // Perform a HEAD request to check the Content-Type
+    try {
+      const response = await fetch(uri, { method: "HEAD" })
+      console.log(response)
+      const contentType = response.headers.get("Content-Type")
+      console.log(contentType)
+
+      if (contentType?.startsWith("video")) {
+        // It's a video
+        createVideoNodeFromURL(uri, clientX, clientY)
+      } else if (contentType?.startsWith("image")) {
+        // It's an image
+        createImageNodeFromURL(uri, clientX, clientY)
+      } 
+    } catch (error) {
+      // If HEAD request fails, fallback to extension checking
+      console.error("Error fetching URL, fallback to extension checking:", error)
+      if (isVideoURL(uri)) {
+        createVideoNodeFromURL(uri, clientX, clientY)
+      } else {
+        // Assume it's an image if not a known video extension
+        createImageNodeFromURL(uri, clientX, clientY)
+      }
+    }
+  }
+
+  // NOTE: FUNCTION TO HANDLE DROP EVENT
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
 
     const uri = event.dataTransfer.getData("URL") || event.dataTransfer.getData("text/uri-list")
+
     if (uri && isVideoURL(uri)) {
-      createVideoNodeFromURL(uri, event.clientX, event.clientY)
+      handleDroppedURL(uri, event.clientX, event.clientY)
       return
-    } else {
-      const files = event.dataTransfer.files
+    }
 
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i]
+    if (!isImageURL(uri) && !isVideoURL(uri)) {
+      const clientX = event.clientX - (ref.current.getBoundingClientRect().left + window.scrollX)
+      const clientY = event.clientY - (ref.current.getBoundingClientRect().top + window.scrollY)
+      createLinkNodeFromURL(uri, clientX, clientY)
+    }
 
-        if (file.type.startsWith("image/")) {
-          // NOTE: Handle image file as a new node
-          const imageUrl = URL.createObjectURL(file)
-          const newNode = {
-            id: `IMG-${nanoid(3)}`,
-            type: "ResizableNodeSelected",
-            data: { label: <img src={imageUrl} className="nodes w-full h-full object-contain block" /> },
-            position: { x: event.clientX, y: event.clientY },
-            selected: true,
-          }
-          setNodes((prevNodes: any) => [...prevNodes, newNode])
-        } else if (file.type.startsWith("video/")) {
-          // NOTE: Handle video file as a new node
-          const videoUrl = URL.createObjectURL(file)
-          const newNode = {
-            id: `VID-${nanoid(3)}`,
-            type: "ResizableNodeSelected",
-            data: {
-              label: (
-                <>
-                  <ReactPlayer className="nodes w-full h-full object-contain block" url={videoUrl} controls autoPlay />
-                </>
-              ),
-            },
-            position: { x: event.clientX - 100, y: event.clientY - 100 },
-          }
-          setNodes((prevNodes: any) => [...prevNodes, newNode])
-        }
+    const files = event.dataTransfer.files
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      const clientX = event.clientX - 100
+      const clientY = event.clientY - 100
+
+      if (file.type.startsWith("image/")) {
+        // NOTE Handle image file as a new node
+        const imageUrl = URL.createObjectURL(file)
+        createImageNodeFromURL(imageUrl, clientX, clientY)
+      } else if (file.type.startsWith("video/")) {
+        // NOTE Handle video file as a new node
+        const videoUrl = URL.createObjectURL(file)
+        createVideoNodeFromURL(videoUrl, clientX, clientY)
       }
     }
   }
@@ -183,7 +255,7 @@ const Canvas: React.FC = () => {
           nodes={nodes}
           edges={edges}
           minZoom={0.01}
-          maxZoom={1000}
+          maxZoom={100}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           onNodesDelete={onNodesDelete}
