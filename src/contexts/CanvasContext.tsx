@@ -11,6 +11,7 @@ interface ContextTypes {
   deleteNode: (id: string) => void
 }
 
+
 const CanvasContext = createContext<ContextTypes | undefined>(undefined)
 
 // Provider pour envelopper votre application
