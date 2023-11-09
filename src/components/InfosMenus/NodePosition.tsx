@@ -22,7 +22,7 @@ const NodePosition: React.FC = () => {
       <div className="divider"></div>
       {imageNodes.map((node) => (
         <div key={node.id} className="flex flex-col space-y-4 justify-between p-2 hover:bg-base-200">
-          <div className="text-center text-xs font-semibold">{node.id}</div>
+          <div className="text-center text-xs font-semibold bg-neutral/75 text-neutral-content p-2 rounded-md">{node.id}</div>
           <div className="flex justify-center gap-4">
             <div className="text-xs flex justify-center items-center gap-4">
               <span>X:</span>
