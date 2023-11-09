@@ -1,21 +1,25 @@
 import { useEffect, useRef, useState } from "react"
-import { Handle, NodeProps, NodeResizer, Position, useUpdateNodeInternals } from "reactflow"
+import { Handle, NodeProps, NodeResizeControl, Position, useUpdateNodeInternals } from "reactflow"
 import { drag } from "d3-drag"
 import { select } from "d3-selection"
-import { useNodesAndEdgesState } from "../hooks"
 
 type Size = {
   width: number
   height: number
 }
 
-const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps) => {
+const controlStyle = {
+  background: "transparent",
+  border: "none",
+}
+
+const ControledNodeSelected = ({ id, data, isConnectable }: NodeProps) => {
   const [rotation, setRotation] = useState(0)
   const rotatable = true
   const updateNodeInternals = useUpdateNodeInternals()
   const rotateControlRef = useRef<any>(null)
   const contentRef = useRef<any>(null)
-  const { nodes } = useNodesAndEdgesState()
+//   const { nodes } = useNodesAndEdgesState()
   const [aspectRatio, setAspectRatio] = useState<number>(1)
 
   // NOTE This effect will add the drag handler to the rotate control
@@ -47,12 +51,11 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
     if (contentRef.current) {
       const { offsetWidth, offsetHeight } = contentRef.current
       setAspectRatio(offsetWidth / offsetHeight)
-      
     }
   }, [data])
 
-  // FIXME: This effect will update the content size when the aspect ratio changes
-  const onResize = (_event: any, { width }: Size) => {
+  // FIXME This effect will update the content size when the aspect ratio changes
+  const onResize = (_event: DragEvent, { width }: Size) => {
     // Calculate the new height based on the aspect ratio
     const newHeight = width / aspectRatio
     // Apply the new width and height to the content element
@@ -69,7 +72,9 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
         transform: `rotate(${rotation}deg)`,
       }}
     >
-      <NodeResizer nodeId={nodes.id} color="hsl(var(--in))" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={{ width: "15px", height: "15px" }} />
+      <NodeResizeControl style={controlStyle} minWidth={100} minHeight={50}>
+        <ResizeIcon />
+      </NodeResizeControl>
       <div
         ref={rotateControlRef}
         style={{
@@ -90,4 +95,27 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
   )
 }
 
-export default ResizableNodeSelected
+const ResizeIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      strokeWidth="2"
+      stroke="hsl(var(--in))"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ position: "absolute", right: 5, bottom: 5 }}
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <polyline points="16 20 20 20 20 16" />
+      <line x1="14" y1="14" x2="20" y2="20" />
+      <polyline points="8 4 4 4 4 8" />
+      <line x1="4" y1="4" x2="10" y2="10" />
+    </svg>
+  )
+}
+
+export default ControledNodeSelected

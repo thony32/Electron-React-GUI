@@ -25,7 +25,7 @@ const HotkeysData = [
   },
   {
     label: "Window always on Top",
-    hotkey: "Alt+shift+t"
+    hotkey: "Ctrl+shift+a"
   },
   {
     label: "Save",
@@ -36,7 +36,7 @@ const HotkeysData = [
     hotkey: "ctrl+shift+p"
   },
   {
-    label: "Export as JSON",
+    label: "Export as File",
     hotkey: "ctrl+shift+s"
   }
 ]
