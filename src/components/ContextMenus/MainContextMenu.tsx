@@ -17,8 +17,6 @@ const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
     }
   }
 
-  
-
   return (
     <div className="absolute flex flex-col w-[150px] xl:w-[250px] bg-neutral/75 text-neutral-content rounded-sm z-10" style={{ top: top, left: left }}>
       {/* <button className="py-2 px-4 text-sm hover:bg-neutral/80 duration-300 rounded-sm flex justify-between items-center space-x-4">
@@ -49,6 +47,7 @@ const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
         <span className="font-bold tracking-wide">Export as Image</span>
         <span className="text-xs font-semibold">{OS(window) === "MacOS" ? "Cmd + E" : "Ctrl + E"}</span>
       </button> */}
+      {/* // TODO: Export as File */}
       <button className="py-2 px-4 text-sm hover:bg-neutral/80 duration-300 rounded-sm flex justify-between items-center space-x-4">
         <span className="font-bold tracking-wide">Export as File</span>
         <span className="text-xs font-semibold">{OS(window) === "MacOS" ? "Cmd + E" : "Ctrl + shift + E"}</span>

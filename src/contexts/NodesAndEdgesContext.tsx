@@ -7,7 +7,7 @@ import useUndoable from "use-undoable"
 const NodesAndEdgesContext = createContext<any | undefined>(undefined)
 
 export const NodesAndEdgesContextProvider = ({ children }: ProviderProps) => {
-  // NOTE: UNDO & REDO : Using useUndoable to manage the history state
+  // FIXME: UNDO & REDO : Using useUndoable to manage the history state
   const [nodes, setNodes, { undo: undoNodes, redo: redoNodes, canUndo: canUndoNodes, canRedo: canRedoNodes }] = useUndoable([])
   const [edges, setEdges, { undo: undoEdges, redo: redoEdges, canUndo: canUndoEdges, canRedo: canRedoEdges }] = useUndoable([])
 

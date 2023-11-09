@@ -24,7 +24,7 @@ const NodesList: React.FC = () => {
     duplicateNode(nodeId)
   }
 
-  // TODO: Handle Id change
+  // NOTE Handle Id change
   const handleIdChange = (oldId: string, newId: string) => {
     setNodes((prevNodes: any) => prevNodes.map((node: any) => (node.id === oldId ? { ...node, id: newId } : node)))
     setEdges((prevEdges: any) => prevEdges.map((edge: any) => (edge.source === oldId ? { ...edge, source: newId } : edge)))
