@@ -77,7 +77,7 @@ const ResizableNodeSelected = ({id, data, selected, isConnectable }: NodeProps) 
       }
     });
   }
-  console.log(aspectRatio)
+  // console.log(aspectRatio)
 
   return (
     <div
@@ -85,7 +85,7 @@ const ResizableNodeSelected = ({id, data, selected, isConnectable }: NodeProps) 
         transform: `rotate(${rotation}deg)`,
       }}
     >
-      <NodeResizer nodeId={id} color="hsl(var(--in))" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={{ width: "15px", height: "15px" }} />
+      <NodeResizer nodeId={id} color="#FF0844" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={{ width: "20px", height: "20px" }} />
       <div
         ref={rotateControlRef}
         style={{
@@ -100,8 +100,8 @@ const ResizableNodeSelected = ({id, data, selected, isConnectable }: NodeProps) 
       <div className="p-1 nodes" ref={contentRef}>
         {data.label}
       </div>
-      <Handle type="source" className="w-3 h-8 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
-      <Handle type="target" className="w-3 h-8 rounded-full bg-black border-none" position={Position.Left} isConnectable={isConnectable} />
+      <Handle type="source" className="w-4 h-12 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
+      <Handle type="target" className="w-4 h-12 rounded-full bg-black border-none" position={Position.Left} isConnectable={isConnectable} />
     </div>
   )
 }

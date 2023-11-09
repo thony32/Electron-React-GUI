@@ -7,12 +7,10 @@ import { ReactFlowInstanceProvider } from "../contexts"
 import ReactPlayer from "react-player"
 import { nanoid } from "nanoid"
 import { useNodesAndEdgesState } from "../hooks"
-import ControledNodeSelected from "../utils/ControledNodeSelected"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
   TextNode,
-  ControledNodeSelected,
 }
 
 // Define the Canvas component
@@ -67,7 +65,7 @@ const Canvas: React.FC = () => {
     }
   }
 
-  // NOTE: Function to check if the URL is a video
+  // FIXME: Function to check if the URL is a video
   const isVideoURL = (url: string): boolean => {
     // List of common video file extensions and patterns in video URLs
     const videoIndicators = [
@@ -88,6 +86,7 @@ const Canvas: React.FC = () => {
     return videoIndicators.some((indicator) => url.toLowerCase().includes(indicator))
   }
 
+  // FIXME: Function to check if the URL is an image
   const isImageURL = (url: string): boolean => {
     const imageExtensions = [".jpeg", ".jpg", ".gif", ".png", ".bmp", ".svg", ".webp"]
     return imageExtensions.some((extension) => url.toLowerCase().endsWith(extension))
