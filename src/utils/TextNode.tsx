@@ -2,8 +2,8 @@ import { Handle, NodeProps, Position } from "reactflow"
 
 const TextNode = ({ data, isConnectable }: NodeProps) => {
   return (
-    <div className="bg-gray-500/25 rounded-lg">
-      <div className="p-4 nodes text-2xl font-semibold tracking-widest w-full h-full">
+    <div className="bg-gray-500/25 rounded-lg max-w-[500px]">
+      <div className="p-4 nodes w-full h-full">
         {data.label}
       </div>
       <Handle type="source" className="w-3 h-3 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />

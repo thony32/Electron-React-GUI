@@ -7,10 +7,12 @@ import { ReactFlowInstanceProvider } from "../contexts"
 import ReactPlayer from "react-player"
 import { nanoid } from "nanoid"
 import { useNodesAndEdgesState } from "../hooks"
+import ControledNodeSelected from "../utils/ControledNodeSelected"
 
 const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
   TextNode,
+  ControledNodeSelected,
 }
 
 // Define the Canvas component
@@ -211,7 +213,7 @@ const Canvas: React.FC = () => {
     const newNode = {
       id: `text-${nanoid(3)}`,
       type: "TextNode", // or any custom type you have defined
-      data: { label: <p className="nodes text-xl w-full h-full">{text}</p> },
+      data: { label: <p className="nodes text-3xl font-semibold tracking-wide w-full h-full">{text}</p> },
       position,
     }
     setNodes((prevNodes: any) => [...prevNodes, newNode])
@@ -249,8 +251,8 @@ const Canvas: React.FC = () => {
         <ReactFlow
           nodes={nodes}
           edges={edges}
-          minZoom={0.01}
-          maxZoom={100}
+          minZoom={0.2}
+          maxZoom={20}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           onNodesDelete={onNodesDelete}

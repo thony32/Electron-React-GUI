@@ -48,6 +48,8 @@ const NodesList: React.FC = () => {
     setTempId("")
   }
 
+  // FIXME: Nodes List Avatar following the type (image, video, text, etc)
+  
   return (
     <div className="p-1 overflow-y-auto h-full">
       <div className="text-sm font-bold uppercase px-4">Nodes List</div>
