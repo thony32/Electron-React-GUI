@@ -4,7 +4,6 @@ import { toPng } from "html-to-image"
 import ReactFlowContext from "../../contexts/ReactFlowContext"
 import { ImageIcon } from "../../assets"
 import { FileExport } from ".."
-// import ExportContext from "../../contexts/ExportContext"
 
 const downloadImage = (dataUrl: string) => {
   const link = document.createElement("a")
@@ -33,7 +32,6 @@ const ImageExport: React.FC = () => {
       },
     }).then(downloadImage)
   }
-  // const { imageWidth, imageHeight, setImageHeight, setImageWidth, handleImageExport } = useContext(ExportContext)
 
   return (
     <div className="p-2 h-48">

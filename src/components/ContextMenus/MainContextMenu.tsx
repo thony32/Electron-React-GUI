@@ -28,7 +28,7 @@ const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
   }
 
   return (
-    <div className="absolute flex flex-col w-[150px] xl:w-[250px] bg-base-200/50 rounded-md z-10" style={{ top: top, left: left }}>
+    <div className="absolute flex flex-col w-[200px] xl:w-[250px] bg-base-200/60 rounded-md z-10" style={{ top: top, left: left }}>
       {/* <button className="py-2 px-4 text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between items-center space-x-4">
         <span className="font-bold tracking-wide">Help</span>
         <span className="text-xs font-semibold">{OS(window) === "MacOS" ? "Cmd + H" : "Ctrl + H"}</span>
