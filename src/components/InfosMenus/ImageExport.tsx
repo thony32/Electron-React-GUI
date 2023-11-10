@@ -37,7 +37,7 @@ const ImageExport: React.FC = () => {
 
   return (
     <div className="p-2 h-48">
-      <div className="text-sm font-bold uppercase px-4">Export</div>
+      <div className="font-bold uppercase px-4">Export</div>
       <div className="divider"></div>
       <div className="p-4 space-y-4">
         <div className="space-y-2">

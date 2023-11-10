@@ -2,6 +2,7 @@
 import React from "react"
 import { useRecoilState } from "recoil"
 import { nodesState } from "../../states"
+import "../../index.css"
 
 const NodePosition: React.FC = () => {
   const [imageNodes, setImageNodes] = useRecoilState(nodesState)
@@ -17,8 +18,8 @@ const NodePosition: React.FC = () => {
   }
 
   return (
-    <div className="p-2 h-[50%] overflow-y-auto">
-      <div className="text-sm font-bold uppercase px-4">Nodes Position</div>
+    <div className="p-1 h-[50%] overflow-y-auto scrollbar">
+      <div className=" font-bold uppercase px-4">Nodes Position</div>
       <div className="divider"></div>
       {imageNodes.map((node) => (
         <div key={node.id} className="flex flex-col space-y-4 justify-between p-2 hover:bg-base-200">

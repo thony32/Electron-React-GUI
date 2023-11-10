@@ -3,6 +3,7 @@ import { useSetRecoilState } from "recoil"
 import { selectedNodeIdState } from "../../states"
 import { useNodeFunction, useNodesAndEdgesState, useReactFlowFunctions } from "../../hooks"
 import { Copy, Trashbin } from "../../assets"
+import "../../index.css"
 
 const NodesList: React.FC = () => {
   const { nodes } = useNodesAndEdgesState()
@@ -51,8 +52,8 @@ const NodesList: React.FC = () => {
   // FIXME: Nodes List Avatar following the type (image, video, text, etc)
   
   return (
-    <div className="p-1 overflow-y-auto h-full">
-      <div className="text-sm font-bold uppercase px-4">Nodes List</div>
+    <div className="p-1 overflow-y-auto scrollbar h-full">
+      <div className="font-bold uppercase px-4">Nodes List</div>
       <div className="divider"></div>
       {nodes.map((node: any, index: number) => (
         <div key={index} className="flex justify-between items-center p-1 hover:bg-base-200 cursor-pointer" onClick={() => handleNodeClick(node.id)}>

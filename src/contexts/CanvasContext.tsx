@@ -5,24 +5,17 @@ import { nanoid } from "nanoid"
 import { Edge, Node } from "reactflow"
 import { useReactFlowFunctions } from "../hooks"
 
-// Définir le type pour le context
 interface ContextTypes {
   duplicateNode: (id: string) => void
   deleteNode: (id: string) => void
 }
 
-
 const CanvasContext = createContext<ContextTypes | undefined>(undefined)
-
-// Provider pour envelopper votre application
 
 export const CanvasContextProvider = ({ children }: ProviderProps) => {
 
   // La fonction que vous souhaitez partager
   const { getNode, setNodes, addNodes, setEdges } = useReactFlowFunctions()
-
-  // Trouvez le nœud actuellement sélectionné
-  // const selectedNode = nodes.find(node => node.selected);
   
   // NOTE: Duplicate node
   const duplicateNode = useCallback((id: string) => {
