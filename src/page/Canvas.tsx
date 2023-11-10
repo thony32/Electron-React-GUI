@@ -15,7 +15,7 @@ const nodeTypes: NodeTypes = {
 
 // Define the Canvas component
 const Canvas: React.FC = () => {
-  const { nodes, setNodes, edges, setEdges } = useNodesAndEdgesState()
+  const { nodes, setNodes, edges, setEdges } = useNodesAndEdgesState() as any
   const [menu, setMenu] = useState<any>(null)
   const [show, setShow] = useState(false)
   const [points, setPoints] = useState({ x: 0, y: 0 })
