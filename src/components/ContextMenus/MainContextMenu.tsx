@@ -9,6 +9,16 @@ const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
   const { rfInstance } = useRFInstance()
   const { setValue } = useLocalStorage()
 
+  const handleUndo = () => {
+    if (canUndoNodes) undoNodes()
+    if (canUndoEdges) undoEdges()
+  }
+
+  const handleRedo = () => {
+    if (canRedoNodes) redoNodes()
+    if (canRedoEdges) redoEdges()
+  }
+
   // NOTE: Set Flow state into LocalStorage
   const handleSave = () => {
     if (rfInstance) {
@@ -25,7 +35,7 @@ const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
       </button> */}
       <button
         className="py-2 px-4 text-sm hover:bg-neutral/80 duration-300 rounded-sm flex justify-between items-center space-x-4"
-        onClick={undoNodes}
+        onClick={handleUndo}
         disabled={!canUndoNodes && !canUndoEdges}
       >
         <span className="font-bold tracking-wide">Undo</span>
@@ -33,7 +43,7 @@ const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
       </button>
       <button
         className="py-2 px-4 text-sm hover:bg-neutral/80 duration-300 rounded-sm flex justify-between items-center space-x-4"
-        onClick={redoNodes}
+        onClick={handleRedo}
         disabled={!canRedoNodes && !canRedoEdges}
       >
         <span className="font-bold tracking-wide">Redo</span>
