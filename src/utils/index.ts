@@ -1,8 +1,9 @@
-import ResizableNodeSelected from "./ResizableNodeSelected"
+import ImageNode from "./ImageNode"
 import handleDragOver from "./handleDragOver"
 import type ContextMenuProps from "./ContextMenuPropTypes"
 import OS from "./getOperatingSystem"
 import type { ProviderProps } from "./ProviderProps"
 import TextNode from './TextNode';
+import VideoNode from './VideoNode';
 
-export { handleDragOver, ResizableNodeSelected, ContextMenuProps, OS, ProviderProps, TextNode }
+export { handleDragOver, ImageNode, ContextMenuProps, OS, ProviderProps, TextNode, VideoNode }

@@ -28,13 +28,13 @@ const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
   }
 
   return (
-    <div className="absolute flex flex-col w-[150px] xl:w-[250px] bg-neutral/75 text-neutral-content rounded-sm z-10" style={{ top: top, left: left }}>
-      {/* <button className="py-2 px-4 text-sm hover:bg-neutral/80 duration-300 rounded-sm flex justify-between items-center space-x-4">
+    <div className="absolute flex flex-col w-[150px] xl:w-[250px] bg-base-200/50 rounded-md z-10" style={{ top: top, left: left }}>
+      {/* <button className="py-2 px-4 text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between items-center space-x-4">
         <span className="font-bold tracking-wide">Help</span>
         <span className="text-xs font-semibold">{OS(window) === "MacOS" ? "Cmd + H" : "Ctrl + H"}</span>
       </button> */}
       <button
-        className="py-2 px-4 text-sm hover:bg-neutral/80 duration-300 rounded-sm flex justify-between items-center space-x-4"
+        className="py-2 px-4 text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between items-center space-x-4"
         onClick={handleUndo}
         disabled={!canUndoNodes && !canUndoEdges}
       >
@@ -42,23 +42,23 @@ const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
         <span className="text-xs font-semibold">{OS(window) === "MacOS" ? "Cmd + Z" : "Ctrl + Z"}</span>
       </button>
       <button
-        className="py-2 px-4 text-sm hover:bg-neutral/80 duration-300 rounded-sm flex justify-between items-center space-x-4"
+        className="py-2 px-4 text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between items-center space-x-4"
         onClick={handleRedo}
         disabled={!canRedoNodes && !canRedoEdges}
       >
         <span className="font-bold tracking-wide">Redo</span>
         <span className="text-xs font-semibold">{OS(window) === "MacOS" ? "Cmd + Y" : "Ctrl + Y"}</span>
       </button>
-      <button className="py-2 px-4 text-sm hover:bg-neutral/80 duration-300 rounded-sm flex justify-between items-center space-x-4" onClick={handleSave}>
+      <button className="py-2 px-4 text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between items-center space-x-4" onClick={handleSave}>
         <span className="font-bold tracking-wide">Save State</span>
         <span className="text-xs font-semibold">{OS(window) === "MacOS" ? "Cmd + S" : "Ctrl + S"}</span>
       </button>
-      {/* <button className="py-2 px-4 text-sm hover:bg-neutral/80 duration-300 rounded-sm flex justify-between items-center space-x-4">
+      {/* <button className="py-2 px-4 text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between items-center space-x-4">
         <span className="font-bold tracking-wide">Export as Image</span>
         <span className="text-xs font-semibold">{OS(window) === "MacOS" ? "Cmd + E" : "Ctrl + E"}</span>
       </button> */}
       {/* // TODO: Export as File */}
-      <button className="py-2 px-4 text-sm hover:bg-neutral/80 duration-300 rounded-sm flex justify-between items-center space-x-4">
+      <button className="py-2 px-4 text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between items-center space-x-4">
         <span className="font-bold tracking-wide">Export as File</span>
         <span className="text-xs font-semibold">{OS(window) === "MacOS" ? "Cmd + E" : "Ctrl + shift + E"}</span>
       </button>
