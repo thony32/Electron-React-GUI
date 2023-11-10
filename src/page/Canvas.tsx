@@ -96,7 +96,7 @@ const Canvas: React.FC = () => {
   const createVideoNodeFromURL = (url: string, clientX: number, clientY: number) => {
     const newNode = {
       id: `VID-${nanoid(3)}`,
-      type: "ImageNode",
+      type: "VideoNode",
       data: {
         label: <video src={url} className="nodes w-full h-full object-contain block" controls autoPlay></video>,
       },
