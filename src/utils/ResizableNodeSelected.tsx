@@ -15,7 +15,7 @@ const ResizableNodeSelected = ({id, data, selected, isConnectable }: NodeProps) 
   const updateNodeInternals = useUpdateNodeInternals()
   const rotateControlRef = useRef<any>(null)
   const contentRef = useRef<any>(null)
-  const { nodes } = useNodesAndEdgesState()
+  const { nodes } = useNodesAndEdgesState() as any
   const [aspectRatio, setAspectRatio] = useState<number>(1)
 
   // NOTE This effect will add the drag handler to the rotate control
