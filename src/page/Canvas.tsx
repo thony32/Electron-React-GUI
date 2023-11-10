@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge } from "reactflow"
+import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge, Node } from "reactflow"
 import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected, TextNode } from "../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
@@ -23,15 +23,15 @@ const Canvas: React.FC = () => {
   const ref = useRef<HTMLDivElement | any>(null)
 
   // NOTE All ReactFlow Props Functions
-  const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds: any) => applyNodeChanges(changes, nds)), [setNodes])
-  const onEdgesChange: OnEdgesChange = useCallback((changes) => setEdges((eds: any) => applyEdgeChanges(changes, eds)), [setEdges])
+  const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds: Node[]) => applyNodeChanges(changes, nds)), [setNodes])
+  const onEdgesChange: OnEdgesChange = useCallback((changes) => setEdges((eds: Edge[]) => applyEdgeChanges(changes, eds)), [setEdges])
 
   // NOTE Function to handle connection between nodes
   const onConnect = useCallback((params: Connection | Edge) => setEdges((els: any) => addEdge(params, els)), [setEdges])
 
   // NOTE Function to handle deletion of nodes
-  const onNodesDelete = (nodeId: any) => {
-    setNodes((nodes: any) => nodes.filter((node: any) => node.id !== nodeId))
+  const onNodesDelete: any = (nodeId: string) => {
+    setNodes((nodes: Node[]) => nodes.filter((node) => node.id !== nodeId))
   }
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const Canvas: React.FC = () => {
         y: clientY - 100,
       },
     }
-    setNodes((prevNodes: any) => [...prevNodes, newNode])
+    setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
 
   // NOTE: Create image file as a new node
@@ -121,7 +121,7 @@ const Canvas: React.FC = () => {
       position: { x: clientX, y: clientY },
       selected: true,
     }
-    setNodes((prevNodes: any) => [...prevNodes, newNode])
+    setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
 
   // NOTE: Function to create a clickable link node from a URL
@@ -138,7 +138,7 @@ const Canvas: React.FC = () => {
       },
       position: { x: clientX, y: clientY },
     }
-    setNodes((prevNodes: any) => [...prevNodes, newNode])
+    setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
 
   // NOTE: Function to check if the URL is a video or image
@@ -215,7 +215,7 @@ const Canvas: React.FC = () => {
       data: { label: <p className="nodes text-3xl font-semibold tracking-wide w-full h-full">{text}</p> },
       position,
     }
-    setNodes((prevNodes: any) => [...prevNodes, newNode])
+    setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
 
   // NOTE: Handle Node Context Menu
@@ -254,7 +254,7 @@ const Canvas: React.FC = () => {
           maxZoom={20}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
-          onNodesDelete={onNodesDelete}
+          onNodesDelete={onNodesDelete} 
           onEdgesChange={onEdgesChange}
           onPaneClick={onPaneClick}
           onConnect={onConnect}
