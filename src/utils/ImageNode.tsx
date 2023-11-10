@@ -75,7 +75,7 @@ const ImageNode = ({id, data, selected, isConnectable }: NodeProps) => {
       }
     });
   }
-  console.log(aspectRatio)
+  // console.log(aspectRatio)
 
   return (
     <div
