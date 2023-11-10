@@ -75,7 +75,7 @@
         }
       })
     }
-    console.log(aspectRatio)
+    // console.log(aspectRatio)
     // NOTE Styles
 
     const handleStyle = {

@@ -22,7 +22,6 @@
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-hotkeys-hook": "^4.4.1",
-    "react-player": "^2.13.0",
     "reactflow": "^11.9.2",
     "recoil": "^0.7.7",
     "use-undoable": "^4.0.0",

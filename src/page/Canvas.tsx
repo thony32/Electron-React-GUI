@@ -97,12 +97,13 @@ const Canvas: React.FC = () => {
   const createVideoNodeFromURL = (url: string, clientX: number, clientY: number) => {
     const newNode = {
       id: `VID-${nanoid(3)}`,
-      type: "VideoNode",
+      type: "ImageNode",
       data: {
         label: (
-          <>
-            <ReactPlayer className="nodes w-full h-full object-contain block" url={url} controls />
-          </>
+          <div className="nodes">
+            {/* <ReactPlayer className="nodes w-full h-full object-contain block" url={url} controls /> */}
+            <video src={url} className="w-full h-full object-contain block" controls></video>
+          </div>
         ),
       },
       position: {
@@ -208,7 +209,7 @@ const Canvas: React.FC = () => {
   const addTextNode = (text: string, position = { x: Math.floor(Math.random() * 1001), y: Math.floor(Math.random() * 1001) }) => {
     const newNode = {
       id: `TXT-${nanoid(3)}`,
-      type: "TextNode", 
+      type: "TextNode",
       data: { label: <p className="nodes text-3xl font-semibold tracking-wide w-full h-full">{text}</p> },
       position,
     }
