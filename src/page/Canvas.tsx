@@ -211,7 +211,7 @@ const Canvas: React.FC = () => {
   // NOTE: Function to add a new text node
   const addTextNode = (text: string, position = { x: Math.floor(Math.random() * 1001), y: Math.floor(Math.random() * 1001) }) => {
     const newNode = {
-      id: `text-${nanoid(3)}`,
+      id: `TXT-${nanoid(3)}`,
       type: "TextNode", // or any custom type you have defined
       data: { label: <p className="nodes text-3xl font-semibold tracking-wide w-full h-full">{text}</p> },
       position,
@@ -252,7 +252,7 @@ const Canvas: React.FC = () => {
           nodes={nodes}
           edges={edges}
           minZoom={0.1}
-          maxZoom={20}
+          maxZoom={100}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           onNodesDelete={onNodesDelete} 
