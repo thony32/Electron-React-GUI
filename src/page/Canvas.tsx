@@ -4,7 +4,6 @@ import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ImageNode, TextNode, VideoNode } from "../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
 import { ReactFlowInstanceProvider } from "../contexts"
-import ReactPlayer from "react-player"
 import { nanoid } from "nanoid"
 import { useNodesAndEdgesState } from "../hooks"
 
@@ -97,14 +96,9 @@ const Canvas: React.FC = () => {
   const createVideoNodeFromURL = (url: string, clientX: number, clientY: number) => {
     const newNode = {
       id: `VID-${nanoid(3)}`,
-      type: "ImageNode",
+      type: "VideoNode",
       data: {
-        label: (
-          <div className="nodes">
-            {/* <ReactPlayer className="nodes w-full h-full object-contain block" url={url} controls /> */}
-            <video src={url} className="w-full h-full object-contain block" controls></video>
-          </div>
-        ),
+        label: <video src={url} className="nodes w-full h-full object-contain block" controls autoPlay></video>,
       },
       position: {
         x: clientX - 100,

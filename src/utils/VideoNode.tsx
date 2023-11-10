@@ -1,13 +1,22 @@
 import { useEffect, useRef, useState } from "react"
-import { Handle, NodeProps, Position, useUpdateNodeInternals } from "reactflow"
+import { Handle, NodeProps, NodeResizer, Position, useUpdateNodeInternals } from "reactflow"
 import { drag } from "d3-drag"
 import { select } from "d3-selection"
+import { useNodesAndEdgesState } from "../hooks"
 
-const VideoNode = ({ id, data, isConnectable }: NodeProps) => {
+type Size = {
+  width: number
+  height: number
+}
+
+const VideoNode = ({ id, data, selected, isConnectable }: NodeProps) => {
   const [rotation, setRotation] = useState(0)
   const rotatable = true
   const updateNodeInternals = useUpdateNodeInternals()
   const rotateControlRef = useRef<any>(null)
+  const contentRef = useRef<any>(null)
+  const { nodes } = useNodesAndEdgesState() as any
+  const [aspectRatio, setAspectRatio] = useState<number>(1)
 
   // NOTE This effect will add the drag handler to the rotate control
   useEffect(() => {
@@ -28,7 +37,53 @@ const VideoNode = ({ id, data, isConnectable }: NodeProps) => {
     selection.call(dragHandler)
   }, [id, updateNodeInternals])
 
+  // NOTE This effect will update the node internals when the size changes
+  useEffect(() => {
+    updateNodeInternals(id)
+  }, [id, updateNodeInternals])
+
+  // NOTE This effect will calculate the aspect ratio of the content
+  useEffect(() => {
+    if (contentRef.current) {
+      // Use ResizeObserver to listen for changes in the content size
+      const resizeObserver = new ResizeObserver((entries) => {
+        // eslint-disable-next-line prefer-const
+        for (let entry of entries) {
+          const { width, height } = entry.contentRect
+          if (width > 0 && height > 0) {
+            setAspectRatio(width / height)
+          }
+        }
+      })
+      // Start observing the element
+      resizeObserver.observe(contentRef.current)
+      // Cleanup observer on component unmount
+      return () => resizeObserver.disconnect()
+    }
+  }, [data])
+
+  // NOTE: This effect will update the content size when the aspect ratio changes
+  const onResize = (_event: any, { width }: Size) => {
+    requestAnimationFrame(() => {
+      if (contentRef.current) {
+        // Calculate the new height based on the aspect ratio
+        const newHeight = width / (aspectRatio || 1)
+        const contentElement = contentRef.current
+        contentElement.style.width = `${width}px`
+        contentElement.style.height = `${newHeight}px`
+        updateNodeInternals(nodes.id)
+      }
+    })
+  }
+  // console.log(aspectRatio)
   // NOTE Styles
+
+  const handleStyle = {
+    width: "15px",
+    height: "15px",
+    border: "none",
+    borderRadius: "999px",
+  }
 
   const parentDivStyle = {
     transform: `rotate(${rotation}deg)`,
@@ -37,9 +92,10 @@ const VideoNode = ({ id, data, isConnectable }: NodeProps) => {
   const rotateButtonStyle = {
     display: rotatable ? "block" : "none",
   }
-
+  
   return (
-    <div style={parentDivStyle} className=" border-2 border-[#FF0844] rounded-md shadow-md relative">
+    <div style={parentDivStyle}>
+      <NodeResizer nodeId={id} color="#FF0844" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={handleStyle} />
       <div
         ref={rotateControlRef}
         style={rotateButtonStyle}
@@ -49,7 +105,9 @@ const VideoNode = ({ id, data, isConnectable }: NodeProps) => {
           <path d="M482-160q-134 0-228-93t-94-227v-7l-64 64-56-56 160-160 160 160-56 56-64-64v7q0 100 70.5 170T482-240q26 0 51-6t49-18l60 60q-38 22-78 33t-82 11Zm278-161L600-481l56-56 64 64v-7q0-100-70.5-170T478-720q-26 0-51 6t-49 18l-60-60q38-22 78-33t82-11q134 0 228 93t94 227v7l64-64 56 56-160 160Z" />
         </svg>
       </div>
-      <div className=" nodes p-8 ">{data.label}</div>
+      <div className="p-8 nodes" ref={contentRef}>
+        {data.label}
+      </div>
       <Handle type="source" className="w-4 h-12 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
       <Handle type="target" className="w-4 h-12 rounded-full bg-black border-none" position={Position.Left} isConnectable={isConnectable} />
     </div>
