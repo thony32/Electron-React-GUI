@@ -3,6 +3,7 @@ import type { ProviderProps } from "../utils"
 import { useRecoilState } from "recoil"
 import { edgesState, nodesState } from "../states"
 import useUndoable from "use-undoable"
+import { Edge, Node } from "reactflow"
 
 // Define the shape of your context data
 export interface NodesAndEdgesContextType {
@@ -27,12 +28,12 @@ export const NodesAndEdgesContextProvider = ({ children }: ProviderProps) => {
   const [recoilNodes, setRecoilNodes] = useRecoilState(nodesState)
   const [recoilEdges, setRecoilEdges] = useRecoilState(edgesState)
 
-  const [nodes, setNodes, { undo: undoNodes, redo: redoNodes, canUndo: canUndoNodes, canRedo: canRedoNodes }] = useUndoable(recoilNodes)
-  const [edges, setEdges, { undo: undoEdges, redo: redoEdges, canUndo: canUndoEdges, canRedo: canRedoEdges }] = useUndoable(recoilEdges)
+  const [nodes, setNodes, { undo: undoNodes, redo: redoNodes, canUndo: canUndoNodes, canRedo: canRedoNodes }] = useUndoable(recoilNodes) 
+  const [edges, setEdges, { undo: undoEdges, redo: redoEdges, canUndo: canUndoEdges, canRedo: canRedoEdges }] = useUndoable(recoilEdges) 
 
   // NOTE Synchronize the undoable state with Recoil state
   const syncNodesWithRecoil = useCallback(
-    (newNodes: any) => {
+    (newNodes: Node[]) => {
       setRecoilNodes(newNodes)
       setNodes(newNodes)
     },
@@ -40,7 +41,7 @@ export const NodesAndEdgesContextProvider = ({ children }: ProviderProps) => {
   )
 
   const syncEdgesWithRecoil = useCallback(
-    (newEdges: any) => {
+    (newEdges: Edge[]) => {
       setRecoilEdges(newEdges)
       setEdges(newEdges)
     },

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import ReactFlow, { Background, MiniMap, applyNodeChanges, addEdge, applyEdgeChanges } from "reactflow"
+import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge, Node } from "reactflow"
 import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ResizableNodeSelected, TextNode } from "../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
@@ -8,30 +8,30 @@ import ReactPlayer from "react-player"
 import { nanoid } from "nanoid"
 import { useNodesAndEdgesState } from "../hooks"
 
-const nodeTypes = {
+const nodeTypes: NodeTypes = {
   ResizableNodeSelected,
   TextNode,
 }
 
 // Define the Canvas component
-const Canvas = () => {
-  const { nodes, setNodes, edges, setEdges } = useNodesAndEdgesState()
-  const [menu, setMenu] = useState(null)
+const Canvas: React.FC = () => {
+  const { nodes, setNodes, edges, setEdges } = useNodesAndEdgesState() as any
+  const [menu, setMenu] = useState<any>(null)
   const [show, setShow] = useState(false)
   const [points, setPoints] = useState({ x: 0, y: 0 })
   const [rightClickOnNode, setRightClickOnNode] = useState(false)
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement | any>(null)
 
   // NOTE All ReactFlow Props Functions
-  const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), [setNodes])
-  const onEdgesChange = useCallback((changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), [setEdges])
+  const onNodesChange: OnNodesChange = useCallback((changes) => setNodes((nds: Node[]) => applyNodeChanges(changes, nds)), [setNodes])
+  const onEdgesChange: OnEdgesChange = useCallback((changes) => setEdges((eds: Edge[]) => applyEdgeChanges(changes, eds)), [setEdges])
 
   // NOTE Function to handle connection between nodes
-  const onConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), [setEdges])
+  const onConnect = useCallback((params: Connection | Edge) => setEdges((els: any) => addEdge(params, els)), [setEdges])
 
   // NOTE Function to handle deletion of nodes
-  const onNodesDelete = (nodeId) => {
-    setNodes((nodes) => nodes.filter((node) => node.id !== nodeId))
+  const onNodesDelete: any = (nodeId: string) => {
+    setNodes((nodes: Node[]) => nodes.filter((node) => node.id !== nodeId))
   }
 
   useEffect(() => {
@@ -48,9 +48,9 @@ const Canvas = () => {
   const onPaneClick = useCallback(() => setMenu(null), [setMenu])
 
   // NOTE: Handle Main Context Menu event listener
-  const showContextMenu = (event) => {
+  const showContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
-    const targetNode = event.target
+    const targetNode = event.target as HTMLElement
     const isNode = targetNode && targetNode.classList.contains("nodes")
 
     if (isNode) {
@@ -66,7 +66,7 @@ const Canvas = () => {
   }
 
   // FIXME: Function to check if the URL is a video
-  const isVideoURL = (url) => {
+  const isVideoURL = (url: string): boolean => {
     // List of common video file extensions and patterns in video URLs
     const videoIndicators = [
       ".mp4",
@@ -87,13 +87,13 @@ const Canvas = () => {
   }
 
   // FIXME: Function to check if the URL is an image
-  const isImageURL = (url) => {
+  const isImageURL = (url: string): boolean => {
     const imageExtensions = [".jpeg", ".jpg", ".gif", ".png", ".bmp", ".svg", ".webp"]
     return imageExtensions.some((extension) => url.toLowerCase().endsWith(extension))
   }
 
   // NOTE: Create a video as a new node
-  const createVideoNodeFromURL = (url, clientX, clientY) => {
+  const createVideoNodeFromURL = (url: string, clientX: number, clientY: number) => {
     const newNode = {
       id: `VID-${nanoid(3)}`,
       type: "ResizableNodeSelected",
@@ -109,11 +109,11 @@ const Canvas = () => {
         y: clientY - 100,
       },
     }
-    setNodes((prevNodes) => [...prevNodes, newNode])
+    setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
 
   // NOTE: Create image file as a new node
-  const createImageNodeFromURL = (url, clientX, clientY) => {
+  const createImageNodeFromURL = (url: string, clientX: number, clientY: number) => {
     const newNode = {
       id: `IMG-${nanoid(3)}`,
       type: "ResizableNodeSelected",
@@ -121,11 +121,11 @@ const Canvas = () => {
       position: { x: clientX, y: clientY },
       selected: true,
     }
-    setNodes((prevNodes) => [...prevNodes, newNode])
+    setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
 
   // NOTE: Function to create a clickable link node from a URL
-  const createLinkNodeFromURL = (url, clientX, clientY) => {
+  const createLinkNodeFromURL = (url: string, clientX: number, clientY: number) => {
     const newNode = {
       id: `LINK-${nanoid(3)}`,
       type: "TextNode",
@@ -138,11 +138,11 @@ const Canvas = () => {
       },
       position: { x: clientX, y: clientY },
     }
-    setNodes((prevNodes) => [...prevNodes, newNode])
+    setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
 
   // NOTE: Function to check if the URL is a video or image
-  const handleDroppedURL = async (uri, clientX, clientY) => {
+  const handleDroppedURL = async (uri: string, clientX: number, clientY: number) => {
     // Perform a HEAD request to check the Content-Type
     try {
       const response = await fetch(uri, { method: "HEAD" })
@@ -171,7 +171,7 @@ const Canvas = () => {
 
   // NOTE: FUNCTION TO HANDLE DROP EVENT
 
-  const handleDrop = (event) => {
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
 
@@ -208,20 +208,20 @@ const Canvas = () => {
   }
 
   // NOTE: Function to add a new text node
-  const addTextNode = (text, position = { x: Math.floor(Math.random() * 1001), y: Math.floor(Math.random() * 1001) }) => {
+  const addTextNode = (text: string, position = { x: Math.floor(Math.random() * 1001), y: Math.floor(Math.random() * 1001) }) => {
     const newNode = {
       id: `text-${nanoid(3)}`,
       type: "TextNode", // or any custom type you have defined
       data: { label: <p className="nodes text-3xl font-semibold tracking-wide w-full h-full">{text}</p> },
       position,
     }
-    setNodes((prevNodes) => [...prevNodes, newNode])
+    setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
 
   // NOTE: Handle Node Context Menu
 
   const onNodeContextMenu = useCallback(
-    (event, node) => {
+    (event: React.MouseEvent, node: any) => {
       // Prevent native context menu from showing
       event.preventDefault()
 
@@ -254,7 +254,7 @@ const Canvas = () => {
           maxZoom={20}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
-          onNodesDelete={onNodesDelete}
+          onNodesDelete={onNodesDelete} 
           onEdgesChange={onEdgesChange}
           onPaneClick={onPaneClick}
           onConnect={onConnect}
