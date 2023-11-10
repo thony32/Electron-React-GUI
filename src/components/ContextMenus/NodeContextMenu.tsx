@@ -14,15 +14,15 @@ const NodeContextMenu: React.FC<NodeContextMenuProps> = ({ id, top, left, right,
   const { duplicateNode, deleteNode } = useNodeFunction()
 
   return (
-    <div style={{ top, left, right, bottom }} className="absolute flex flex-col w-[150px] lg:w-[200px] bg-base-300 rounded-sm z-50" {...props}>
-      <div className="text-xs py-2 px-4">{id}</div>
-      <button onClick={() => duplicateNode(id)} className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between">
-        <span>Duplicate</span>
-        <kbd className="kbd-xs">Ctrl + C</kbd>
+    <div style={{ top, left, right, bottom }} className="absolute flex flex-col w-[200px] xl:w-[250px] bg-base-200/80 rounded-md z-10" {...props}>
+      <div className="text-sm font-bold tracking-wide py-2 px-4 text-center">ID: {id}</div>
+      <button onClick={() => duplicateNode(id)} className="py-2 px-4 text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between items-center space-x-4">
+        <span className="font-bold tracking-wide">Duplicate</span>
+        <span className="text-xs font-semibold">Ctrl + C</span>
       </button>
-      <button onClick={() => deleteNode(id)} className="py-2 px-4 text-xs xl:text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between">
-        <span>Delete</span>
-        <kbd className="kbd-xs">Del</kbd>
+      <button onClick={() => deleteNode(id)} className="py-2 px-4 text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between items-center space-x-4">
+        <span className="font-bold tracking-wide">Delete</span>
+        <span className="text-xs font-semibold">Del</span>
       </button>
     </div>
   )

@@ -91,7 +91,7 @@ const NodesList: React.FC = () => {
             </div>
             <input
               type="text"
-              className="block py-1 px-0 w-1/3 text-xs bg-transparent border-0 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer text-current"
+              className="block py-1 px-0 w-1/3 text-sm font-semibold bg-transparent border-0 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer text-current"
               value={editingNodeId === node.id ? tempId : node.id}
               onFocus={() => handleInputFocus(node.id)}
               onChange={(e) => handleInputChange(node.id, e.target.value)}
