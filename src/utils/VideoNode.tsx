@@ -33,7 +33,7 @@ const VideoNode = ({ id, data, isConnectable }: NodeProps) => {
       style={{
         transform: `rotate(${rotation}deg)`,
       }}
-      className="nodes"
+      className="nodes px-8 py-2 border-2 border-[#FF0844] rounded-md shadow-md relative"
     >
       <div
         ref={rotateControlRef}

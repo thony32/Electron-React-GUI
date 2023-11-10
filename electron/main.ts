@@ -26,6 +26,7 @@ const createWindow = () => {
     icon: path.join(process.env.VITE_PUBLIC, "favico.svg"),
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
+      nodeIntegration: false,
     }
   });
 

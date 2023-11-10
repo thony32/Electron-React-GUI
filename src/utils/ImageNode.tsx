@@ -55,10 +55,8 @@ const ImageNode = ({id, data, selected, isConnectable }: NodeProps) => {
           }
         }
       });
-  
       // Start observing the element
       resizeObserver.observe(contentRef.current);
-  
       // Cleanup observer on component unmount
       return () => resizeObserver.disconnect();
     }
@@ -77,7 +75,7 @@ const ImageNode = ({id, data, selected, isConnectable }: NodeProps) => {
       }
     });
   }
-  // console.log(aspectRatio)
+  console.log(aspectRatio)
 
   return (
     <div

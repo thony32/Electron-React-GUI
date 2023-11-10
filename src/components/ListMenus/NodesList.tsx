@@ -28,9 +28,9 @@ const NodesList: React.FC = () => {
 
   // NOTE: Handle Id change
   const handleIdChange = (oldId: string, newId: string) => {
-    setNodes((prevNodes: Node[]) => prevNodes.map((node: any) => (node.id === oldId ? { ...node, id: newId } : node)))
-    setEdges((prevEdges: Edge[]) => prevEdges.map((edge: any) => (edge.source === oldId ? { ...edge, source: newId } : edge)))
-    setEdges((prevEdges: Edge[]) => prevEdges.map((edge: any) => (edge.target === oldId ? { ...edge, target: newId } : edge)))
+    setNodes((prevNodes: Node[]) => prevNodes.map((node: Node) => (node.id === oldId ? { ...node, id: newId } : node)))
+    setEdges((prevEdges: Edge[]) => prevEdges.map((edge: Edge) => (edge.source === oldId ? { ...edge, source: newId } : edge)))
+    setEdges((prevEdges: Edge[]) => prevEdges.map((edge: Edge) => (edge.target === oldId ? { ...edge, target: newId } : edge)))
   }
 
   const handleInputChange = (id: string, value: string) => {
@@ -51,7 +51,7 @@ const NodesList: React.FC = () => {
   }
 
   // This function will display the nodes avatar according to the type of the node
-  const displayAvatar = (node: any) => {
+  const displayAvatar = (node: Node) => {
     if (node.type === "ImageNode") {
       return (
         <div className="mask w-10 h-10 rounded-full">
@@ -83,7 +83,7 @@ const NodesList: React.FC = () => {
     <div className="p-1 overflow-y-auto scrollbar h-full">
       <div className="font-bold uppercase px-4">Nodes List</div>
       <div className="divider"></div>
-      {nodes.map((node: any, index: number) => (
+      {nodes.map((node: Node, index: number) => (
         <div key={index} className="flex justify-between items-center p-1 hover:bg-base-200 cursor-pointer" onClick={() => handleNodeClick(node.id)}>
           <div className="flex items-center gap-3">
             <div className="avatar">
