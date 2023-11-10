@@ -1,3 +1,4 @@
-import Canvas from "./Canvas"
+
+import Canvas from './Canvas';
 
 export { Canvas }
