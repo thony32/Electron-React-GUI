@@ -9,7 +9,7 @@ type Size = {
   height: number
 }
 
-const ResizableNodeSelected = ({id, data, selected, isConnectable }: NodeProps) => {
+const ImageNode = ({id, data, selected, isConnectable }: NodeProps) => {
   const [rotation, setRotation] = useState(0)
   const rotatable = true
   const updateNodeInternals = useUpdateNodeInternals()
@@ -106,4 +106,4 @@ const ResizableNodeSelected = ({id, data, selected, isConnectable }: NodeProps) 
   )
 }
 
-export default ResizableNodeSelected
+export default ImageNode

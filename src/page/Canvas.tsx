@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge, Node } from "reactflow"
 import "/node_modules/reactflow/dist/style.css"
-import { handleDragOver, ResizableNodeSelected, TextNode } from "../utils"
+import { handleDragOver, ImageNode, TextNode, VideoNode } from "../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
 import { ReactFlowInstanceProvider } from "../contexts"
 import ReactPlayer from "react-player"
@@ -9,8 +9,9 @@ import { nanoid } from "nanoid"
 import { useNodesAndEdgesState } from "../hooks"
 
 const nodeTypes: NodeTypes = {
-  ResizableNodeSelected,
+  ImageNode,
   TextNode,
+  VideoNode
 }
 
 // Define the Canvas component
@@ -96,7 +97,7 @@ const Canvas: React.FC = () => {
   const createVideoNodeFromURL = (url: string, clientX: number, clientY: number) => {
     const newNode = {
       id: `VID-${nanoid(3)}`,
-      type: "ResizableNodeSelected",
+      type: "VideoNode",
       data: {
         label: (
           <>
@@ -116,7 +117,7 @@ const Canvas: React.FC = () => {
   const createImageNodeFromURL = (url: string, clientX: number, clientY: number) => {
     const newNode = {
       id: `IMG-${nanoid(3)}`,
-      type: "ResizableNodeSelected",
+      type: "ImageNode",
       data: { label: <img src={url} className="nodes w-full h-full object-contain block" /> },
       position: { x: clientX, y: clientY },
       selected: true,
