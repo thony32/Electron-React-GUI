@@ -14,7 +14,7 @@ const NodeContextMenu: React.FC<NodeContextMenuProps> = ({ id, top, left, right,
   const { duplicateNode, deleteNode } = useNodeFunction()
 
   return (
-    <div style={{ top, left, right, bottom }} className="absolute flex flex-col w-[200px] xl:w-[250px] bg-base-200/80 rounded-md z-10" {...props}>
+    <div style={{ top, left, right, bottom }} className="absolute flex flex-col w-[200px] xl:w-[250px] bg-base-200/80 rounded-sm z-10" {...props}>
       <div className="text-sm font-bold tracking-wide py-2 px-4 text-center">ID: {id}</div>
       <button onClick={() => duplicateNode(id)} className="py-2 px-4 text-sm hover:bg-base-200 duration-300 rounded-sm flex justify-between items-center space-x-4">
         <span className="font-bold tracking-wide">Duplicate</span>

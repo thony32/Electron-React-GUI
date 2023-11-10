@@ -17,12 +17,14 @@ const ImageExport: React.FC = () => {
   const { getNodes } = useContext(ReactFlowContext)
   const [imageWidth, setImageWidth] = useState(1920)
   const [imageHeight, setImageHeight] = useState(1080)
+
+  // NOTE: Handle Image Export
   const handleImageExport = () => {
     const nodesBounds = getRectOfNodes(getNodes())
     const transform = getTransformForBounds(nodesBounds, imageWidth, imageHeight, 0.5, 2)
 
-    toPng(document.querySelector<any>(".react-flow__viewport"), {
-      backgroundColor: "#1E242A",
+    toPng(document.querySelector<any>(".react-flow__nodes"), {
+      backgroundColor: "transparent",
       width: imageWidth,
       height: imageHeight,
       style: {

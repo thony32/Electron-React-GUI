@@ -28,21 +28,24 @@ const VideoNode = ({ id, data, isConnectable }: NodeProps) => {
     selection.call(dragHandler)
   }, [id, updateNodeInternals])
 
+  // NOTE Styles
+
+  const parentDivStyle = {
+    transform: `rotate(${rotation}deg)`,
+  }
+
+  const rotateButtonStyle = {
+    display: rotatable ? "block" : "none",
+  }
+
   return (
-    <div
-      style={{
-        transform: `rotate(${rotation}deg)`,
-      }}
-      className="nodes"
-    >
+    <div style={parentDivStyle} className="nodes px-8 py-2 border-2 border-[#FF0844] rounded-md shadow-md relative">
       <div
         ref={rotateControlRef}
-        style={{
-          display: rotatable ? "block" : "none",
-        }}
+        style={rotateButtonStyle}
         className={`nodrag absolute w-[40px] h-[40px] bg-base-100 left-1/2 top-[-25px] rounded-full transform translate-x-[-50%] translate-y-[-50%] cursor-alias`}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 fill-current" viewBox="0 -960 960 960">
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 fill-current" viewBox="0 -960 960 960">
           <path d="M482-160q-134 0-228-93t-94-227v-7l-64 64-56-56 160-160 160 160-56 56-64-64v7q0 100 70.5 170T482-240q26 0 51-6t49-18l60 60q-38 22-78 33t-82 11Zm278-161L600-481l56-56 64 64v-7q0-100-70.5-170T478-720q-26 0-51 6t-49 18l-60-60q38-22 78-33t82-11q134 0 228 93t94 227v7l64-64 56 56-160 160Z" />
         </svg>
       </div>
