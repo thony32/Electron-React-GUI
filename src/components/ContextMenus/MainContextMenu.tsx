@@ -25,7 +25,7 @@ const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
       </button> */}
       <button
         className="py-2 px-4 text-sm hover:bg-neutral/80 duration-300 rounded-sm flex justify-between items-center space-x-4"
-        onClick={undoNodes && undoEdges}
+        onClick={undoNodes}
         disabled={!canUndoNodes && !canUndoEdges}
       >
         <span className="font-bold tracking-wide">Undo</span>
@@ -33,7 +33,7 @@ const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
       </button>
       <button
         className="py-2 px-4 text-sm hover:bg-neutral/80 duration-300 rounded-sm flex justify-between items-center space-x-4"
-        onClick={redoNodes && redoEdges}
+        onClick={redoNodes}
         disabled={!canRedoNodes && !canRedoEdges}
       >
         <span className="font-bold tracking-wide">Redo</span>

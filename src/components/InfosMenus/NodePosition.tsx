@@ -1,27 +1,27 @@
 
 import React from "react"
-import { useRecoilState } from "recoil"
-import { nodesState } from "../../states"
 import "../../index.css"
+import { useNodesAndEdgesState } from "../../hooks"
+import { Node } from "reactflow"
 
 const NodePosition: React.FC = () => {
-  const [imageNodes, setImageNodes] = useRecoilState(nodesState)
+  const {nodes, setNodes} = useNodesAndEdgesState() as any
 
   const handleXPositionChange = (id: string, newXValue: string) => {
     const value = newXValue.trim() === "" ? "0" : newXValue
-    setImageNodes((prevNodes: any) => prevNodes.map((node: any) => (node.id === id ? { ...node, position: { ...node.position, x: parseFloat(value) } } : node)))
+    setNodes((prevNodes: any) => prevNodes.map((node: Node) => (node.id === id ? { ...node, position: { ...node.position, x: parseFloat(value) } } : node)))
   }
 
   const handleYPositionChange = (id: string, newYValue: string) => {
     const value = newYValue.trim() === "" ? "0" : newYValue
-    setImageNodes((prevNodes: any) => prevNodes.map((node: any) => (node.id === id ? { ...node, position: { ...node.position, y: parseFloat(value) } } : node)))
+    setNodes((prevNodes: any) => prevNodes.map((node: Node) => (node.id === id ? { ...node, position: { ...node.position, y: parseFloat(value) } } : node)))
   }
 
   return (
     <div className="p-1 h-[50%] overflow-y-auto scrollbar">
       <div className=" font-bold uppercase px-4">Nodes Position</div>
       <div className="divider"></div>
-      {imageNodes.map((node) => (
+      {nodes.map((node: any) => (
         <div key={node.id} className="flex flex-col space-y-4 justify-between p-2 hover:bg-base-200">
           <div className="text-center text-xs font-semibold bg-neutral/75 text-neutral-content p-2 rounded-md">{node.id}</div>
           <div className="flex justify-center gap-4">
