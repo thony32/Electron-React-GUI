@@ -9,7 +9,7 @@ type Size = {
   height: number
 }
 
-const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps) => {
+const ResizableNodeSelected = ({id, data, selected, isConnectable }: NodeProps) => {
   const [rotation, setRotation] = useState(0)
   const rotatable = true
   const updateNodeInternals = useUpdateNodeInternals()
@@ -45,23 +45,39 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
   // NOTE This effect will calculate the aspect ratio of the content
   useEffect(() => {
     if (contentRef.current) {
-      const { offsetWidth, offsetHeight } = contentRef.current
-      setAspectRatio(offsetWidth / offsetHeight)
-      
+      // Use ResizeObserver to listen for changes in the content size
+      const resizeObserver = new ResizeObserver(entries => {
+        // eslint-disable-next-line prefer-const
+        for (let entry of entries) {
+          const { width, height } = entry.contentRect;
+          if (width > 0 && height > 0) {
+            setAspectRatio(width / height);
+          }
+        }
+      });
+  
+      // Start observing the element
+      resizeObserver.observe(contentRef.current);
+  
+      // Cleanup observer on component unmount
+      return () => resizeObserver.disconnect();
     }
-  }, [data])
+  }, [data]);
 
-  // FIXME: This effect will update the content size when the aspect ratio changes
+  // NOTE: This effect will update the content size when the aspect ratio changes
   const onResize = (_event: any, { width }: Size) => {
-    // Calculate the new height based on the aspect ratio
-    const newHeight = width / aspectRatio
-    // Apply the new width and height to the content element
-    const contentElement = contentRef.current
-    if (contentElement) {
-      contentElement.style.width = `${width}px`
-      contentElement.style.height = `${newHeight}px`
-    }
+    requestAnimationFrame(() => {
+      if (contentRef.current) {
+        // Calculate the new height based on the aspect ratio
+        const newHeight = width / (aspectRatio || 1); // Fallback to 1 to avoid dividing by zero
+        const contentElement = contentRef.current;
+        contentElement.style.width = `${width}px`;
+        contentElement.style.height = `${newHeight}px`;
+        updateNodeInternals(nodes.id);
+      }
+    });
   }
+  // console.log(aspectRatio)
 
   return (
     <div
@@ -69,7 +85,7 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
         transform: `rotate(${rotation}deg)`,
       }}
     >
-      <NodeResizer nodeId={nodes.id} color="hsl(var(--in))" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={{ width: "15px", height: "15px" }} />
+      <NodeResizer nodeId={id} color="#FF0844" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={{ width: "20px", height: "20px" }} />
       <div
         ref={rotateControlRef}
         style={{
@@ -81,11 +97,11 @@ const ResizableNodeSelected = ({ id, data, selected, isConnectable }: NodeProps)
           <path d="M482-160q-134 0-228-93t-94-227v-7l-64 64-56-56 160-160 160 160-56 56-64-64v7q0 100 70.5 170T482-240q26 0 51-6t49-18l60 60q-38 22-78 33t-82 11Zm278-161L600-481l56-56 64 64v-7q0-100-70.5-170T478-720q-26 0-51 6t-49 18l-60-60q38-22 78-33t82-11q134 0 228 93t94 227v7l64-64 56 56-160 160Z" />
         </svg>
       </div>
-      <div className="p-2 nodes w-full h-full flex items-center justify-center" ref={contentRef}>
+      <div className="p-1 nodes" ref={contentRef}>
         {data.label}
       </div>
-      <Handle type="source" className="w-3 h-8 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
-      <Handle type="target" className="w-3 h-8 rounded-full bg-black border-none" position={Position.Left} isConnectable={isConnectable} />
+      <Handle type="source" className="w-4 h-12 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
+      <Handle type="target" className="w-4 h-12 rounded-full bg-black border-none" position={Position.Left} isConnectable={isConnectable} />
     </div>
   )
 }
