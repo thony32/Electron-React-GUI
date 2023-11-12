@@ -143,21 +143,23 @@ const Canvas: React.FC = () => {
       const response = await fetch(uri, { method: "HEAD" })
       const contentType = response.headers.get("Content-Type")
       if (contentType?.startsWith("video")) {
-        // It's a video
         createVideoNodeFromURL(uri, clientX, clientY)
       } else if (contentType?.startsWith("image")) {
-        // It's an image
         createImageNodeFromURL(uri, clientX, clientY)
+      } else {
+        // Fallback to link node if content type is not image or video
+        createLinkNodeFromURL(uri, clientX, clientY)
       }
     } catch (error) {
       // If HEAD request fails, fallback to extension checking
       console.error("Error fetching URL, fallback to extension checking:", error)
-      if (isVideoURL(uri)) {
-        createVideoNodeFromURL(uri, clientX, clientY)
-      } else {
-        // Assume it's an image if not a known video extension
-        createImageNodeFromURL(uri, clientX, clientY)
-      }
+      // if (isVideoURL(uri)) {
+      //   createVideoNodeFromURL(uri, clientX, clientY)
+      // } else {
+      //   // Assume it's an image if not a known video extension
+      //   createImageNodeFromURL(uri, clientX, clientY)
+      // }
+      createLinkNodeFromURL(uri, clientX, clientY)
     }
   }
 
@@ -197,7 +199,10 @@ const Canvas: React.FC = () => {
         createVideoNodeFromURL(videoUrl, clientX, clientY)
       }
     }
+
+    console.log(uri, files)
   }
+  console.log(isImageURL, isVideoURL, handleDroppedURL)
 
   // NOTE: Function to add a new text node
   const addTextNode = (text: string, position = { x: Math.floor(Math.random() * 1001), y: Math.floor(Math.random() * 1001) }) => {
