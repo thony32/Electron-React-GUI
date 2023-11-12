@@ -86,9 +86,7 @@ const NodesList: React.FC = () => {
       {nodes.map((node: Node, index: number) => (
         <div key={index} className="flex justify-between items-center p-1 hover:bg-base-200 cursor-pointer" onClick={() => handleNodeClick(node.id)}>
           <div className="flex items-center gap-3">
-            <div className="avatar">
-              {displayAvatar(node)}
-            </div>
+            <div className="avatar">{displayAvatar(node)}</div>
             <input
               type="text"
               className="block py-1 px-0 w-1/3 text-sm font-semibold bg-transparent border-0 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer text-current"

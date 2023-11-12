@@ -8,24 +8,26 @@ import { NodeInfosBar, NodesListBar, ThemeChanger } from "./components"
 
 const App: React.FC = () => {
   return (
-    <RecoilRoot>
-      <LoadedContextProvider>
-        <ReactFlowProvider>
-          <NodesAndEdgesContextProvider>
-            <ReactFlowContextProvider>
-              <CanvasContextProvider>
-                <div>
-                  <ThemeChanger />
-                  <NodeInfosBar />
-                  <Canvas />
-                  <NodesListBar />
-                </div>
-              </CanvasContextProvider>
-            </ReactFlowContextProvider>
-          </NodesAndEdgesContextProvider>
-        </ReactFlowProvider>
-      </LoadedContextProvider>
-    </RecoilRoot>
+    <div className="hurme">
+      <RecoilRoot>
+        <LoadedContextProvider>
+          <ReactFlowProvider>
+            <NodesAndEdgesContextProvider>
+              <ReactFlowContextProvider>
+                <CanvasContextProvider>
+                  <div>
+                    <ThemeChanger />
+                    <NodeInfosBar />
+                    <Canvas />
+                    <NodesListBar />
+                  </div>
+                </CanvasContextProvider>
+              </ReactFlowContextProvider>
+            </NodesAndEdgesContextProvider>
+          </ReactFlowProvider>
+        </LoadedContextProvider>
+      </RecoilRoot>
+    </div>
   )
 }
 
