@@ -35,13 +35,9 @@ const Canvas: React.FC = () => {
   }
 
   useEffect(() => {
-    window.addEventListener("click", () => {
-      setShow(false)
-    })
-    return () =>
-      window.removeEventListener("click", () => {
-        setShow(false)
-      })
+    const handleClickOutside = () => setShow(false)
+    window.addEventListener("click", handleClickOutside)
+    return () => window.removeEventListener("click", handleClickOutside)
   }, [])
 
   // NOTE Close the context menu if it's open whenever the window is clicked.
@@ -53,34 +49,15 @@ const Canvas: React.FC = () => {
     const targetNode = event.target as HTMLElement
     const isNode = targetNode && targetNode.classList.contains("nodes")
 
-    if (isNode) {
-      // Right-click on a node
-      setRightClickOnNode(true)
-      setShow(false)
-    } else {
-      // Right-click in the canvas
-      setRightClickOnNode(false)
-      setPoints({ x: event.pageX, y: event.pageY })
-      setShow(true)
-    }
+    setRightClickOnNode(isNode)
+    setPoints({ x: event.pageX, y: event.pageY })
+    setShow(!isNode)
   }
 
   // FIXME: Function to check if the URL is a video
   const isVideoURL = (url: string): boolean => {
     // List of common video file extensions and patterns in video URLs
-    const videoIndicators = [
-      ".mp4",
-      ".webm",
-      ".ogg",
-      ".avi",
-      ".mov",
-      ".mkv", // extensions
-      "youtube.com",
-      "vimeo.com", // domains known for videos
-      "/video",
-      "watch?",
-      "embed", // URL segments that could indicate video content
-    ]
+    const videoIndicators = [".mp4", ".webm", ".ogg", ".avi", ".mov", ".mkv", "youtube.com", "vimeo.com", "/video", "watch?", "embed"]
 
     // Check if any of the video indicators are present in the URL
     return videoIndicators.some((indicator) => url.toLowerCase().includes(indicator))
@@ -162,7 +139,6 @@ const Canvas: React.FC = () => {
       createLinkNodeFromURL(uri, clientX, clientY)
     }
   }
-
   // NOTE: FUNCTION TO HANDLE DROP EVENT
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -202,7 +178,7 @@ const Canvas: React.FC = () => {
 
     console.log(uri, files)
   }
-  console.log(isImageURL, isVideoURL, handleDroppedURL)
+  // console.log(isImageURL, isVideoURL, handleDroppedURL)
 
   // NOTE: Function to add a new text node
   const addTextNode = (text: string, position = { x: Math.floor(Math.random() * 1001), y: Math.floor(Math.random() * 1001) }) => {

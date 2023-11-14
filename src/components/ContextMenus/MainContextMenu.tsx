@@ -5,7 +5,7 @@ import { useLocalStorage, useNodesAndEdgesState, useRFInstance } from "../../hoo
 const flowKey = "flowKey"
 
 const MainContextMenu: React.FC<ContextMenuProps> = ({ top, left }) => {
-  const { undoNodes, redoNodes, canUndoNodes, canRedoNodes, undoEdges, redoEdges, canUndoEdges, canRedoEdges } = useNodesAndEdgesState()
+  const { undoNodes, redoNodes, canUndoNodes, canRedoNodes, undoEdges, redoEdges, canUndoEdges, canRedoEdges } = useNodesAndEdgesState() as any
   const { rfInstance } = useRFInstance()
   const { setValue } = useLocalStorage()
 

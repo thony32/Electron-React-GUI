@@ -1,16 +1,16 @@
 import React, { useState } from "react"
 import { useSetRecoilState } from "recoil"
 import { selectedNodeIdState } from "../../states"
-import { useNodeFunction, useNodesAndEdgesState, useReactFlowFunctions } from "../../hooks"
+import { useNodeFunction, useNodesAndEdgesState } from "../../hooks"
 import { Copy, Trashbin } from "../../assets"
 import "../../index.css"
 import { Edge, Node } from "reactflow"
 
 const NodesList: React.FC = () => {
-  const { nodes } = useNodesAndEdgesState() as any
+  const { nodes, setNodes, setEdges } = useNodesAndEdgesState() as any
   const setSelectedNodeId = useSetRecoilState(selectedNodeIdState)
   const { deleteNode, duplicateNode } = useNodeFunction()
-  const { setNodes, setEdges } = useReactFlowFunctions()
+  // const { setNodes, setEdges } = useReactFlowFunctions()
   const [tempId, setTempId] = useState<string>("")
   const [editingNodeId, setEditingNodeId] = useState<string | null>(null)
 
@@ -79,6 +79,9 @@ const NodesList: React.FC = () => {
     }
   }
 
+  // console.log("Nodes: ", nodes )
+  // console.log('Is Array:', Array.isArray(nodes))
+  // console.log('Type of nodes:', typeof nodes);
   return (
     <div className="p-1 overflow-y-auto scrollbar h-full">
       <div className="font-bold uppercase px-4">Nodes List</div>

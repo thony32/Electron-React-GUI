@@ -4,7 +4,7 @@ import { InputText, Shortcuts } from ".."
 import { useNodesAndEdgesState } from "../../hooks"
 
 const Toolbar: React.FC<{ addTextNode: (text: string, position?: { x: number; y: number }) => void }> = ({ addTextNode }) => {
-  const { undoNodes, redoNodes, canUndoNodes, canRedoNodes, undoEdges, redoEdges, canUndoEdges, canRedoEdges } = useNodesAndEdgesState()
+  const { undoNodes, redoNodes, canUndoNodes, canRedoNodes, undoEdges, redoEdges, canUndoEdges, canRedoEdges } = useNodesAndEdgesState() 
   const handleUndo = () => {
     if (canUndoNodes) undoNodes()
     if (canUndoEdges) undoEdges()
