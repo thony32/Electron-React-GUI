@@ -8,7 +8,7 @@ import { NodeInfosBar, NodesListBar, ThemeChanger } from "./components"
 
 const App: React.FC = () => {
   return (
-    <div className="hurme">
+    <>
       <RecoilRoot>
         <LoadedContextProvider>
           <ReactFlowProvider>
@@ -27,7 +27,7 @@ const App: React.FC = () => {
           </ReactFlowProvider>
         </LoadedContextProvider>
       </RecoilRoot>
-    </div>
+    </>
   )
 }
 

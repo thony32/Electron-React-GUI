@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge, Node } from "reactflow"
-import "/node_modules/reactflow/dist/style.css"
 import { handleDragOver, ImageNode, TextNode, VideoNode } from "../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
 import { ReactFlowInstanceProvider } from "../contexts"
 import { nanoid } from "nanoid"
 import { useNodesAndEdgesState } from "../hooks"
+import "../../../../node_modules/reactflow/dist/style.css"
 
 const nodeTypes: NodeTypes = {
   ImageNode,
@@ -234,8 +234,8 @@ const Canvas: React.FC = () => {
           onNodeContextMenu={onNodeContextMenu}
           fitView /* snapToGrid={true} snapGrid={[5, 5]}*/
         >
-          <Background color="hsl(var(--b1)" />
-          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-neutral-content -translate-x-[220px] 2xl:-translate-x-[250px]" pannable={true} />
+          <Background color="oklch(var(--b1))" />
+          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-gray-500 -translate-x-[220px] 2xl:-translate-x-[250px]" pannable={true} />
           {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
           {show && (
             <ReactFlowInstanceProvider>

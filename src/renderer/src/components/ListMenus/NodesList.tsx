@@ -77,6 +77,7 @@ const NodesList: React.FC = () => {
         </div>
       )
     }
+    return null
   }
 
   // console.log("Nodes: ", nodes )

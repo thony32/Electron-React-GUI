@@ -9,7 +9,7 @@ type Size = {
   height: number
 }
 
-const VideoNode = ({ id, data, selected, isConnectable }: NodeProps) => {
+const ImageNode = ({ id, data, selected, isConnectable }: NodeProps) => {
   const [rotation, setRotation] = useState(0)
   const rotatable = true
   const updateNodeInternals = useUpdateNodeInternals()
@@ -44,10 +44,10 @@ const VideoNode = ({ id, data, selected, isConnectable }: NodeProps) => {
 
   // NOTE This effect will calculate the aspect ratio of the content
   useEffect(() => {
+    let resizeObserver
+
     if (contentRef.current) {
-      // Use ResizeObserver to listen for changes in the content size
-      const resizeObserver = new ResizeObserver((entries) => {
-        // eslint-disable-next-line prefer-const
+      resizeObserver = new ResizeObserver((entries) => {
         for (let entry of entries) {
           const { width, height } = entry.contentRect
           if (width > 0 && height > 0) {
@@ -55,10 +55,15 @@ const VideoNode = ({ id, data, selected, isConnectable }: NodeProps) => {
           }
         }
       })
-      // Start observing the element
+
       resizeObserver.observe(contentRef.current)
-      // Cleanup observer on component unmount
-      return () => resizeObserver.disconnect()
+    }
+
+    // Cleanup observer on component unmount
+    return () => {
+      if (resizeObserver) {
+        resizeObserver.disconnect()
+      }
     }
   }, [data])
 
@@ -92,7 +97,7 @@ const VideoNode = ({ id, data, selected, isConnectable }: NodeProps) => {
   const rotateButtonStyle = {
     display: rotatable ? "block" : "none",
   }
-  
+
   return (
     <div style={parentDivStyle}>
       <NodeResizer nodeId={id} color="#FF0844" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={handleStyle} />
@@ -105,7 +110,7 @@ const VideoNode = ({ id, data, selected, isConnectable }: NodeProps) => {
           <path d="M482-160q-134 0-228-93t-94-227v-7l-64 64-56-56 160-160 160 160-56 56-64-64v7q0 100 70.5 170T482-240q26 0 51-6t49-18l60 60q-38 22-78 33t-82 11Zm278-161L600-481l56-56 64 64v-7q0-100-70.5-170T478-720q-26 0-51 6t-49 18l-60-60q38-22 78-33t82-11q134 0 228 93t94 227v7l64-64 56 56-160 160Z" />
         </svg>
       </div>
-      <div className="p-8 nodes" ref={contentRef}>
+      <div className="nodes" ref={contentRef}>
         {data.label}
       </div>
       <Handle type="source" className="w-4 h-12 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
@@ -114,4 +119,4 @@ const VideoNode = ({ id, data, selected, isConnectable }: NodeProps) => {
   )
 }
 
-export default VideoNode
+export default ImageNode
