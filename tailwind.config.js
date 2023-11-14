@@ -1,12 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}"],
+module.exports = {
+  content: ["./src/renderer/index.html", "./src/renderer/**/*.{js,ts,jsx,tsx}", "./node_modules/flowbite/**/*.js"],
   theme: {
     extend: {},
   },
   daisyui: {
     themes: ["winter", "dark"],
   },
-  // eslint-disable-next-line no-undef
-  plugins: [require('flowbite/plugin'), require("daisyui")],
-};
+  plugins: [require("daisyui"), require("flowbite/plugin")],
+}
