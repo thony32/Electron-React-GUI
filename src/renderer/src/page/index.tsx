@@ -1,4 +1,4 @@
 
-import Canvas from './Canvas';
+import FlowChart from './FlowChart';
 
-export { Canvas }
+export { FlowChart }

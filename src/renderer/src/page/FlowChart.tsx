@@ -14,7 +14,7 @@ const nodeTypes: NodeTypes = {
 }
 
 // Define the Canvas component
-const Canvas: React.FC = () => {
+const FlowChart: React.FC = () => {
   const { nodes, setNodes, edges, setEdges } = useNodesAndEdgesState() as any
   const [menu, setMenu] = useState<any>(null)
   const [show, setShow] = useState(false)
@@ -249,4 +249,4 @@ const Canvas: React.FC = () => {
   )
 }
 
-export default Canvas
+export default FlowChart

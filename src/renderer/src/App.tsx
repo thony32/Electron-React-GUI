@@ -1,6 +1,6 @@
 import "./App.css"
 import React from "react"
-import { Canvas } from "./page"
+import { FlowChart } from "./page"
 import { ReactFlowProvider } from "reactflow"
 import { RecoilRoot } from "recoil"
 import { CanvasContextProvider, LoadedContextProvider, NodesAndEdgesContextProvider, ReactFlowContextProvider } from "./contexts"
@@ -18,7 +18,7 @@ const App: React.FC = () => {
                   <div>
                     <ThemeChanger />
                     <NodeInfosBar />
-                    <Canvas />
+                    <FlowChart />
                     <NodesListBar />
                   </div>
                 </CanvasContextProvider>
