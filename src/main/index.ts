@@ -17,6 +17,7 @@ function createWindow(): void {
     },
   })
 
+  // NOTE: AlwaysOnTop Feature
   let isAlwaysOnTop = false
 
   const toggleAlwaysOnTop = () => {
@@ -25,6 +26,7 @@ function createWindow(): void {
   }
 
   mainWindow.on("ready-to-show", () => {
+    // NOTE Register AlwaysOnTop Feature before window shows
     globalShortcut.register("CommandOrControl+Shift+A", () => {
       if (mainWindow) {
         toggleAlwaysOnTop()
