@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge, Node } from "reactflow"
+import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge, Node, OnConnect } from "reactflow"
 import { handleDragOver, ImageNode, TextNode, VideoNode } from "../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
 import { ReactFlowInstanceProvider } from "../contexts"
@@ -27,7 +27,7 @@ const FlowChart: React.FC = () => {
   const onEdgesChange: OnEdgesChange = useCallback((changes) => setEdges((eds: Edge[]) => applyEdgeChanges(changes, eds)), [setEdges])
 
   // NOTE Function to handle connection between nodes
-  const onConnect = useCallback((params: Connection | Edge) => setEdges((els: Edge[]) => addEdge(params, els)), [setEdges])
+  const onConnect: OnConnect = useCallback((params: Connection | Edge) => setEdges((els: Edge[]) => addEdge(params, els)), [setEdges])
 
   // NOTE Function to handle deletion of nodes
   const onNodesDelete: any = (nodeId: string) => {
@@ -90,7 +90,9 @@ const FlowChart: React.FC = () => {
     const newNode = {
       id: `IMG-${nanoid(3)}`,
       type: "ImageNode",
-      data: { label: <img src={url} className="nodes w-full h-full object-contain block" /> },
+      data: {
+        label: <img src={url} className="nodes w-full h-full object-contain block" />,
+      },
       position: { x: clientX, y: clientY },
       selected: true,
     }
@@ -104,7 +106,7 @@ const FlowChart: React.FC = () => {
       type: "TextNode",
       data: {
         label: (
-          <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500">
+          <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
             {url}
           </a>
         ),
@@ -130,13 +132,12 @@ const FlowChart: React.FC = () => {
     } catch (error) {
       // If HEAD request fails, fallback to extension checking
       console.error("Error fetching URL, fallback to extension checking:", error)
-      // if (isVideoURL(uri)) {
-      //   createVideoNodeFromURL(uri, clientX, clientY)
-      // } else {
-      //   // Assume it's an image if not a known video extension
-      //   createImageNodeFromURL(uri, clientX, clientY)
-      // }
-      createLinkNodeFromURL(uri, clientX, clientY)
+      if (isVideoURL(uri)) {
+        createVideoNodeFromURL(uri, clientX, clientY)
+      } else {
+        createImageNodeFromURL(uri, clientX, clientY)
+      }
+      // createLinkNodeFromURL(uri, clientX, clientY)
     }
   }
   // NOTE: FUNCTION TO HANDLE DROP EVENT
@@ -169,6 +170,7 @@ const FlowChart: React.FC = () => {
         // NOTE Handle image file as a new node
         const imageUrl = URL.createObjectURL(file)
         createImageNodeFromURL(imageUrl, clientX, clientY)
+        // console.log(imageUrl, clientX, clientY)
       } else if (file.type.startsWith("video/")) {
         // NOTE Handle video file as a new node
         const videoUrl = URL.createObjectURL(file)
@@ -176,16 +178,22 @@ const FlowChart: React.FC = () => {
       }
     }
 
-    console.log(uri, files)
+    // console.log(uri, files)
   }
-  // console.log(isImageURL, isVideoURL, handleDroppedURL)
+  console.log(isImageURL)
 
   // NOTE: Function to add a new text node
   const addTextNode = (text: string, position = { x: Math.floor(Math.random() * 1001), y: Math.floor(Math.random() * 1001) }) => {
     const newNode = {
       id: `TXT-${nanoid(3)}`,
       type: "TextNode",
-      data: { label: <p className="nodes text-3xl font-semibold tracking-wide w-full h-full">{text}</p> },
+      data: {
+        label: (
+          <>
+            <p className="nodes text-3xl font-semibold tracking-wide w-full h-full">{text}</p>
+          </>
+        ),
+      },
       position,
     }
     setNodes((prevNodes: Node[]) => [...prevNodes, newNode])

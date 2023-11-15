@@ -44,10 +44,10 @@ const ImageNode = ({ id, data, selected, isConnectable }: NodeProps) => {
 
   // NOTE This effect will calculate the aspect ratio of the content
   useEffect(() => {
-    let resizeObserver
-
     if (contentRef.current) {
-      resizeObserver = new ResizeObserver((entries) => {
+      // Use ResizeObserver to listen for changes in the content size
+      const resizeObserver = new ResizeObserver((entries) => {
+        // eslint-disable-next-line prefer-const
         for (let entry of entries) {
           const { width, height } = entry.contentRect
           if (width > 0 && height > 0) {
@@ -55,16 +55,12 @@ const ImageNode = ({ id, data, selected, isConnectable }: NodeProps) => {
           }
         }
       })
-
+      // Start observing the element
       resizeObserver.observe(contentRef.current)
+      // Cleanup observer on component unmount
+      return () => resizeObserver.disconnect()
     }
-
-    // Cleanup observer on component unmount
-    return () => {
-      if (resizeObserver) {
-        resizeObserver.disconnect()
-      }
-    }
+    return () => {}
   }, [data])
 
   // NOTE: This effect will update the content size when the aspect ratio changes

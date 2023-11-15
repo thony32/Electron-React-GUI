@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: 'Hurme';
-  src: url('../public/font/HurmeGeometricSans3SemiBold.otf') format('opentype');
+  src: url('./assets/font/HurmeGeometricSans3SemiBold.otf') format('opentype');
 }
 
 .hurme{
