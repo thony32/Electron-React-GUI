@@ -1,6 +1,7 @@
 import React from "react"
 import { Help } from "../../assets"
 import { HotkeysData } from "../../data"
+import { useHotkeys } from "react-hotkeys-hook";
 
 const Shortcuts: React.FC = () => {
   const openModal = () => {
@@ -9,6 +10,9 @@ const Shortcuts: React.FC = () => {
       modal.showModal();
     }
   };
+
+  useHotkeys("ctrl+h", openModal);
+
   return (
     <>
       <button className="p-2 rounded-md hover:bg-base-200 duration-300 active:scale-95" onClick={openModal}>

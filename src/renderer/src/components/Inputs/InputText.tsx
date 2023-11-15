@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Text } from "../../assets"
+import { useHotkeys } from "react-hotkeys-hook"
 
 const InputText: React.FC<{ addTextNode: (text: string) => void }> = ({ addTextNode }) => {
   const [text, setText] = useState("")
@@ -17,6 +18,9 @@ const InputText: React.FC<{ addTextNode: (text: string) => void }> = ({ addTextN
       modal.showModal()
     }
   }
+
+  useHotkeys("ctrl+t", openModal)
+  // TODO: Handle the case when the user press enter to add the text
 
   return (
     <>

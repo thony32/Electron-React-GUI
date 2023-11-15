@@ -54,6 +54,7 @@ const FlowChart: React.FC = () => {
     setShow(!isNode)
   }
 
+
   // NOTE: Create a video as a new node
   const createVideoNodeFromURL = (url: string, clientX: number, clientY: number) => {
     const newNode = {
