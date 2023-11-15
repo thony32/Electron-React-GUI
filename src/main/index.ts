@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow } from "electron"
+import { app, shell, BrowserWindow, globalShortcut } from "electron"
 import { join } from "path"
 import { electronApp, optimizer, is } from "@electron-toolkit/utils"
 import icon from "../../resources/favico.png?asset"
@@ -17,7 +17,19 @@ function createWindow(): void {
     },
   })
 
+  let isAlwaysOnTop = false
+
+  const toggleAlwaysOnTop = () => {
+    isAlwaysOnTop = !isAlwaysOnTop
+    mainWindow.setAlwaysOnTop(isAlwaysOnTop)
+  }
+
   mainWindow.on("ready-to-show", () => {
+    globalShortcut.register("CommandOrControl+Shift+A", () => {
+      if (mainWindow) {
+        toggleAlwaysOnTop()
+      }
+    })
     mainWindow.show()
   })
 
@@ -56,6 +68,11 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+})
+
+app.on("will-quit", () => {
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
