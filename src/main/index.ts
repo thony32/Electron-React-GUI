@@ -72,6 +72,7 @@ app.whenReady().then(() => {
   })
 })
 
+// NOTE unregister all shortcuts before quit
 app.on("will-quit", () => {
   // Unregister all shortcuts.
   globalShortcut.unregisterAll()
