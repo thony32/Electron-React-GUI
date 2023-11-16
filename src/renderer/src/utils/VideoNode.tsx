@@ -60,7 +60,7 @@ const VideoNode = ({ id, data, selected, isConnectable }: NodeProps) => {
       // Cleanup observer on component unmount
       return () => resizeObserver.disconnect()
     }
-    // return () => {}
+    return () => {}
   }, [data])
 
   // NOTE: This effect will update the content size when the aspect ratio changes

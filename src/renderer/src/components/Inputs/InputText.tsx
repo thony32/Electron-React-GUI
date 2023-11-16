@@ -18,8 +18,8 @@ const InputText: React.FC<{ addTextNode: (text: string) => void }> = ({ addTextN
       modal.showModal()
     }
   }
-
   useHotkeys("ctrl+t", openModal)
+  
   // TODO: Handle the case when the user press enter to add the text
 
   return (

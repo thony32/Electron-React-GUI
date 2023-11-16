@@ -1,19 +1,19 @@
 const HotkeysData = [
   {
     label: "Undo",
-    hotkey: "ctrl+z"
+    hotkey: "ctrl+Z"
   },
   {
     label: "Redo",
-    hotkey: "ctrl+y"
+    hotkey: "ctrl+Y"
   },
   {
     label: "Duplicate",
-    hotkey: "ctrl+c"
+    hotkey: "ctrl+C"
   },
   {
     label: "Add Text",
-    hotkey: "ctrl+t"
+    hotkey: "ctrl+T"
   },
   {
     label: "Delete",
@@ -25,19 +25,19 @@ const HotkeysData = [
   },
   {
     label: "Window always on Top",
-    hotkey: "Ctrl+shift+a"
+    hotkey: "Ctrl+shift+A"
   },
   {
     label: "Save",
-    hotkey: "ctrl+s"
+    hotkey: "ctrl+S"
   },
   {
     label: "Export as PNG",
-    hotkey: "ctrl+shift+p"
+    hotkey: "ctrl+shift+P"
   },
   {
     label: "Export as File",
-    hotkey: "ctrl+shift+s"
+    hotkey: "ctrl+shift+S"
   }
 ]
 

@@ -54,6 +54,20 @@ const FlowChart: React.FC = () => {
     setShow(!isNode)
   }
 
+  // FIXME: Function to check if the URL is a video
+  const isVideoURL = (url: string): boolean => {
+    // List of common video file extensions and patterns in video URLs
+    const videoIndicators = [".mp4", ".webm", ".ogg", ".avi", ".mov", ".mkv", "youtube.com", "vimeo.com", "/video", "watch?", "embed"]
+
+    // Check if any of the video indicators are present in the URL
+    return videoIndicators.some((indicator) => url.toLowerCase().includes(indicator))
+  }
+
+  // FIXME: Function to check if the URL is an image
+  const isImageURL = (url: string): boolean => {
+    const imageExtensions = [".jpeg", ".jpg", ".gif", ".png", ".bmp", ".svg", ".webp"]
+    return imageExtensions.some((extension) => url.toLowerCase().endsWith(extension))
+  }
 
   // NOTE: Create a video as a new node
   const createVideoNodeFromURL = (url: string, clientX: number, clientY: number) => {
@@ -85,13 +99,99 @@ const FlowChart: React.FC = () => {
     setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
 
+  const createLinkNodeFromURL = (url: string, clientX: number, clientY: number) => {
+    const newNode = {
+      id: `LINK-${nanoid(3)}`,
+      type: "TextNode",
+      data: {
+        label: (
+          <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500">
+            {url}
+          </a>
+        ),
+      },
+      position: { x: clientX, y: clientY },
+    }
+    setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
+  }
+
+  // const fetchMediaFromURL = async (url: string) => {
+  //   try {
+  //     const response = await fetch("http://localhost:3000/fetch-media", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ url }),
+  //     })
+  //     const data = await response.json()
+  //     return data
+  //   } catch (error) {
+  //     console.error("Error fetching media URL:", error)
+  //     return null
+  //   }
+  // }
+  // NOTE: Function to check if the URL is a video or image
+  const handleDroppedURL = async (uri: string, clientX: number, clientY: number) => {
+    try {
+      const response = await fetch(uri, { method: "HEAD" })
+      const contentType = response.headers.get("Content-Type")
+      if (contentType?.startsWith("video")) {
+        createVideoNodeFromURL(uri, clientX, clientY)
+      } else if (contentType?.startsWith("image")) {
+        createImageNodeFromURL(uri, clientX, clientY)
+      } else {
+        // Fallback to link node if content type is not image or video
+        createLinkNodeFromURL(uri, clientX, clientY)
+      }
+    } catch (error) {
+      // If HEAD request fails, fallback to extension checking
+      console.error("Error fetching URL, fallback to extension checking:", error)
+      if (isVideoURL(uri)) {
+        createVideoNodeFromURL(uri, clientX, clientY)
+      } else {
+        // Assume it's an image if not a known video extension
+        createImageNodeFromURL(uri, clientX, clientY)
+      }
+      // createLinkNodeFromURL(uri, clientX, clientY)
+    }
+  }
+
+
+
   // NOTE: FUNCTION TO HANDLE DROP EVENT
 
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
 
-    
+    const uri = event.dataTransfer.getData("URL") || event.dataTransfer.getData("text/uri-list")
+    // if (uri) {
+    //   const mediaData = await fetchMediaFromURL(uri)
+    //   if (mediaData && mediaData.images && mediaData.images.length > 0) {
+    //     const validImageUrl = mediaData.images.find((imgUrl) => imgUrl && imgUrl !== "")
+    //     if (validImageUrl) {
+    //       createImageNodeFromURL(valid, event.clientX, event.clientY)
+    //     }
+        
+    //     console.log(uri)
+    //     console.log(validImageUrl)
+    //     console.log(mediaData)
+
+    //   }
+    // }
+    if (uri && isVideoURL(uri)) {
+      handleDroppedURL(uri, event.clientX, event.clientY)
+      return
+    }
+
+    if (!isImageURL(uri) && !isVideoURL(uri)) {
+      const clientX = event.clientX - (ref.current.getBoundingClientRect().left + window.scrollX)
+      const clientY = event.clientY - (ref.current.getBoundingClientRect().top + window.scrollY)
+      createLinkNodeFromURL(uri, clientX, clientY)
+    }
+
+
     const files = event.dataTransfer.files
 
     for (let i = 0; i < files.length; i++) {

@@ -10,7 +10,6 @@ const NodesList: React.FC = () => {
   const { nodes, setNodes, setEdges } = useNodesAndEdgesState() as any
   const setSelectedNodeId = useSetRecoilState(selectedNodeIdState)
   const { deleteNode, duplicateNode } = useNodeFunction()
-  // const { setNodes, setEdges } = useReactFlowFunctions()
   const [tempId, setTempId] = useState<string>("")
   const [editingNodeId, setEditingNodeId] = useState<string | null>(null)
 
@@ -50,7 +49,9 @@ const NodesList: React.FC = () => {
     setTempId("")
   }
 
-  // This function will display the nodes avatar according to the type of the node
+  // TODO: hotkeys to handle duplicate nodes
+
+  // NOTE This function will display the nodes avatar according to the type of the node
   const displayAvatar = (node: Node) => {
     if (node.type === "ImageNode") {
       return (
@@ -80,9 +81,6 @@ const NodesList: React.FC = () => {
     return null
   }
 
-  // console.log("Nodes: ", nodes )
-  // console.log('Is Array:', Array.isArray(nodes))
-  // console.log('Type of nodes:', typeof nodes);
   return (
     <div className="p-1 overflow-y-auto scrollbar h-full">
       <div className="font-bold uppercase px-4">Nodes List</div>
