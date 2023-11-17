@@ -3,6 +3,8 @@ import { Handle, NodeProps, NodeResizer, Position, useUpdateNodeInternals } from
 import { drag } from "d3-drag"
 import { select } from "d3-selection"
 import { useNodesAndEdgesState } from "../hooks"
+import { handleStyleLeft } from '.';
+import { handleStyleRight } from '.';
 
 type Size = {
   width: number
@@ -77,14 +79,6 @@ const ImageNode = ({ id, data, selected, isConnectable }: NodeProps) => {
     })
   }
   // console.log(aspectRatio)
-  // NOTE Styles
-
-  const handleStyle = {
-    width: "15px",
-    height: "15px",
-    border: "none",
-    borderRadius: "999px",
-  }
 
   const parentDivStyle = {
     transform: `rotate(${rotation}deg)`,
@@ -96,7 +90,7 @@ const ImageNode = ({ id, data, selected, isConnectable }: NodeProps) => {
 
   return (
     <div style={parentDivStyle}>
-      <NodeResizer nodeId={id} color="#FF0844" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={handleStyle} />
+      <NodeResizer nodeId={id} color="#FF0844" isVisible={selected} keepAspectRatio={true} onResize={onResize} />
       <div
         ref={rotateControlRef}
         style={rotateButtonStyle}
@@ -109,8 +103,8 @@ const ImageNode = ({ id, data, selected, isConnectable }: NodeProps) => {
       <div className="nodes" ref={contentRef}>
         {data.label}
       </div>
-      <Handle type="source" className="w-4 h-12 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
-      <Handle type="target" className="w-4 h-12 rounded-full bg-black border-none" position={Position.Left} isConnectable={isConnectable} />
+      <Handle type="source" style={handleStyleLeft} position={Position.Right} isConnectable={isConnectable} />
+      <Handle type="target" style={handleStyleRight} position={Position.Left} isConnectable={isConnectable} />
     </div>
   )
 }

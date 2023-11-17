@@ -1,4 +1,6 @@
 import { Handle, NodeProps, Position } from "reactflow"
+import { handleStyleLeft } from '.';
+import { handleStyleRight } from '.';
 
 const LinkNode = ({ data, isConnectable }: NodeProps) => {
   return (
@@ -6,8 +8,8 @@ const LinkNode = ({ data, isConnectable }: NodeProps) => {
       <div className="p-4 nodes w-full h-full">
         {data.label}
       </div>
-      <Handle type="source" className="w-3 h-3 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
-      <Handle type="target" className="w-3 h-3 rounded-full bg-black border-none" position={Position.Left} isConnectable={isConnectable} />
+      <Handle type="source" style={handleStyleLeft} position={Position.Right} isConnectable={isConnectable} />
+      <Handle type="target" style={handleStyleRight} position={Position.Left} isConnectable={isConnectable} />
     </div>
   )
 }
