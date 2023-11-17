@@ -8,8 +8,8 @@ const LinkNode = ({ data, isConnectable }: NodeProps) => {
       <div className="p-4 nodes w-full h-full">
         {data.label}
       </div>
-      <Handle type="source" style={handleStyleLeft} position={Position.Right} isConnectable={isConnectable} />
-      <Handle type="target" style={handleStyleRight} position={Position.Left} isConnectable={isConnectable} />
+      <Handle type="source" style={handleStyleRight} position={Position.Right} isConnectable={isConnectable} />
+      <Handle type="target" style={handleStyleLeft} position={Position.Left} isConnectable={isConnectable} />
     </div>
   )
 }

@@ -17,9 +17,9 @@ const NodePosition: React.FC = () => {
   }
 
   return (
-    <div className="p-1 h-[50%] overflow-y-auto scrollbar">
-      <div className=" font-bold uppercase px-4">Properties</div>
-      <div className="divider"></div>
+    <div className="p-1 h-[50%] overflow-y-auto scrollbar space-y-4">
+      <div className="font-bold uppercase p-2 m-2 border-b border-current">Properties</div>
+      {/* <div className="divider"></div> */}
       {nodes.map((node: any) => (
         <div key={node.selected} className="flex flex-col space-y-4 justify-between p-4 hover:bg-base-200">
           <div className="text-center text-sm font-semibold bg-gray-500/30 p-2 rounded-md">{node.id}</div>
