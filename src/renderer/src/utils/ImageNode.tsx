@@ -3,8 +3,8 @@ import { Handle, NodeProps, NodeResizer, Position, useUpdateNodeInternals } from
 import { drag } from "d3-drag"
 import { select } from "d3-selection"
 import { useNodesAndEdgesState } from "../hooks"
-import { handleStyleLeft } from '.';
-import { handleStyleRight } from '.';
+import { handleStyleLeft } from "."
+import { handleStyleRight } from "."
 
 type Size = {
   width: number
@@ -80,6 +80,13 @@ const ImageNode = ({ id, data, selected, isConnectable }: NodeProps) => {
   }
   // console.log(aspectRatio)
 
+  const handleStyle = {
+    width: "20px",
+    height: "20px",
+    border: "none",
+    borderRadius: "999px",
+  }
+
   const parentDivStyle = {
     transform: `rotate(${rotation}deg)`,
   }
@@ -90,7 +97,7 @@ const ImageNode = ({ id, data, selected, isConnectable }: NodeProps) => {
 
   return (
     <div style={parentDivStyle}>
-      <NodeResizer nodeId={id} color="#FF0844" isVisible={selected} keepAspectRatio={true} onResize={onResize} />
+      <NodeResizer nodeId={id} color="#FF0844" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={handleStyle} />
       <div
         ref={rotateControlRef}
         style={rotateButtonStyle}

@@ -79,6 +79,13 @@ const VideoNode = ({ id, data, selected, isConnectable }: NodeProps) => {
   }
   // console.log(aspectRatio)
 
+  const handleStyle = {
+    width: "20px",
+    height: "20px",
+    border: "none",
+    borderRadius: "999px",
+  }
+
   const parentDivStyle = {
     transform: `rotate(${rotation}deg)`,
   }
@@ -89,7 +96,7 @@ const VideoNode = ({ id, data, selected, isConnectable }: NodeProps) => {
 
   return (
     <div style={parentDivStyle}>
-      <NodeResizer nodeId={id} color="#FF0844" isVisible={selected} keepAspectRatio={true} onResize={onResize} />
+      <NodeResizer nodeId={id} color="#FF0844" isVisible={selected} keepAspectRatio={true} onResize={onResize} handleStyle={handleStyle} />
       <div
         ref={rotateControlRef}
         style={rotateButtonStyle}
