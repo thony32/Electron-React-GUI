@@ -49,7 +49,6 @@ const FlowChart: React.FC = () => {
     event.preventDefault()
     const targetNode = event.target as HTMLElement
     const isNode = targetNode && targetNode.classList.contains("nodes")
-
     setRightClickOnNode(isNode)
     setPoints({ x: event.pageX, y: event.pageY })
     setShow(!isNode)
@@ -106,13 +105,12 @@ const FlowChart: React.FC = () => {
       type: "LinkNode",
       data: {
         label: (
-          <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500">
+          <a href={url} target="_blank" className="text-blue-500">
             {url}
           </a>
         ),
       },
       position: { x: clientX, y: clientY },
-
     }
     setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
@@ -219,8 +217,7 @@ const FlowChart: React.FC = () => {
       data: {
         label: (
           <>
-            <p className="nodes text-3xl font-semibold tracking-wide w-full h-full">{text}</p>
-            {/* <input type="text" value={text} className="nodes text-3xl font-semibold tracking-wide w-full h-full bg-gray-500/25 border-none" /> */}
+            <p className="nodes font-semibold tracking-wide w-full h-full">{text}</p>
           </>
         ),
       },
@@ -259,13 +256,13 @@ const FlowChart: React.FC = () => {
       case "ImageNode":
         return "black" // Noir pour ImageNode
       case "VideoNode":
-        return "red" // Rouge pour VideoNode
+        return "#ff0844" // Rouge pour VideoNode
       case "TextNode":
-        return "grey" // Gris pour TextNode
+        return "#fee140" // Gris pour TextNode
       case "LinkNode":
-        return "blue" // Bleu pour LinkNode
+        return "#005bea" // Bleu pour LinkNode
       default:
-        return "#02245" // Couleur par défaut
+        return "#ffb199" // Couleur par défaut
     }
   }
 

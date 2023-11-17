@@ -78,6 +78,14 @@ const NodesList: React.FC = () => {
           </svg>
         </div>
       )
+    } else if (node.type === "LinkNode") {
+      return (
+        <div className="mask w-10 h-10 rounded-full">
+          <svg className="w-10 h-10" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+            <path className="fill-gray-500" d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z" />
+          </svg>
+        </div>
+      )
     }
     return null
   }
@@ -85,8 +93,8 @@ const NodesList: React.FC = () => {
   return (
     <div className="flex flex-col justify-between h-full">
       <div className="p-1 overflow-y-auto scrollbar h-[85%]">
-        <div className="font-bold uppercase px-4">List</div>
-        <div className="divider"></div>
+        <div className="font-bold uppercase p-2 m-2 border-b border-current">List</div>
+        {/* <div className="divider"></div> */}
         {nodes.map((node: Node, index: number) => (
           <div key={index} className="flex justify-between items-center p-1 hover:bg-base-200 cursor-pointer" onClick={() => handleNodeClick(node.id)}>
             <div className="flex items-center gap-3">

@@ -21,7 +21,7 @@ const NodePosition: React.FC = () => {
       <div className="font-bold uppercase p-2 m-2 border-b border-current">Properties</div>
       {/* <div className="divider"></div> */}
       {nodes.map((node: any) => (
-        <div key={node.selected} className="flex flex-col space-y-4 justify-between p-4 hover:bg-base-200">
+        <div key={node.id} className="flex flex-col space-y-4 justify-between p-4 hover:bg-base-200">
           <div className="text-center text-sm font-semibold bg-gray-500/30 p-2 rounded-md">{node.id}</div>
           <div className="flex justify-center gap-4">
             <div className="text-xs flex justify-center items-center gap-4">
