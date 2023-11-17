@@ -2,11 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Hurme";
-  src: url("./assets/font/HurmeGeometricSans3SemiBold.otf"), format("opentype");
-}
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
 
-.hurme {
-  font-family: "Hurme";
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #9f9f9faf;
+    border-radius: 100vh;
+  }
 }

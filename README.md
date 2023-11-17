@@ -1,4 +1,4 @@
-# proref-app
+# Electron-App
 
 An Electron application with React and TypeScript
 

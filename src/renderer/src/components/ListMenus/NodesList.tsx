@@ -5,12 +5,12 @@ import { useNodeFunction, useNodesAndEdgesState } from "../../hooks"
 import { Copy, Trashbin } from "../../assets"
 import "../../index.css"
 import { Edge, Node } from "reactflow"
+import { Copyright } from ".."
 
 const NodesList: React.FC = () => {
   const { nodes, setNodes, setEdges } = useNodesAndEdgesState() as any
   const setSelectedNodeId = useSetRecoilState(selectedNodeIdState)
   const { deleteNode, duplicateNode } = useNodeFunction()
-  // const { setNodes, setEdges } = useReactFlowFunctions()
   const [tempId, setTempId] = useState<string>("")
   const [editingNodeId, setEditingNodeId] = useState<string | null>(null)
 
@@ -50,7 +50,9 @@ const NodesList: React.FC = () => {
     setTempId("")
   }
 
-  // This function will display the nodes avatar according to the type of the node
+  // TODO: hotkeys to handle duplicate nodes
+
+  // NOTE This function will display the nodes avatar according to the type of the node
   const displayAvatar = (node: Node) => {
     if (node.type === "ImageNode") {
       return (
@@ -80,42 +82,42 @@ const NodesList: React.FC = () => {
     return null
   }
 
-  // console.log("Nodes: ", nodes )
-  // console.log('Is Array:', Array.isArray(nodes))
-  // console.log('Type of nodes:', typeof nodes);
   return (
-    <div className="p-1 overflow-y-auto scrollbar h-full">
-      <div className="font-bold uppercase px-4">Nodes List</div>
-      <div className="divider"></div>
-      {nodes.map((node: Node, index: number) => (
-        <div key={index} className="flex justify-between items-center p-1 hover:bg-base-200 cursor-pointer" onClick={() => handleNodeClick(node.id)}>
-          <div className="flex items-center gap-3">
-            <div className="avatar">{displayAvatar(node)}</div>
-            <input
-              type="text"
-              className="block py-1 px-0 w-1/3 text-sm font-semibold bg-transparent border-0 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer text-current"
-              value={editingNodeId === node.id ? tempId : node.id}
-              onFocus={() => handleInputFocus(node.id)}
-              onChange={(e) => handleInputChange(node.id, e.target.value)}
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            {editingNodeId === node.id && (
-              <button onClick={() => handleApplyChange(node.id)} key={index}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="w-4 h-4 fill-current">
-                  <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
-                </svg>
+    <div className="flex flex-col justify-between h-full">
+      <div className="p-1 overflow-y-auto scrollbar h-[85%]">
+        <div className="font-bold uppercase px-4">List</div>
+        <div className="divider"></div>
+        {nodes.map((node: Node, index: number) => (
+          <div key={index} className="flex justify-between items-center p-1 hover:bg-base-200 cursor-pointer" onClick={() => handleNodeClick(node.id)}>
+            <div className="flex items-center gap-3">
+              <div className="avatar">{displayAvatar(node)}</div>
+              <input
+                type="text"
+                className="block py-1 px-0 w-1/3 text-sm font-semibold bg-transparent border-0 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer text-current"
+                value={editingNodeId === node.id ? tempId : node.id}
+                onFocus={() => handleInputFocus(node.id)}
+                onChange={(e) => handleInputChange(node.id, e.target.value)}
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              {editingNodeId === node.id && (
+                <button onClick={() => handleApplyChange(node.id)} key={index}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="w-4 h-4 fill-current">
+                    <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+                  </svg>
+                </button>
+              )}
+              <button onClick={() => handleDuplicateClick(node.id)}>
+                <Copy />
               </button>
-            )}
-            <button onClick={() => handleDuplicateClick(node.id)}>
-              <Copy />
-            </button>
-            <button onClick={() => handleDeleteClick(node.id)}>
-              <Trashbin />
-            </button>
+              <button onClick={() => handleDeleteClick(node.id)}>
+                <Trashbin />
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+      <Copyright />
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge, Node } from "reactflow"
-import { handleDragOver, ImageNode, TextNode, VideoNode } from "../utils"
+import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge, Node, OnConnect } from "reactflow"
+import { handleDragOver, ImageNode, TextNode, VideoNode, LinkNode } from "../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
 import { ReactFlowInstanceProvider } from "../contexts"
 import { nanoid } from "nanoid"
@@ -11,6 +11,7 @@ const nodeTypes: NodeTypes = {
   ImageNode,
   TextNode,
   VideoNode,
+  LinkNode,
 }
 
 // Define the Canvas component
@@ -27,7 +28,7 @@ const FlowChart: React.FC = () => {
   const onEdgesChange: OnEdgesChange = useCallback((changes) => setEdges((eds: Edge[]) => applyEdgeChanges(changes, eds)), [setEdges])
 
   // NOTE Function to handle connection between nodes
-  const onConnect = useCallback((params: Connection | Edge) => setEdges((els: Edge[]) => addEdge(params, els)), [setEdges])
+  const onConnect: OnConnect = useCallback((params: Connection | Edge) => setEdges((els: Edge[]) => addEdge(params, els)), [setEdges])
 
   // NOTE Function to handle deletion of nodes
   const onNodesDelete: any = (nodeId: string) => {
@@ -90,18 +91,19 @@ const FlowChart: React.FC = () => {
     const newNode = {
       id: `IMG-${nanoid(3)}`,
       type: "ImageNode",
-      data: { label: <img src={url} className="nodes w-full h-full object-contain block" /> },
+      data: {
+        label: <img src={url} className="nodes w-full h-full object-contain block" />,
+      },
       position: { x: clientX, y: clientY },
       selected: true,
     }
     setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
 
-  // NOTE: Function to create a clickable link node from a URL
   const createLinkNodeFromURL = (url: string, clientX: number, clientY: number) => {
     const newNode = {
       id: `LINK-${nanoid(3)}`,
-      type: "TextNode",
+      type: "LinkNode",
       data: {
         label: (
           <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500">
@@ -110,10 +112,27 @@ const FlowChart: React.FC = () => {
         ),
       },
       position: { x: clientX, y: clientY },
+
     }
     setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
 
+  // const fetchMediaFromURL = async (url: string) => {
+  //   try {
+  //     const response = await fetch("http://localhost:3000/fetch-media", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ url }),
+  //     })
+  //     const data = await response.json()
+  //     return data
+  //   } catch (error) {
+  //     console.error("Error fetching media URL:", error)
+  //     return null
+  //   }
+  // }
   // NOTE: Function to check if the URL is a video or image
   const handleDroppedURL = async (uri: string, clientX: number, clientY: number) => {
     try {
@@ -130,23 +149,37 @@ const FlowChart: React.FC = () => {
     } catch (error) {
       // If HEAD request fails, fallback to extension checking
       console.error("Error fetching URL, fallback to extension checking:", error)
-      // if (isVideoURL(uri)) {
-      //   createVideoNodeFromURL(uri, clientX, clientY)
-      // } else {
-      //   // Assume it's an image if not a known video extension
-      //   createImageNodeFromURL(uri, clientX, clientY)
-      // }
-      createLinkNodeFromURL(uri, clientX, clientY)
+      if (isVideoURL(uri)) {
+        createVideoNodeFromURL(uri, clientX, clientY)
+      } else {
+        // Assume it's an image if not a known video extension
+        createImageNodeFromURL(uri, clientX, clientY)
+      }
+      // createLinkNodeFromURL(uri, clientX, clientY)
     }
   }
+
   // NOTE: FUNCTION TO HANDLE DROP EVENT
 
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
 
     const uri = event.dataTransfer.getData("URL") || event.dataTransfer.getData("text/uri-list")
+    // if (uri) {
+    //   const mediaData = await fetchMediaFromURL(uri)
+    //   if (mediaData && mediaData.images && mediaData.images.length > 0) {
+    //     const validImageUrl = mediaData.images.find((imgUrl) => imgUrl && imgUrl !== "")
+    //     if (validImageUrl) {
+    //       createImageNodeFromURL(valid, event.clientX, event.clientY)
+    //     }
 
+    //     console.log(uri)
+    //     console.log(validImageUrl)
+    //     console.log(mediaData)
+
+    //   }
+    // }
     if (uri && isVideoURL(uri)) {
       handleDroppedURL(uri, event.clientX, event.clientY)
       return
@@ -169,23 +202,28 @@ const FlowChart: React.FC = () => {
         // NOTE Handle image file as a new node
         const imageUrl = URL.createObjectURL(file)
         createImageNodeFromURL(imageUrl, clientX, clientY)
+        console.log(imageUrl, clientX, clientY)
       } else if (file.type.startsWith("video/")) {
         // NOTE Handle video file as a new node
         const videoUrl = URL.createObjectURL(file)
         createVideoNodeFromURL(videoUrl, clientX, clientY)
       }
     }
-
-    console.log(uri, files)
   }
-  // console.log(isImageURL, isVideoURL, handleDroppedURL)
 
   // NOTE: Function to add a new text node
   const addTextNode = (text: string, position = { x: Math.floor(Math.random() * 1001), y: Math.floor(Math.random() * 1001) }) => {
     const newNode = {
       id: `TXT-${nanoid(3)}`,
       type: "TextNode",
-      data: { label: <p className="nodes text-3xl font-semibold tracking-wide w-full h-full">{text}</p> },
+      data: {
+        label: (
+          <>
+            <p className="nodes text-3xl font-semibold tracking-wide w-full h-full">{text}</p>
+            {/* <input type="text" value={text} className="nodes text-3xl font-semibold tracking-wide w-full h-full bg-gray-500/25 border-none" /> */}
+          </>
+        ),
+      },
       position,
     }
     setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
@@ -216,6 +254,21 @@ const FlowChart: React.FC = () => {
     [setMenu, rightClickOnNode]
   )
 
+  const setNodeColor = (node: Node) => {
+    switch (node.type) {
+      case "ImageNode":
+        return "black" // Noir pour ImageNode
+      case "VideoNode":
+        return "red" // Rouge pour VideoNode
+      case "TextNode":
+        return "grey" // Gris pour TextNode
+      case "LinkNode":
+        return "blue" // Bleu pour LinkNode
+      default:
+        return "#02245" // Couleur par défaut
+    }
+  }
+
   return (
     <main className="h-screen overflow-hidden col-span-8 -z-50 introjs-tooltiptext" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
       <div className="w-full h-full flex justify-center items-center" ref={ref}>
@@ -223,8 +276,8 @@ const FlowChart: React.FC = () => {
         <ReactFlow
           nodes={nodes}
           edges={edges}
-          minZoom={0.1}
-          maxZoom={100}
+          minZoom={0.05}
+          maxZoom={50}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           onNodesDelete={onNodesDelete}
@@ -232,10 +285,10 @@ const FlowChart: React.FC = () => {
           onPaneClick={onPaneClick}
           onConnect={onConnect}
           onNodeContextMenu={onNodeContextMenu}
-          fitView /* snapToGrid={true} snapGrid={[5, 5]}*/
+          fitView
         >
           <Background color="oklch(var(--b1))" />
-          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-gray-500 -translate-x-[220px] 2xl:-translate-x-[250px]" pannable={true} />
+          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-gray-600 -translate-x-[220px] 2xl:-translate-x-[250px]" nodeColor={(nodes) => setNodeColor(nodes)} pannable={true} />
           {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
           {show && (
             <ReactFlowInstanceProvider>
