@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge, Node, OnConnect } from "reactflow"
-import { handleDragOver, ImageNode, TextNode, VideoNode } from "../utils"
+import { handleDragOver, ImageNode, TextNode, VideoNode, LinkNode } from "../utils"
 import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
 import { ReactFlowInstanceProvider } from "../contexts"
 import { nanoid } from "nanoid"
@@ -11,6 +11,7 @@ const nodeTypes: NodeTypes = {
   ImageNode,
   TextNode,
   VideoNode,
+  LinkNode,
 }
 
 // Define the Canvas component
@@ -102,7 +103,7 @@ const FlowChart: React.FC = () => {
   const createLinkNodeFromURL = (url: string, clientX: number, clientY: number) => {
     const newNode = {
       id: `LINK-${nanoid(3)}`,
-      type: "TextNode",
+      type: "LinkNode",
       data: {
         label: (
           <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500">
@@ -111,6 +112,7 @@ const FlowChart: React.FC = () => {
         ),
       },
       position: { x: clientX, y: clientY },
+
     }
     setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
   }
@@ -157,8 +159,6 @@ const FlowChart: React.FC = () => {
     }
   }
 
-
-
   // NOTE: FUNCTION TO HANDLE DROP EVENT
 
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
@@ -173,7 +173,7 @@ const FlowChart: React.FC = () => {
     //     if (validImageUrl) {
     //       createImageNodeFromURL(valid, event.clientX, event.clientY)
     //     }
-        
+
     //     console.log(uri)
     //     console.log(validImageUrl)
     //     console.log(mediaData)
@@ -191,7 +191,6 @@ const FlowChart: React.FC = () => {
       createLinkNodeFromURL(uri, clientX, clientY)
     }
 
-
     const files = event.dataTransfer.files
 
     for (let i = 0; i < files.length; i++) {
@@ -203,7 +202,7 @@ const FlowChart: React.FC = () => {
         // NOTE Handle image file as a new node
         const imageUrl = URL.createObjectURL(file)
         createImageNodeFromURL(imageUrl, clientX, clientY)
-        // console.log(imageUrl, clientX, clientY)
+        console.log(imageUrl, clientX, clientY)
       } else if (file.type.startsWith("video/")) {
         // NOTE Handle video file as a new node
         const videoUrl = URL.createObjectURL(file)
@@ -221,6 +220,7 @@ const FlowChart: React.FC = () => {
         label: (
           <>
             <p className="nodes text-3xl font-semibold tracking-wide w-full h-full">{text}</p>
+            {/* <input type="text" value={text} className="nodes text-3xl font-semibold tracking-wide w-full h-full bg-gray-500/25 border-none" /> */}
           </>
         ),
       },
@@ -254,6 +254,21 @@ const FlowChart: React.FC = () => {
     [setMenu, rightClickOnNode]
   )
 
+  const setNodeColor = (node: Node) => {
+    switch (node.type) {
+      case "ImageNode":
+        return "black" // Noir pour ImageNode
+      case "VideoNode":
+        return "red" // Rouge pour VideoNode
+      case "TextNode":
+        return "grey" // Gris pour TextNode
+      case "LinkNode":
+        return "blue" // Bleu pour LinkNode
+      default:
+        return "#02245" // Couleur par défaut
+    }
+  }
+
   return (
     <main className="h-screen overflow-hidden col-span-8 -z-50 introjs-tooltiptext" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
       <div className="w-full h-full flex justify-center items-center" ref={ref}>
@@ -261,8 +276,8 @@ const FlowChart: React.FC = () => {
         <ReactFlow
           nodes={nodes}
           edges={edges}
-          minZoom={0.01}
-          maxZoom={100}
+          minZoom={0.05}
+          maxZoom={50}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           onNodesDelete={onNodesDelete}
@@ -273,7 +288,7 @@ const FlowChart: React.FC = () => {
           fitView
         >
           <Background color="oklch(var(--b1))" />
-          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-gray-500 -translate-x-[220px] 2xl:-translate-x-[250px]" pannable={true} />
+          <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-gray-600 -translate-x-[220px] 2xl:-translate-x-[250px]" nodeColor={(nodes) => setNodeColor(nodes)} pannable={true} />
           {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
           {show && (
             <ReactFlowInstanceProvider>
