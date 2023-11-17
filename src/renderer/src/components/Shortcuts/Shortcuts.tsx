@@ -14,8 +14,8 @@ const Shortcuts: React.FC = () => {
     useHotkeys("ctrl+h", openModal)
 
     return (
-        <>
-            <button className="p-2 rounded-md hover:bg-base-200 duration-300 active:scale-95" onClick={openModal}>
+        <div className="absolute top-5 right-[250px]">
+            <button className="p-2 rounded-full hover:bg-base-200 duration-300 active:scale-95" onClick={openModal}>
                 <Help />
             </button>
             <dialog id="shortcut_modal" className="modal modal-bottom sm:modal-middle">
@@ -46,7 +46,7 @@ const Shortcuts: React.FC = () => {
                     </div>
                 </div>
             </dialog>
-        </>
+        </div>
     )
 }
 

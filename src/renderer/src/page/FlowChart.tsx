@@ -270,20 +270,7 @@ const FlowChart: React.FC = () => {
         <main className="h-screen overflow-hidden col-span-8 -z-50 introjs-tooltiptext" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
             <div className="w-full h-full flex justify-center items-center" ref={ref}>
                 {/* React Flow component */}
-                <ReactFlow
-                    nodes={nodes}
-                    edges={edges}
-                    minZoom={0.05}
-                    maxZoom={50}
-                    nodeTypes={nodeTypes}
-                    onNodesChange={onNodesChange}
-                    onNodesDelete={onNodesDelete}
-                    onEdgesChange={onEdgesChange}
-                    onPaneClick={onPaneClick}
-                    onConnect={onConnect}
-                    onNodeContextMenu={onNodeContextMenu}
-                    fitView
-                >
+                <ReactFlow nodes={nodes} edges={edges} minZoom={0.05} maxZoom={50} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onEdgesChange={onEdgesChange} onPaneClick={onPaneClick} onConnect={onConnect} onNodeContextMenu={onNodeContextMenu} fitView>
                     <Background color="oklch(var(--b1))" />
                     <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-gray-600 -translate-x-[220px] 2xl:-translate-x-[250px]" nodeColor={(nodes) => setNodeColor(nodes)} pannable={true} />
                     {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}

@@ -4,7 +4,7 @@ import { FlowChart } from "./page"
 import { ReactFlowProvider } from "reactflow"
 import { RecoilRoot } from "recoil"
 import { CanvasContextProvider, NodesAndEdgesContextProvider, ReactFlowContextProvider } from "./contexts"
-import { NodeInfosBar, NodesListBar, ThemeChanger } from "./components"
+import { NodeInfosBar, NodesListBar, Shortcuts, ThemeChanger } from "./components"
 import { BrowserView, MobileView } from "react-device-detect"
 
 const App: React.FC = () => {
@@ -22,6 +22,7 @@ const App: React.FC = () => {
                                             <NodeInfosBar />
                                             <FlowChart />
                                             <NodesListBar />
+                                            <Shortcuts />
                                         </div>
                                     </CanvasContextProvider>
                                 </ReactFlowContextProvider>

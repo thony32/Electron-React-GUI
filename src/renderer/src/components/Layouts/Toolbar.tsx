@@ -1,6 +1,6 @@
 import React from "react"
 import { Undo, Redo } from "../../assets"
-import { InputText, Shortcuts } from ".."
+import { InputText } from ".."
 import { useNodesAndEdgesState } from "../../hooks"
 
 const Toolbar: React.FC<{ addTextNode: (text: string, position?: { x: number; y: number }) => void }> = ({ addTextNode }) => {
@@ -23,7 +23,7 @@ const Toolbar: React.FC<{ addTextNode: (text: string, position?: { x: number; y:
                 <Redo />
             </button>
             <InputText addTextNode={addTextNode} />
-            <Shortcuts />
+            {/* <Shortcuts /> */}
         </div>
     )
 }
