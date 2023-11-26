@@ -36,18 +36,29 @@ const ImageExport: React.FC = () => {
     }
 
     return (
-        <div className="p-2 h-48">
-            <div className="font-bold uppercase px-4">Export</div>
-            <div className="divider"></div>
-            <div className="p-4 space-y-4">
-                <div className="space-y-2">
+        <div className="p-2">
+            {/* <div className="font-bold uppercase px-4">Export</div>
+            <div className="divider"></div> */}
+            <div className="p-2 space-y-4">
+                {/* <div className="space-y-2">
                     <h1 className="text-sm font-bold">Export to Image (Preview)</h1>
-                    <h1 className="text-xs ">Size of the image</h1>
-                </div>
+                </div> */}
+                <h1 className="text-xs ">Export your workflow as image</h1>
+
                 <div className="flex justify-center gap-4 items-center">
-                    <input type="text" className="block py-1 px-0 w-1/4 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600  focus:outline-none focus:ring-0 peer text-current" value={imageWidth} onChange={(e) => setImageWidth(parseInt(e.target.value) || 0)} />
+                    <input
+                        type="text"
+                        className="block py-1 px-0 w-1/4 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600  focus:outline-none focus:ring-0 peer text-current"
+                        value={imageWidth}
+                        onChange={(e) => setImageWidth(parseInt(e.target.value) || 0)}
+                    />
                     <span>x</span>
-                    <input type="text" className="block py-1 px-0 w-1/4 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600  focus:outline-none focus:ring-0 peer text-current" value={imageHeight} onChange={(e) => setImageHeight(parseInt(e.target.value) || 0)} />
+                    <input
+                        type="text"
+                        className="block py-1 px-0 w-1/4 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600  focus:outline-none focus:ring-0 peer text-current"
+                        value={imageHeight}
+                        onChange={(e) => setImageHeight(parseInt(e.target.value) || 0)}
+                    />
                 </div>
                 <div>
                     <button className="flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-primary text-slate-200 text-sm font-bold w-full hover:bg-primary/75 active:scale-95 duration-300" onClick={handleImageExport}>

@@ -3,7 +3,7 @@ import { Download } from "../../assets"
 
 const FileExport: React.FC = () => {
     return (
-        <div className="p-4 space-y-4">
+        <div className="p-2 space-y-4">
             <div className="space-y-2">
                 <h1 className="text-sm font-bold">Export your project</h1>
             </div>

@@ -24,7 +24,7 @@ export interface NodesAndEdgesContextType {
 const NodesAndEdgesContext = createContext<NodesAndEdgesContextType | undefined>(undefined)
 
 export const NodesAndEdgesContextProvider = ({ children }: ProviderProps) => {
-    // FIXME: UNDO & REDO : Using useUndoable to manage the history state
+    // REFACTOR: UNDO & REDO : Using useUndoable to manage the history state
     const [recoilNodes, setRecoilNodes] = useRecoilState(nodesState)
     const [recoilEdges, setRecoilEdges] = useRecoilState(edgesState)
 

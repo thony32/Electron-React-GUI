@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import ReactFlow, { Background, MiniMap, applyNodeChanges, NodeTypes, addEdge, applyEdgeChanges, OnNodesChange, OnEdgesChange, Connection, Edge, Node, OnConnect } from "reactflow"
 import { handleDragOver, ImageNode, TextNode, VideoNode, LinkNode } from "../utils"
-import { MainContextMenu, Toolbar, NodeContextMenu } from "../components"
+import { MainContextMenu, NodeContextMenu } from "../components"
 import { ReactFlowInstanceProvider } from "../contexts"
 import { nanoid } from "nanoid"
 import { useNodesAndEdgesState } from "../hooks"
@@ -170,6 +170,7 @@ const FlowChart: React.FC = () => {
             if (file.type.startsWith("image/")) {
                 // NOTE Handle image file as a new node
                 const imageUrl = URL.createObjectURL(file)
+                console.log(imageUrl)
                 createImageNodeFromURL(imageUrl, clientX, clientY)
                 console.log(imageUrl, clientX, clientY)
             } else if (file.type.startsWith("video/")) {
@@ -178,23 +179,6 @@ const FlowChart: React.FC = () => {
                 createVideoNodeFromURL(videoUrl, clientX, clientY)
             }
         }
-    }
-
-    // NOTE: Function to add a new text node
-    const addTextNode = (text: string, position = { x: Math.floor(Math.random() * 1001), y: Math.floor(Math.random() * 1001) }) => {
-        const newNode = {
-            id: `TXT-${nanoid(3)}`,
-            type: "TextNode",
-            data: {
-                label: (
-                    <>
-                        <p className="nodes font-semibold tracking-wide w-full h-full">{text}</p>
-                    </>
-                ),
-            },
-            position,
-        }
-        setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
     }
 
     // NOTE: Handle Node Context Menu
@@ -254,7 +238,6 @@ const FlowChart: React.FC = () => {
                     )}
                 </ReactFlow>
             </div>
-            <Toolbar addTextNode={addTextNode} />
         </main>
     )
 }

@@ -77,7 +77,7 @@ const NodesList: React.FC = () => {
             )
         } else if (node.type === "LinkNode") {
             return (
-                <div className="mask w-10 h-10 rounded-full">
+                <div className="mask w-10 h-10 rounded-full hover:bg-blue-500/50 duration-300">
                     <svg className="w-10 h-10" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                         <path
                             className="fill-gray-500"
@@ -92,11 +92,11 @@ const NodesList: React.FC = () => {
 
     return (
         <div className="flex flex-col justify-between h-full">
-            <div className="p-1 overflow-y-auto scrollbar h-[85%]">
+            <div className="p-1 overflow-y-auto scrollbar h-[85%] space-y-2">
                 <div className="font-bold uppercase p-2 m-2 border-b border-current">List</div>
                 {/* <div className="divider"></div> */}
                 {nodes.map((node: Node, index: number) => (
-                    <div key={index} className={`flex justify-between items-center p-1 ${node.selected ? "" : "hover:"}bg-blue-500/50 cursor-pointer`}>
+                    <div key={index} className={`flex justify-between items-center p-1 ${node.selected ? "" : "hover:"}bg-blue-500/50 cursor-pointer duration-200 rounded-md`}>
                         <div className="flex items-center gap-3">
                             <div className="avatar" onClick={() => handleNodeClick(node.id)}>
                                 {displayAvatar(node)}
