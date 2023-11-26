@@ -1,6 +1,4 @@
 import React, { useState } from "react"
-import { useSetRecoilState } from "recoil"
-import { selectedNodeIdState } from "../../states"
 import { useNodeFunction, useNodesAndEdgesState } from "../../hooks"
 import { Copy, Trashbin } from "../../assets"
 import "../../index.css"
@@ -9,7 +7,6 @@ import { Copyright } from ".."
 
 const NodesList: React.FC = () => {
     const { nodes, setNodes, setEdges } = useNodesAndEdgesState() as any
-    const setSelectedNodeId = useSetRecoilState(selectedNodeIdState)
     const { deleteNode, duplicateNode } = useNodeFunction()
     const [tempId, setTempId] = useState<string>("")
     const [editingNodeId, setEditingNodeId] = useState<string | null>(null)
@@ -19,7 +16,7 @@ const NodesList: React.FC = () => {
     }
 
     const handleNodeClick = (nodeId: string) => {
-        setSelectedNodeId(nodeId)
+        setNodes((prevNodes: Node[]) => prevNodes.map((node: Node) => (node.id === nodeId ? { ...node, selected: true } : { ...node, selected: false })))
     }
 
     const handleDuplicateClick = (nodeId: string) => {
@@ -99,9 +96,11 @@ const NodesList: React.FC = () => {
                 <div className="font-bold uppercase p-2 m-2 border-b border-current">List</div>
                 {/* <div className="divider"></div> */}
                 {nodes.map((node: Node, index: number) => (
-                    <div key={index} className="flex justify-between items-center p-1 hover:bg-base-200 cursor-pointer" onClick={() => handleNodeClick(node.id)}>
+                    <div key={index} className={`flex justify-between items-center p-1 ${node.selected ? "" : "hover:"}bg-blue-500/50 cursor-pointer`}>
                         <div className="flex items-center gap-3">
-                            <div className="avatar">{displayAvatar(node)}</div>
+                            <div className="avatar" onClick={() => handleNodeClick(node.id)}>
+                                {displayAvatar(node)}
+                            </div>
                             <input
                                 type="text"
                                 className="block py-1 px-0 w-1/3 text-sm font-semibold bg-transparent border-0 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer text-current"

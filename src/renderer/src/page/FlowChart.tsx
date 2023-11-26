@@ -115,22 +115,6 @@ const FlowChart: React.FC = () => {
         setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
     }
 
-    // const fetchMediaFromURL = async (url: string) => {
-    //   try {
-    //     const response = await fetch("http://localhost:3000/fetch-media", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({ url }),
-    //     })
-    //     const data = await response.json()
-    //     return data
-    //   } catch (error) {
-    //     console.error("Error fetching media URL:", error)
-    //     return null
-    //   }
-    // }
     // NOTE: Function to check if the URL is a video or image
     const handleDroppedURL = async (uri: string, clientX: number, clientY: number) => {
         try {
@@ -164,20 +148,7 @@ const FlowChart: React.FC = () => {
         event.stopPropagation()
 
         const uri = event.dataTransfer.getData("URL") || event.dataTransfer.getData("text/uri-list")
-        // if (uri) {
-        //   const mediaData = await fetchMediaFromURL(uri)
-        //   if (mediaData && mediaData.images && mediaData.images.length > 0) {
-        //     const validImageUrl = mediaData.images.find((imgUrl) => imgUrl && imgUrl !== "")
-        //     if (validImageUrl) {
-        //       createImageNodeFromURL(valid, event.clientX, event.clientY)
-        //     }
 
-        //     console.log(uri)
-        //     console.log(validImageUrl)
-        //     console.log(mediaData)
-
-        //   }
-        // }
         if (uri && isVideoURL(uri)) {
             handleDroppedURL(uri, event.clientX, event.clientY)
             return
@@ -251,18 +222,20 @@ const FlowChart: React.FC = () => {
         [setMenu, rightClickOnNode]
     )
 
+    // NOTE: Set Nodes Color in Minimap component
+
     const setNodeColor = (node: Node) => {
         switch (node.type) {
             case "ImageNode":
-                return "black" // Noir pour ImageNode
+                return "black"
             case "VideoNode":
-                return "#ff0844" // Rouge pour VideoNode
+                return "#ff0844"
             case "TextNode":
-                return "#fee140" // Gris pour TextNode
+                return "#fee140"
             case "LinkNode":
-                return "#005bea" // Bleu pour LinkNode
+                return "#005bea"
             default:
-                return "#ffb199" // Couleur par défaut
+                return "#ffb199"
         }
     }
 
