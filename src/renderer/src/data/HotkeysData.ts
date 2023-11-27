@@ -1,5 +1,9 @@
 const HotkeysData = [
     {
+        label: "Help",
+        hotkey: "ctrl+H",
+    },
+    {
         label: "Undo",
         hotkey: "ctrl+Z",
     },

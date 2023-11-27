@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { getRectOfNodes, getTransformForBounds } from "reactflow"
 import { toPng } from "html-to-image"
 import ReactFlowContext from "../../contexts/ReactFlowContext"
 import { ImageIcon } from "../../assets"
 import { FileExport } from ".."
+import Mousetrap from "mousetrap"
 
 const downloadImage = (dataUrl: string) => {
     const link = document.createElement("a")
-
     link.setAttribute("download", "Untitled.png")
     link.setAttribute("href", dataUrl)
     link.click()
@@ -34,6 +34,16 @@ const ImageExport: React.FC = () => {
             },
         }).then(downloadImage)
     }
+
+    useEffect(() => {
+        Mousetrap.bind("ctrl+shift+p", () => {
+            handleImageExport()
+        })
+
+        return () => {
+            Mousetrap.unbind("ctrl+shift+p")
+        }
+    }, [handleImageExport])
 
     return (
         <div className="p-2">

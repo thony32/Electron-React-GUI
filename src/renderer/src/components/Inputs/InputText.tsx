@@ -15,6 +15,7 @@ const InputText: React.FC<{ addTextNode: (text: string) => void }> = ({ addTextN
             } // Reset the text field
         }
     }
+
     const openModal = () => {
         const modal = document.getElementById("inputtext")
         if (modal instanceof HTMLDialogElement) {
@@ -22,6 +23,7 @@ const InputText: React.FC<{ addTextNode: (text: string) => void }> = ({ addTextN
         }
     }
     useHotkeys("ctrl+t", openModal)
+    
 
     // TODO: Handle the case when the user press enter to add the text
 

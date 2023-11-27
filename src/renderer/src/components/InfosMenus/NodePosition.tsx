@@ -20,21 +20,35 @@ const NodePosition: React.FC = () => {
         <div className="p-1 h-[50%] overflow-y-auto scrollbar space-y-4">
             <div className="font-bold uppercase p-2 m-2 border-b border-current">Properties</div>
             {/* <div className="divider"></div> */}
-            {nodes.filter((node: Node) => node.selected).map((node: Node) => (
-                <div key={node.id} className="flex flex-col space-y-4 justify-between p-4 hover:bg-base-200">
-                    <div className="text-center text-sm font-semibold bg-gray-500/30 p-2 rounded-md">{node.id}</div>
-                    <div className="flex justify-center gap-4">
-                        <div className="text-xs flex justify-center items-center gap-4">
-                            <span>X:</span>
-                            <input type="text" className="block py-1 px-0 w-1/3 text-xs bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600  focus:outline-none focus:ring-0 peer text-current" value={node.position.x.toFixed(0)} onChange={(e) => handleXPositionChange(node.id, e.target.value)} />
+            {nodes
+                .filter((node: Node) => node.selected)
+                .map((node: Node) => (
+                    <div key={node.id} className="flex flex-col space-y-4 justify-between p-4 hover:bg-base-200">
+                        <div className="text-center text-sm font-semibold bg-gray-500/30 p-2 rounded-md">
+                            <div className="w-full break-words">{node.id}</div>
                         </div>
-                        <div className="text-xs flex justify-center items-center gap-4">
-                            <span>Y:</span>
-                            <input type="text" className="block py-1 px-0 w-1/3 text-xs bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600  focus:outline-none focus:ring-0 peer text-current" value={node.position.y.toFixed(0)} onChange={(e) => handleYPositionChange(node.id, e.target.value)} />
+                        <div className="flex justify-center gap-4">
+                            <div className="text-xs flex justify-center items-center gap-4">
+                                <span>X:</span>
+                                <input
+                                    type="text"
+                                    className="block py-1 px-0 w-1/3 text-xs bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600  focus:outline-none focus:ring-0 peer text-current"
+                                    value={node.position.x.toFixed(0)}
+                                    onChange={(e) => handleXPositionChange(node.id, e.target.value)}
+                                />
+                            </div>
+                            <div className="text-xs flex justify-center items-center gap-4">
+                                <span>Y:</span>
+                                <input
+                                    type="text"
+                                    className="block py-1 px-0 w-1/3 text-xs bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600  focus:outline-none focus:ring-0 peer text-current"
+                                    value={node.position.y.toFixed(0)}
+                                    onChange={(e) => handleYPositionChange(node.id, e.target.value)}
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))}
         </div>
     )
 }

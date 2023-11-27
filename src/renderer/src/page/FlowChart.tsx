@@ -70,9 +70,10 @@ const FlowChart: React.FC = () => {
     }
 
     // NOTE: Create a video as a new node
-    const createVideoNodeFromURL = (url: string, clientX: number, clientY: number) => {
+    const createVideoNodeFromURL = (url: string, clientX: number, clientY: number, id?: string) => {
+        const nodeId = id || `VID-${nanoid(3)}`
         const newNode = {
-            id: `VID-${nanoid(3)}`,
+            id: nodeId,
             type: "VideoNode",
             data: {
                 label: <video src={url} className="nodes w-full h-full object-contain block" controls autoPlay></video>,
@@ -86,9 +87,10 @@ const FlowChart: React.FC = () => {
     }
 
     // NOTE: Create image file as a new node
-    const createImageNodeFromURL = (url: string, clientX: number, clientY: number) => {
+    const createImageNodeFromURL = (url: string, clientX: number, clientY: number, id?: string) => {
+        const nodeId = id || `IMG-${nanoid(3)}`
         const newNode = {
-            id: `IMG-${nanoid(3)}`,
+            id: nodeId,
             type: "ImageNode",
             data: {
                 label: <img src={url} className="nodes w-full h-full object-contain block" />,
@@ -170,13 +172,13 @@ const FlowChart: React.FC = () => {
             if (file.type.startsWith("image/")) {
                 // NOTE Handle image file as a new node
                 const imageUrl = URL.createObjectURL(file)
-                console.log(imageUrl)
-                createImageNodeFromURL(imageUrl, clientX, clientY)
-                console.log(imageUrl, clientX, clientY)
+                // console.log(imageUrl)
+                createImageNodeFromURL(imageUrl, clientX, clientY, file.name)
+                // console.log(imageUrl, clientX, clientY)
             } else if (file.type.startsWith("video/")) {
                 // NOTE Handle video file as a new node
                 const videoUrl = URL.createObjectURL(file)
-                createVideoNodeFromURL(videoUrl, clientX, clientY)
+                createVideoNodeFromURL(videoUrl, clientX, clientY, file.name)
             }
         }
     }

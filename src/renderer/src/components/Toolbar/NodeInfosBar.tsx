@@ -22,6 +22,7 @@ const NodeInfosBar: React.FC = () => {
         }
         setNodes((prevNodes: Node[]) => [...prevNodes, newNode])
     }
+
     return (
         <div className="fixed top-0 right-0 bottom-0 z-10 bg-base-300 w-60 space-y-4">
             <NodePosition />
