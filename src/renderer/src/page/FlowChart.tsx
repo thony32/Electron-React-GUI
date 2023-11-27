@@ -58,7 +58,6 @@ const FlowChart: React.FC = () => {
     const isVideoURL = (url: string): boolean => {
         // List of common video file extensions and patterns in video URLs
         const videoIndicators = [".mp4", ".webm", ".ogg", ".avi", ".mov", ".mkv", "youtube.com", "vimeo.com", "/video", "watch?", "embed"]
-
         // Check if any of the video indicators are present in the URL
         return videoIndicators.some((indicator) => url.toLowerCase().includes(indicator))
     }
