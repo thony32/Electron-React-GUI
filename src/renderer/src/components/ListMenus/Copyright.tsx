@@ -45,7 +45,7 @@ const Copyright: React.FC = () => {
                     </g>
                 </g>
             </svg>
-            <a href="https://proref-page.netlify.app/" className="text-xs hover:text-blue-500 hover:underline" target="_blank">
+            <a href="https://proref.netlify.app/" className="text-xs hover:text-blue-500 hover:underline" target="_blank">
                 Visit Proref website
             </a>
             <div className="font-bold text-center text-xs xl:text-start tracking-wide">
