@@ -117,7 +117,7 @@ const contentList = {
 }
 
 const Shortcuts: React.FC = () => {
-    const [activeTabKey, setActiveTabKey] = useState("Shortcuts")
+    const [activeTabKey, setActiveTabKey] = useState("Walkthrough")
 
     const onTab2Change = (key) => {
         setActiveTabKey(key)
