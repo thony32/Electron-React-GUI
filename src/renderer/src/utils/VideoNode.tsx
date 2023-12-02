@@ -3,6 +3,7 @@ import { Handle, NodeProps, NodeResizer, Position, useUpdateNodeInternals } from
 import { drag } from "d3-drag"
 import { select } from "d3-selection"
 import { useNodesAndEdgesState } from "../hooks"
+import { handleStyleLeft, handleStyleRight } from "."
 
 type Size = {
   width: number
@@ -77,11 +78,10 @@ const VideoNode = ({ id, data, selected, isConnectable }: NodeProps) => {
     })
   }
   // console.log(aspectRatio)
-  // NOTE Styles
 
   const handleStyle = {
-    width: "15px",
-    height: "15px",
+    width: "20px",
+    height: "20px",
     border: "none",
     borderRadius: "999px",
   }
@@ -109,8 +109,8 @@ const VideoNode = ({ id, data, selected, isConnectable }: NodeProps) => {
       <div className="p-8 nodes" ref={contentRef}>
         {data.label}
       </div>
-      <Handle type="source" className="w-4 h-12 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
-      <Handle type="target" className="w-4 h-12 rounded-full bg-black border-none" position={Position.Left} isConnectable={isConnectable} />
+      <Handle type="source" style={handleStyleRight} position={Position.Right} isConnectable={isConnectable} />
+      <Handle type="target" style={handleStyleLeft} position={Position.Left} isConnectable={isConnectable} />
     </div>
   )
 }

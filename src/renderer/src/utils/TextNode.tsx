@@ -1,15 +1,23 @@
 import { Handle, NodeProps, Position } from "reactflow"
+import { handleStyleLeft } from "."
+import { handleStyleRight } from "."
 
 const TextNode = ({ data, isConnectable }: NodeProps) => {
-  return (
-    <div className="bg-gray-500/25 rounded-lg max-w-[500px]">
-      <div className="p-4 nodes w-full h-full">
-        {data.label}
-      </div>
-      <Handle type="source" className="w-3 h-3 rounded-full bg-sky-500 border-none" position={Position.Right} isConnectable={isConnectable} />
-      <Handle type="target" className="w-3 h-3 rounded-full bg-black border-none" position={Position.Left} isConnectable={isConnectable} />
-    </div>
-  )
+    // const handleStyle = {
+    //     width: "20px",
+    //     height: "20px",
+    //     border: "none",
+    //     borderRadius: "999px",
+    // }
+
+    return (
+        <div className="bg-gray-500/25 rounded-lg max-w-[500px]">
+            {/* <NodeResizer nodeId={id} color="#FF0844" isVisible={selected} keepAspectRatio={true} handleStyle={handleStyle} /> */}
+            <div className="p-4 nodes w-full h-full">{data.label}</div>
+            <Handle type="source" style={handleStyleRight} position={Position.Right} isConnectable={isConnectable} />
+            <Handle type="target" style={handleStyleLeft} position={Position.Left} isConnectable={isConnectable} />
+        </div>
+    )
 }
 
 export default TextNode
