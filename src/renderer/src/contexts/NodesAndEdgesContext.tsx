@@ -27,7 +27,6 @@ export const NodesAndEdgesContextProvider = ({ children }: ProviderProps) => {
     // REFACTOR: UNDO & REDO : Using useUndoable to manage the history state
     const [recoilNodes, setRecoilNodes] = useRecoilState(nodesState)
     const [recoilEdges, setRecoilEdges] = useRecoilState(edgesState)
-
     const [nodes, setNodes, { undo: undoNodes, redo: redoNodes, canUndo: canUndoNodes, canRedo: canRedoNodes }] = useUndoable(recoilNodes)
     const [edges, setEdges, { undo: undoEdges, redo: redoEdges, canUndo: canUndoEdges, canRedo: canRedoEdges }] = useUndoable(recoilEdges)
 

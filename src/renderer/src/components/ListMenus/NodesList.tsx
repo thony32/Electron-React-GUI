@@ -82,34 +82,34 @@ const NodesList: React.FC = () => {
     const displayAvatar = (node: Node) => {
         if (node.type === "ImageNode") {
             return (
-                <div className="mask w-10 h-10 rounded-lg active:scale.90 hover:bg-info duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="w-10 h-10 fill-gray-500">
+                <div className="mask w-10 h-10 rounded-lg active:scale.90  duration-300 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="w-10 h-10 group-hover:fill-info fill-gray-500">
                         <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z" />
                     </svg>
                 </div>
             )
         } else if (node.type === "VideoNode") {
             return (
-                <div className="mask w-10 h-10 rounded-lg active:scale.90 hover:bg-info duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="w-10 h-10 fill-gray-500">
+                <div className="mask w-10 h-10 rounded-lg active:scale.90  duration-300 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="w-10 h-10 group-hover:fill-info fill-gray-500">
                         <path d="m380-300 280-180-280-180v360ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
                     </svg>
                 </div>
             )
         } else if (node.type === "TextNode") {
             return (
-                <div className="mask w-10 h-10 rounded-lg active:scale.90 hover:bg-info duration-300">
+                <div className="mask w-10 h-10 rounded-lg active:scale.90  duration-300 group">
                     <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 3V21M9 21H15M19 6V3H5V6" className="stroke-gray-500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M12 3V21M9 21H15M19 6V3H5V6" className="stroke-gray-500 group-hover:fill-info" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </div>
             )
         } else if (node.type === "LinkNode") {
             return (
-                <div className="mask w-10 h-10 rounded-lg hover:bg-info duration-300 active:scale.90">
-                    <svg className="w-10 h-10" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                <div className="mask w-10 h-10 rounded-lg  duration-300 active:scale.90 group">
+                    <svg className="w-10 h-10 " xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                         <path
-                            className="fill-gray-500"
+                            className="fill-gray-500 group-hover:fill-info"
                             d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z"
                         />
                     </svg>
@@ -122,7 +122,7 @@ const NodesList: React.FC = () => {
     return (
         <div className="flex flex-col justify-between h-full">
             <div className="p-1 overflow-y-auto scrollbar h-[85%] space-y-2">
-                <div className="font-bold uppercase p-2 m-2 border-b border-current">List</div>
+                <div className="font-bold uppercase p-2 bg-base-200 text-center">YOUR REF List</div>
                 {/* <div className="divider"></div> */}
                 {nodes.map((node: Node, index: number) => (
                     <div key={index} className={`flex justify-between items-center p-1 ${node.selected ? "" : "hover:"}bg-blue-500/50 cursor-pointer duration-200 rounded-md`}>

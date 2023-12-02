@@ -33,7 +33,7 @@ const App: React.FC = () => {
             </BrowserView>
             <MobileView>
                 <div className="flex justify-center items-center h-screen">
-                    <h1 className="text-3xl font-bold text-center">This app is not available on mobile devices</h1>
+                    <h1 className="text-3xl font-bold text-center text-red-500">This app is not available on mobile devices</h1>
                 </div>
             </MobileView>
         </>

@@ -18,7 +18,7 @@ const NodePosition: React.FC = () => {
 
     return (
         <div className="p-1 h-[50%] overflow-y-auto scrollbar space-y-4">
-            <div className="font-bold uppercase p-2 m-2 border-b border-current">Position</div>
+            <div className="font-bold uppercase p-2 bg-base-200 text-center">REF Position</div>
             {/* <div className="divider"></div> */}
             {nodes
                 .filter((node: Node) => node.selected)
