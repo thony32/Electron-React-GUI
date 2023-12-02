@@ -224,6 +224,8 @@ const FlowChart: React.FC = () => {
         }
     }
 
+    // NOTE: prepare the data to be exported
+    
     return (
         <main className="h-screen overflow-hidden col-span-8 -z-50 introjs-tooltiptext" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
             <div className="w-full h-full flex justify-center items-center" ref={ref}>

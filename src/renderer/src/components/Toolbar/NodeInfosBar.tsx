@@ -39,7 +39,7 @@ const NodeInfosBar: React.FC = () => {
             <div className="collapse collapse-arrow bg-base-200 rounded-sm">
                 <input type="radio" name="my-accordion-2" id="accordion-2" className="peer" />
                 <label htmlFor="accordion-2" className="collapse-title">
-                    Export
+                    Project
                 </label>
                 <div className="collapse-content peer-checked:block hidden">
                     <ImageExport />
