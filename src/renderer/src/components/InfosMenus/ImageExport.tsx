@@ -47,14 +47,9 @@ const ImageExport: React.FC = () => {
 
     return (
         <div className="p-2">
-            {/* <div className="font-bold uppercase px-4">Export</div>
-            <div className="divider"></div> */}
+            <FileExport />
             <div className="p-2 space-y-4">
-                {/* <div className="space-y-2">
-                    <h1 className="text-sm font-bold">Export to Image (Preview)</h1>
-                </div> */}
-                <h1 className="text-xs ">Export your workflow as image</h1>
-
+                <h1 className="text-xs">Export your workflow as image</h1>
                 <div className="flex justify-center gap-4 items-center">
                     <input
                         type="text"
@@ -77,7 +72,6 @@ const ImageExport: React.FC = () => {
                     </button>
                 </div>
             </div>
-            <FileExport />
         </div>
     )
 }
