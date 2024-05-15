@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Download } from "../../assets"
 import JSZip from "jszip"
 import { saveAs } from "file-saver"
-import { useNodesAndEdgesState } from "@renderer/hooks"
+import { useNodesAndEdgesState } from "@/hooks"
 
 const FileExport: React.FC = () => {
     const { nodes, edges, setNodes, setEdges } = useNodesAndEdgesState() as any

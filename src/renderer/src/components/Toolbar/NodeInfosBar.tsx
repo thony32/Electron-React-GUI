@@ -1,7 +1,7 @@
 import React from "react"
 import { ImageExport, NodePosition, Toolbar } from ".."
 import { nanoid } from "nanoid"
-import { useNodesAndEdgesState } from "@renderer/hooks"
+import { useNodesAndEdgesState } from "@/hooks"
 
 const NodeInfosBar: React.FC = () => {
     const { setNodes } = useNodesAndEdgesState() as any
