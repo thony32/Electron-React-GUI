@@ -75,7 +75,14 @@ const FlowChart: React.FC = () => {
             id: nodeId,
             type: "VideoNode",
             data: {
-                label: <video src={url} className="nodes w-full h-full object-contain block" controls autoPlay></video>,
+                label: (
+                    <video
+                        src={url}
+                        className="nodes w-full h-full object-contain block"
+                        controls
+                        autoPlay
+                    ></video>
+                ),
             },
             position: {
                 x: clientX - 100,
@@ -92,7 +99,12 @@ const FlowChart: React.FC = () => {
             id: nodeId,
             type: "ImageNode",
             data: {
-                label: <img src={url} className="nodes w-full h-full object-contain block" />,
+                label: (
+                    <img
+                        src={url}
+                        className="nodes w-full h-full object-contain block"
+                    />
+                ),
             },
             position: { x: clientX, y: clientY },
             selected: true,
@@ -106,7 +118,11 @@ const FlowChart: React.FC = () => {
             type: "LinkNode",
             data: {
                 label: (
-                    <a href={url} target="_blank" className="text-blue-500">
+                    <a
+                        href={url}
+                        target="_blank"
+                        className="text-blue-500"
+                    >
                         {url}
                     </a>
                 ),
@@ -225,18 +241,51 @@ const FlowChart: React.FC = () => {
     }
 
     // NOTE: prepare the data to be exported
-    
+
     return (
-        <main className="h-screen overflow-hidden col-span-8 -z-50 introjs-tooltiptext" onDrop={handleDrop} onDragOver={handleDragOver} onContextMenu={showContextMenu}>
-            <div className="w-full h-full flex justify-center items-center" ref={ref}>
+        <main
+            className="h-screen overflow-hidden col-span-8 -z-50 introjs-tooltiptext"
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onContextMenu={showContextMenu}
+        >
+            <div
+                className="w-full h-full flex justify-center items-center"
+                ref={ref}
+            >
                 {/* React Flow component */}
-                <ReactFlow nodes={nodes} edges={edges} minZoom={0.05} maxZoom={50} nodeTypes={nodeTypes} onNodesChange={onNodesChange} onNodesDelete={onNodesDelete} onEdgesChange={onEdgesChange} onPaneClick={onPaneClick} onConnect={onConnect} onNodeContextMenu={onNodeContextMenu} fitView>
+                <ReactFlow
+                    nodes={nodes}
+                    edges={edges}
+                    minZoom={0.05}
+                    maxZoom={50}
+                    nodeTypes={nodeTypes}
+                    onNodesChange={onNodesChange}
+                    onNodesDelete={onNodesDelete}
+                    onEdgesChange={onEdgesChange}
+                    onPaneClick={onPaneClick}
+                    onConnect={onConnect}
+                    onNodeContextMenu={onNodeContextMenu}
+                    fitView
+                >
                     <Background color="oklch(var(--b1))" />
-                    <MiniMap className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-gray-600 -translate-x-[220px] 2xl:-translate-x-[250px]" nodeColor={(nodes) => setNodeColor(nodes)} pannable={true} />
-                    {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
+                    <MiniMap
+                        className="scale-[.65] lg:scale-[.80] 2xl:scale-100 bg-gray-600 -translate-x-[220px] 2xl:-translate-x-[250px]"
+                        nodeColor={(nodes) => setNodeColor(nodes)}
+                        pannable={true}
+                    />
+                    {menu && (
+                        <NodeContextMenu
+                            onClick={onPaneClick}
+                            {...menu}
+                        />
+                    )}
                     {show && (
                         <ReactFlowInstanceProvider>
-                            <MainContextMenu top={points.y} left={points.x} />
+                            <MainContextMenu
+                                top={points.y}
+                                left={points.x}
+                            />
                         </ReactFlowInstanceProvider>
                     )}
                 </ReactFlow>
