@@ -6,18 +6,15 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-pnpm-lock.yaml
-bun.lockb
 
 node_modules
 dist
 dist-ssr
-dist-electron
-release
 *.local
 
 # Editor directories and files
-.vscode*
+.vscode
+.vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
@@ -26,4 +23,3 @@ release
 *.njsproj
 *.sln
 *.sw?
-*out*
