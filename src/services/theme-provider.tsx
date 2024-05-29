@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react"
+import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from "react"
 
 export type Theme = "dark" | "light"
 
 type ThemeProviderProps = {
-    children: React.ReactNode
+    children: ReactNode
     defaultTheme?: Theme
     storageKey?: string
 }
@@ -24,7 +24,7 @@ const ThemeProvider = ({ children, defaultTheme = "dark", storageKey = "vite-ui-
     const [theme, setTheme] = useState<Theme>(() => (localStorage.getItem(storageKey) as Theme) || defaultTheme)
     useEffect(() => {
         const root = window.document.documentElement
-        root.classList.remove("light", "dark", "system")
+        root.classList.remove("light", "dark")
         root.classList.add(theme)
     }, [theme])
 
@@ -36,12 +36,10 @@ const ThemeProvider = ({ children, defaultTheme = "dark", storageKey = "vite-ui-
                 setTheme(theme)
             },
         }),
-        [theme, setTheme, storageKey],
+        [theme, setTheme, storageKey]
     )
     return (
-        <ThemeProviderContext.Provider
-            {...props}
-            value={value}>
+        <ThemeProviderContext.Provider {...props} value={value}>
             {children}
         </ThemeProviderContext.Provider>
     )

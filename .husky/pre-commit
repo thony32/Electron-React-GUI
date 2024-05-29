@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/husky.sh"
+
+bunx --bun lint-staged
